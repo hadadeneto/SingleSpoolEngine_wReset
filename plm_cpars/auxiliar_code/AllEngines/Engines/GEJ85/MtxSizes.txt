@@ -1,0 +1,16 @@
+/* Steady Operating Points Elements Numbers */
+#define GEJ85_ALT_ELEM				       13
+#define GEJ85_MN_ELEM 				       10
+#define GEJ85_FN_ELEM				       18
+#define GEJ85_TOTAL_ELEM			       2340
+#define GEJ85_AS_ELEM				       6
+
+/* Components Maps Element Numbers */
+#define GEJ85_FAN_NC                      7
+#define GEJ85_FAN_PR                      11
+#define GEJ85_HPT_NC				       7
+#define GEJ85_HPT_PR				       21
+
+/* Engine Design Point Constants */
+#define GEJ85_NDES                        16540
+#define GEJ85_Ath_NOZZLE                  0.062862

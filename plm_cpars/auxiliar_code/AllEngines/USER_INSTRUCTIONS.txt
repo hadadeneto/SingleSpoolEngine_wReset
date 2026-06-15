@@ -1,0 +1,157 @@
+
+The first step for modeling the engine is to obtain the engine linearization matrices and design point data, to be stored in the TMATSData. After this part is accomplished, the following steps must be followed:
+
+ - Inside the folder auxiliarcode/AllEngines/Engines, creat a folder which will contain the contents of the engine to be controlled. This folder must have the name of the new project, which may have the same name of the engine. For example, the project TJ1200_POC6_Boosted may be the name of the project and TJ1200 is the name of the actual engine.
+
+- Inside the folder SSModelCFunc, create a folder with the name of the engine and, inside this folder with the engine's name, create a folder called FADEC_Constants_H. For example, for the engine TJ1200, the folder must be SSModelCFunc/TJ1200/FADEC_Constants_H.
+
+- Inside the newly created FADEC_Constants_H, place the document ConstantsXXX.h, where XXX is the name of the engine. For example, for TJ1200 engine, the file must be called TJ1200Constants.h. This file contains all engine constants and must be elaborated based on the file ConstantsXXX.h of previously created engines. The constants must be exactly the same, only with the proper values for the newly created engines. It is important to remember that the first constants, referring to maps data and design point values will be updated automatically later. 
+
+- The next step is to copy TMATSData to the project folder inside auxiliarcode/AllEngines/Engines. 
+
+- Next, copy EngineData.m from a previous engine to the newly created project and edit it for the intended engine. 
+
+- The file SetEngineList.m inside AllEngines folder must be updtated to contain the new project and engine name.
+
+- After all constants and options are configured at EngineData.m and EngineList is updated, in DesCode, set EngFoldName variable to the same name of the project created (for example, EngFoldName = 'TJ1200_POC6_Boosted');
+
+- If you want to generate a FADEC code for a given engine, the engine name must be in both HIL and FADEC lists in EngineList, since some compiling data is copyied from HIL generation code. If the engine name is only in FADEC list, there will be an error during execution.
+
+- Next, run descode for obtaining all controller constants and necessary files.
+
+- Next, for testing the project, type SetSIL. This command will generate a backup of the current folder having the same engine's name, if it exists, and replace it by the updated model. The backup will be stored at the Backups folder, showing engine's name, date and time.
+
+- Next, in the SSModelLoop.c, update engine options for callilng the functions corresponding to the new engine (an additional number giving the options for calling new engine functions)
+
+- Next, go to plm_cpars folder and type edit CompileCSFun
+
+- edit CompileCSFun as to also compile the functions of the new engine, similar to the other engines, for HIL and FADEC.
+
+- Next, run CompileCSFun
+
+- Next, at RunModel.m, add additional options for the new engine to be called (inside a conditional with the corresponding number)
+
+- Next, run the model with RunModel command. If your engine is ok you are ready to generate FADEC and HIL codes. 
+
+- Make sure a base code for generating the FADEC code is in the folder SSModelCFunc\HardwareMain\BaseCode\FADEC\XXXFADEC, where XXX is the engine name. For instance, the base code for TJ1200 FADE code is in the folder SSModelCFunc\HardwareMain\BaseCode\FADEC\TJ1200FADEC
+It is important to notice that the FADEC file in this base folder is the one used in the actual hardware, which will be altered with tne updates containd in XXXFADEC.c, used in the PWLM simulation - this file must contain updated code lines and right engine data, since those code
+lines will be used to alterate the base file.
+
+- Make sure to have a folder called SSModelCFunc\HardwareMain\Generated\FADEC\XXXFADEC, where XXX is the engine name. This folder receives the updated FADEC code generated from the bases code and your updates. For instance, the generated FADEC code for TJ1200 is in the folder SSModelCFunc\HardwareMain\Generated\FADEC\TJ1200FADEC
+
+- Come back to auxiliarcode/AllEngines and type CodePacking. The generated code will be inside CodePack folder inside auxliearcode/AllEngines.
+
+- If the code for static simulator needs to be generated, type StaticSimGen. The generated code will be inside CodePack folder inside auxliearcode/AllEngines.
+
+
+SIMPLIFIED STEPS for TJNEW engine
+
+In SSModelCFunc folder:
+    
+    1 - Create file TJNEWFADEC.c, from an existing XXXFADEC.c file
+
+    2 - Inside the created file, replace XXX name for TJNEW name in any line - this file will be used as basis for update
+
+    3 - Create the folder HardwareMain\BaseCode\FADEC\TJNEWFADEC containing the hardware FADEC files to be modified. This can be done by copying and renaming
+        a previous XXXFADEC folder already containing the files to be used as basis and modified
+    4 - Create the folder HardwareMain\Generated\FADEC\TJNEWFADEC. This folder can be left empty, since it will receive the modified FADEC file for real hardware
+
+    5 - Create the folder TJNEW\FADEC_Constants_H
+
+    6 - Inside the folder above, place the file ConstantsTJNEW.h containing the values of the engine constants. This file can be generated based on previous engine files
+
+In auxiliarcode\AllEngines
+
+    1 - Create the folder Engines\TJNEW_Project (the _Project part is optional. However, this folder contains the name of the project, not necessarely the final engine name)
+
+    2 - In the folder above, place the EngineData.m file, the TMATSData folder generated in TMATS software, the SubIdleMtx.mat and WindMillMtx.mat. If one wishes to use the same
+        PI constants for sub idle as another engine, copy also the file PIsh.mat. 
+        NOTE:   The matrices of SubIdleMtx.mat and WindMillMtx.mat are generated externally and must have the same size as the matrices generated by TMATS, i.e., same 
+                number values of linearization Mach Numbers and Altitudes (in the case of SubIdleMtx.mat)
+        NOTE:   The EngineData.m must contain the data corresponding to TJNEW engine, such as engine name, what needs to be generated during execution of DesCode and controller 
+                design characteristics for both sub-idle and above-idle regimes.
+
+    3 - Edit SetEngineList.m, adding the corresponding names of the new engine project (TJNEW_Project), version of static deck simulator (typically 1.00 for the first time)
+        and TJNEW (engine name) in the corresponding lists. It is recommended that the engine is included in every list for avoiding future problems in software execution
+
+Runing DesCode:
+
+    1 - In DesCode, set EngFoldName to TJNEW_Project or the chosen name for the project folder
+
+    2 - Go to auxiliarcode\AllEngines, and in MATLAB command window, type DesCode
+
+    3 - For setting a SIL simulation, type the command SetSIL
+
+Running SIL simulation
+
+    1 - Set the MATLAB current path to the folder plmc_pars\SSModelCFunc
+
+    2 - Make sure all changes in SSModelLoop.c has been done for adding TJNEW engine to the simulation
+
+    3 - Create the file LoadTJNEW for correct map plotting, containing the map constants calculated in TMATS
+
+    4 - In RunModel, add TJNEW engine - the engine number must match the engine number in SSModelLoop.c - and elaborate and engine mission to be run, based on other engine missions
+
+    5 - Go to the path of plmc_pars folder
+
+    6 - Run CompileCSFun command in MATLAB window
+
+    7 - Finally, run RunModel command in MATLAB window
+
+Generating Code Pack
+
+    1 - Set the path to auxiliarcode\AllEngines folder
+
+    2 - Run the command CodePacking in MATLAB window
+        NOTE: The generated code will be based on the code present in SSModelCFunc folder. Make sure its working properly
+        NOTE: The code pack contains the HIL code, the FADEC code for hardware of TJNEW engine, TMATS FADEC code of TJNEW engine
+
+Generating Static simulation deck
+
+    1 - Set the path to auxiliarcode\AllEngines folder
+
+    2 - Run the command StaticSimGen in MATLAB window. The static simulation code will be in CodePack\StaticSim
+
+Running FADEC code in TMATS
+
+    1 - Copy the folder TJNEWFADEC from CodePack\FADEC_TMATS to AllEngines\Engines\TJNEW\DynamicModel of TMATS simulator
+
+    2 - Edit the CompileCSFun.m code inside TJNEW\DynamicModel adding the following code piece:
+
+
+
+%--------------------------
+%COMPILATION OF TJ1200FADEC
+%--------------------------
+
+%Adds path of current FADEC to be compiled
+FADECFolder = 'TJ300RFADEC';
+
+CompiledFileName = 'FADEC_TJ300R.mexw64';
+
+
+%
+CurPath = pwd;
+%Goes inside FADEC folder for compilation
+cd(FADECFolder);
+%
+SourceFilePath = [pwd filesep CompiledFileName];
+%Compilation of FADEC
+MATLAB_FADEC_TJ300R_Compile;
+%
+cd(CurPath)
+%
+if isfile(CompiledFileName)
+    delete(CompiledFileName)
+end
+%
+copyfile(SourceFilePath,CurPath,'f');
+
+
+
+    3 - In TJNEW\DynamicModel, run CompileCSFun.m
+
+    4 - Make sure the S-Function name inside the user block containing the FADEC is TJNEWFADEC and that the corresponding inputs and ouptus 
+        are correctly set
+
+    5 - Finally, run a dynamic simulaton with the FADEC code

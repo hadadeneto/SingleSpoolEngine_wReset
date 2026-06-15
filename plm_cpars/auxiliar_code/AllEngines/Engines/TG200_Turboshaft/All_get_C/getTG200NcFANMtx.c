@@ -1,0 +1,20 @@
+
+
+#include "../../../FADEC_Defines_H/FloatPoint_Precision.h"
+
+
+void getTG200NcFANMtx(floating *Pointer)
+{
+int i;
+int TotalElem = 1;
+
+/* Reallocates the required ammount of memory to the pointer */
+
+/* Matrix containing corresponding value for each breakpoint */
+floating TG200NcFANMtx[1] = {9.99992e-01};
+
+
+for(i = 0; i < TotalElem; i++){
+    *(Pointer + i) = *(TG200NcFANMtx + i);
+};
+};

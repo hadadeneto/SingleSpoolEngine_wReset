@@ -1,0 +1,16 @@
+/* Steady Operating Points Elements Numbers */
+#define TJ40_ALT_ELEM				       13
+#define TJ40_MN_ELEM 				       11
+#define TJ40_FN_ELEM				       12
+#define TJ40_TOTAL_ELEM			       1716
+#define TJ40_AS_ELEM				       6
+
+/* Components Maps Element Numbers */
+#define TJ40_FAN_NC                      8
+#define TJ40_FAN_PR                      19
+#define TJ40_HPT_NC				       7
+#define TJ40_HPT_PR				       21
+
+/* Engine Design Point Constants */
+#define TJ40_NDES                        98000
+#define TJ40_Ath_NOZZLE                  0.0033444

@@ -1,0 +1,7 @@
+
+
+CALLING getTJ300ARHILSizeConst.c USING VARIABLES AS ARGUMENTS
+
+ getTJ300ARHILSizeConst( &NcFANMap_Elem,  &WcFANMap_Elem,  &Wc_per_Nc_FAN,  &NcHPTMap_Elem,  &PRHPTMap_Elem, 
+      &WcHPTMap_Elem);
+

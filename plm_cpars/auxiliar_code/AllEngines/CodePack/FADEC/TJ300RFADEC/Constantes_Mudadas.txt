@@ -1,0 +1,44 @@
+O valor novo é o que vale, o antigo está depois do primeiro //
+
+
+/*---------------------------------------------------------------------------------------------------*/
+This was changed for the model to work
+
+#define TJ1200_FUEL_BOUT				0.005//0.01	//kg/s 
+/*---------------------------------------------------------------------------------------------------*/
+
+
+#define TJ1200_FUEL_IMPULSE_TIME		8//5//2//4 -> At TestBench			//Second
+
+
+#define TJ1200_TIME_IGNITION			7//10//7 -> At TestBench			//Second
+
+
+#define TJ1200_RPM_RAMP_CHANGE			5000//6000//9000		//RPM
+
+
+#define TJ1200_Tt4AV_FLAME_ON			473//573			/* K - Tt4 value considered for ignition detection*/ 
+
+
+#define TJ1200_Tt4AV_MAX				2000//1150//1300//860//Tt5Av_MAX is 1200 at TestBench		    /* K - Maximum Tt4 average value allowed during start */
+
+
+#define TJ1200_FUEL_HIGH_PULSE			0.021//0.06//0.06//0.07 // 0.032 -> At TestBench		// = 0.175 * 0.4 - Absolute - 40% of the maximum fuel flow - CHANGE IF MAXIMUM VALUE IS CHANGED!!!
+
+
+#define TJ1200_FUEL_INIT                0.008//0.046//0.055//0.05//0.0175 		// = 0.1 * 0.175 - Absolute - 10% of the maximum fuel flow - CHANGE IF MAXIMUM VALUE IS CHANGED!!!
+
+
+#define TJ1200_FUEL_RAMP                0.0025//0.003//0.002//0.00175		// = 0.01 * 0.175 - Absolute/Second (1% every second) - CHANGE IF MAXIMUM VALUE IS CHANGED!!!
+
+
+#define TJ1200_FUEL_RAMP_LOW			0.0006//0.000875//0.000475 // = 0.005 * 0.175 - //Absolute/Second (0.5% every second) - CHANGE IF MAXIMUM VALUE IS CHANGED!!!
+
+
+#define TJ1200_TT4MAX					1300//1152
+
+
+/*--------------------------------------------------------------------------------------------------------------------------------------------*/
+This must remain 2!!! All sensor values must be the final flight values!!! DO NOT CHANGE!!!
+#define TJ1200_RPMSENS                  2//1 -> 1 at test bench. In this case, protections will fail due to shift on bit indication position
+/*--------------------------------------------------------------------------------------------------------------------------------------------*/

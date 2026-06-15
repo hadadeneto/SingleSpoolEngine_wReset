@@ -1,0 +1,7 @@
+
+
+CALLING getTJ300ARFADECSizeConst.c USING VARIABLES AS ARGUMENTS
+
+ getTJ300ARFADECSizeConst( &Alt_Elem,  &MN_Elem,  &Fn_Elem,  &AS_Elem,  &SteadyOp_Elem, 
+      &PowerMan_Elem,  &NcHPCMap_Elem,  &WcHPCMap_Elem,  &Wc_per_Nc_HPC);
+

@@ -1,0 +1,16 @@
+/* Steady Operating Points Elements Numbers */
+#define TJ1200_ALT_ELEM				       13
+#define TJ1200_MN_ELEM 				       11
+#define TJ1200_FN_ELEM				       12
+#define TJ1200_TOTAL_ELEM			       1716
+#define TJ1200_AS_ELEM				       6
+
+/* Components Maps Element Numbers */
+#define TJ1200_FAN_NC                      10
+#define TJ1200_FAN_PR                      20
+#define TJ1200_HPT_NC				       7
+#define TJ1200_HPT_PR				       21
+
+/* Engine Design Point Constants */
+#define TJ1200_NDES                        23042
+#define TJ1200_Ath_NOZZLE                  0.028124

@@ -1,0 +1,6 @@
+disp(' ')
+disp('------------------------------------------------')
+disp('TG200 CALCULATION PROGRAM - VERSION 1.00')
+disp('              External Version                  ')
+disp('------------------------------------------------')
+disp(' ')

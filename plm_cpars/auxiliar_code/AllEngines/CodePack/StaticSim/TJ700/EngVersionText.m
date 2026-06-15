@@ -1,0 +1,6 @@
+disp(' ')
+disp('------------------------------------------------')
+disp('TJ700 CALCULATION PROGRAM - VERSION 1.11')
+disp('              External Version                  ')
+disp('------------------------------------------------')
+disp(' ')

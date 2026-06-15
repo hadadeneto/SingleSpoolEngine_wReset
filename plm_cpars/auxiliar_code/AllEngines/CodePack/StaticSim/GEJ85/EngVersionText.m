@@ -1,0 +1,6 @@
+disp(' ')
+disp('------------------------------------------------')
+disp('GEJ85 CALCULATION PROGRAM - VERSION 1.10')
+disp('              External Version                  ')
+disp('------------------------------------------------')
+disp(' ')

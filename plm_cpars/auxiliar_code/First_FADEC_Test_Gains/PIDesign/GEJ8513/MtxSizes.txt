@@ -1,0 +1,20 @@
+
+
+/* Number of steady operating points used for linearization at Sea Level */
+SteadyOp_Elem = 180;
+
+/* Number of total steady operating points used for Power Management Controller - all altitudes */
+PowerMan_Elem = 180;
+
+/* Fan map size */
+NcFANMap_Elem = 7;
+WcFANMap_Elem = 77;
+
+/* Compressor map size */
+NcHPCMap_Elem = 7;
+WcHPCMap_Elem = 77;
+
+/* Turbine map size */
+NcHPTMap_Elem = 7;
+PRHPTMap_Elem = 21;
+WcHPTMap_Elem = 147;

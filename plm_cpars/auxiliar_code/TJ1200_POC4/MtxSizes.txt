@@ -1,0 +1,35 @@
+
+
+/* Number altitude points used for gains calculation */
+Alt_Elem = 13;
+
+/* Number of Mach number points used for gains calculation */
+MN_Elem = 11;
+
+/* Number of steady operating points used for linearization at Sea Level */
+FN_Elem = 12;
+
+/* Number of steady operating points used for linearization at Sea Level */
+SteadyOp_Elem = 132;
+
+/* Number of total steady operating points used for Power Management Controller - all altitudes */
+PowerMan_Elem = 1716;
+
+/* Number of total points for fuel pump bias correction */
+FuelPump_Elem = 16;
+
+/* Number of total points for fuel pump bias correction */
+OilPump_Elem = 2;
+
+/* Fan map size */
+NcFANMap_Elem = 10;
+WcFANMap_Elem = 200;
+
+/* Compressor map size */
+NcHPCMap_Elem = 10;
+WcHPCMap_Elem = 200;
+
+/* Turbine map size */
+NcHPTMap_Elem = 7;
+PRHPTMap_Elem = 21;
+WcHPTMap_Elem = 147;

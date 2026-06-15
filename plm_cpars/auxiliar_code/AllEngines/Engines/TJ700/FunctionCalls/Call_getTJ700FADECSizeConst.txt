@@ -1,0 +1,7 @@
+
+
+CALLING getTJ700FADECSizeConst.c USING VARIABLES AS ARGUMENTS
+
+ getTJ700FADECSizeConst( &Alt_Elem,  &MN_Elem,  &Fn_Elem,  &AS_Elem,  &SteadyOp_Elem, 
+      &PowerMan_Elem,  &NcHPCMap_Elem,  &WcHPCMap_Elem,  &Wc_per_Nc_HPC);
+

@@ -1,0 +1,16 @@
+/* Steady Operating Points Elements Numbers */
+#define GET700_ALT_ELEM				       1
+#define GET700_MN_ELEM 				       1
+#define GET700_FN_ELEM				       1
+#define GET700_TOTAL_ELEM			       1
+#define GET700_AS_ELEM				       6
+
+/* Components Maps Element Numbers */
+#define GET700_FAN_NC                      8
+#define GET700_FAN_PR                      19
+#define GET700_HPT_NC				       7
+#define GET700_HPT_PR				       21
+
+/* Engine Design Point Constants */
+#define GET700_NDES                        44300
+#define GET700_Ath_NOZZLE                  0.049553

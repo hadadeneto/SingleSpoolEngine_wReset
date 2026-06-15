@@ -1,0 +1,154 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033\deflangfe1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Calibri;}{\f1\fmodern\fprq1\fcharset0 Courier New;}}
+{\colortbl ;\red14\green191\blue79;\red125\green236\blue250;\red39\green86\blue70;\red23\green130\blue53;}
+{\*\generator Riched20 10.0.18362}{\*\mmathPr\mdispDef1\mwrapIndent1440 }\viewkind4\uc1 
+\pard\nowidctlpar\sa200\sl276\slmult1\qc\f0\fs22\lang9\par
+\b\fs24 CREATING CODE GENERATOR FOLDER FOR A SPECIFIC SINGLE-SPOOL ENGINE\par
+\fs22\par
+
+\pard\nowidctlpar\sa200\sl276\slmult1\qj 1 - CHOOSE ONE OF THE EXISTING FOLDERS (CORRESPONDING TO A PARTICULAR ENGINE), FOR INSTANCE, TJ1200 FOLDER, AS A BASIS. COPY AND PASTE THIS FOLDER, RENAMING IT AFTERWARDS WITH THE NAME OF THE SPECIFIC ENGINE\par
+2 - REPLACE THE Alt0.m FILE, LOCATED AT LinPars FOLDER, WITH THE Alt0.m FILE CORRESPONDING TO THE SPECIFIC ENGINE\par
+
+\pard\nowidctlpar\b0 The function does not require any arguents, returning the engine variables as follows:\par
+\par
+\cf1\f1\lang1046 [MN,A, B, C, D,\cf2 ...\cf0\par
+\cf1  N_Kp, N_Ki, Pt3_Kp, Pt3_Ki,\cf2 ...\cf0\par
+\cf1  \lang1033 Tt4_Kp, Tt4_Ki, Tt5_Kp, Tt5_Ki,\cf2 ...\cf0\par
+\cf1  NcFAN,\cf2 ...\cf0\par
+\cf1  Pt21, Tt21,\cf2 ...\cf0\par
+\cf1  Pt3, Tt3,\cf2 ...\cf0\par
+\cf1  Tt4, Wf,\cf2 ...\cf0\par
+\cf1  Pt5, Tt5,\cf2 ...\cf0\par
+\cf1  Pt6, Tt6,\cf2 ...\cf0\par
+\cf1  FN, FNper] = Alt0dT0;\par
+\fs24\par
+
+\pard\nowidctlpar\qj\cf0\f0\fs22 This file is generated in T-MATS simulator. In the case of a pure jet engine, T-MATS does not generate stations 21 and 6. Therefore, Alt0dT0 must be altered in order to deal with this particular case. An example and suggestion is found inside TJ1200 file, where the lines treagint the mentioned stations inside the \i for \i0 loop are commented, and the lines below are added immediatelly after all engine matrices are defined:\par
+\par
+
+\pard\nowidctlpar\cf1\f1 Pt21 = Pt3;\cf0\par
+\cf1 Tt21 = Tt3;\cf0\par
+\cf1 Pt6 = Pt5;\cf0\par
+\cf1 Tt6 = Tt5;\par
+\fs24\par
+\cf0\b\f0\fs22 3 - INSIDE THE FILE MainScript.m, DEFINE THE VARIABLES AltLinVec, NcDes, EngineName AND SSFan\par
+\b0\par
+
+\pard\nowidctlpar\qj - \b AltLinVec\b0  - Contains all altitude values where steady operating points are considered;\par
+- \b NDes\b0  - Defines the mechanical rotation speed at design poin;\par
+- \b EngineName \b0 - Contains the string of the particular engine's name;\par
+- \b SSFan\b0  - Chooses between single-spool fan engine or single-spool pure jet engine;\par
+
+\pard\nowidctlpar\par
+For example, in the TJ1200 case, the follwoing definition is used:\par
+\par
+\cf3\f1 %Defines altitude points wehre controller gains are to be calcualated\cf0\par
+\cf1 AltLinVec = [0 1000 2000 3000 4000 5000 6000 7000 8000 9000 10000 11000 12000];\cf0\par
+\cf3 %Defines the design point rotation speed\cf0\par
+\cf1 NDes = 24000;\cf0\par
+\cf3 %Defines Engine Name\cf0\par
+\cf1 EngineName = \cf4 'TJ1200'\cf1 ;\cf0\par
+\cf1  \cf0\par
+\cf3 %-----------------------\cf0\par
+\cf3 %DEFINES THE ENGINE TYPE\cf0\par
+\cf3 %-----------------------\cf0\par
+\cf3  \cf0\par
+\cf3 %SSFan = 1 -> Single-Spool Turbofan\cf0\par
+\cf3 %SSFan = 0 -> Single-Spool Turbojet\cf0\par
+\cf1 SSFan = 0;\cf0\par
+\cf1\fs24\par
+\cf0\f0\fs22 For the case of TF1200, the altitude vector has been kept the same and the remaining variables have been altered as follows:\par
+\par
+\cf3\f1 %Defines altitude points wehre controller gains are to be calcualated\cf0\par
+\cf1 AltLinVec = [0 1000 2000 3000 4000 5000 6000 7000 8000 9000 10000 11000 12000];\cf0\par
+\cf3 %Defines the design point rotation speed\cf0\par
+\cf1 NDes = 26400;\cf0\par
+\cf3 %Defines Engine Name\cf0\par
+\cf1 EngineName = \cf4 'TF1200'\cf1 ;\cf0\par
+\cf1  \cf0\par
+\cf3\lang1046 %-----------------------\cf0\par
+\cf3 %DEFINES THE ENGINE TYPE\cf0\par
+\cf3\lang1033 %-----------------------\cf0\par
+\cf3  \cf0\par
+\cf3 %SSFan = 1 -> Single-Spool Turbofan\cf0\par
+\cf3 %SSFan = 0 -> Single-Spool Turbojet\cf0\par
+\cf1 SSFan = 1;\cf0\par
+\fs24\par
+\b\f0\fs22 4 - INSIDE THE FILE MainScript.m, DEFINE THE CONTROLLER DESIGN VARIABLES PM, wcMin,  wcMax, MinOSPM, MaxOSPM, MinOSwc, MaxOSwc, MaxIterPM, MaxIterwc, wcDefMode;\f1\fs24\par
+
+\pard\nowidctlpar\qj\f0\fs22\lang9\par
+
+\pard\nowidctlpar\b0\lang1033 - \b PM \b0 - Defines the initial guess value of phase margin (in degrees);\par
+- \b wcMin \b0 - Defines the minimum allowed value for cut off frequency (in 1/rad);\par
+- \b wcMax \b0 - Defines the maximum allowed value for cut off frequency (in 1/rad);\par
+- \b MinOSPM \b0 - Defines the minimum allowed overshoot in PM calculation loop (in %);\par
+- \b MaxOSPM \b0 - Defines the maximum allowed overshoot in PM calculation loop (in %);\par
+- \b MinOSwc \b0 - Defines the minimum allowed overshoot in wc calculation loop (in %);\par
+- \b MaxOSwc \b0 - Defines the maximum allowed overshoot in wc calculation loop (in %);\par
+- \b MaxIterPM \b0 - Defines the maximum number or interactions in PM calculation loop;\par
+- \b MaxIterwc \b0 - Defines the maximum number or interactions in wc calculation loop;\par
+- \b wcDefMode\b0  - Defines how the values of wcMin and wcMax are used (check code for better \tab\tab\tab understanding);\par
+\par
+For example, in the case of TJ1200, the following is defined:\par
+\par
+\cf3\f1 %Defines parameters for PI Calculations\cf0\par
+\cf1 PM = 55;\cf0\par
+\cf1 wcMin = 0.7;\cf0\par
+\cf1 wcMax = 5;\cf0\par
+\cf1 MinOSPM = 0.01;\cf0\par
+\cf1 MaxOSPM = 0.1;\cf0\par
+\cf1 MinOSwc = 0.01;\cf0\par
+\cf1 MaxOSwc = 2;\cf0\par
+\cf1 MaxIterPM = 20;\cf0\par
+\cf1 MaxIterwc = 20;\par
+wcDefMode = 1;\cf0\par
+\fs24\par
+
+\pard\nowidctlpar\qj\b\f0\fs22\lang9 5 - IN THE FOLDER CodeGen, ADD ALL THE REQUIRED FILES CONTAINIG THE DESCRIPTION OF THE COMPONENTS MAPS;\par
+\b0\par
+In the TJ1200 case, only the compressor file GTHPCMap.m and the turbine file GTHPTMap.m are used, since it is a single-spool pure jet engine. In the cas of the TF1200, an additional file describing the fan is also required, and the file GTLPCMap.m is used.\par
+\par
+\b 6 - IN THE FOLDER CodeGen, THE LINE CALLING EACH COMPONENT FUNCTION FOR LOADING THE COMPONENT MAPS MUST BE ALTERED ACCORDINGLY IN THE FILE MtxCode. THIS FUNCTION MUST MATCH THE MAPS USED IN T-MATS DURING LINEARIZATION PROCESS;\par
+\b0\par
+In the TJ1200 case the code line which loads the matrices describing both the fan and compressor maps (in this case, a "dummy" fan, since a fan is not present in this engine) is given below:\par
+\par
+
+\pard\nowidctlpar\cf1\f1 MWS = GTHPCMap(MWS);\cf0\par
+\fs24\par
+
+\pard\nowidctlpar\qj\f0\fs22 In the TJF200 case the code line which loads the matrices describing the fan map is given below:\par
+\b\par
+
+\pard\nowidctlpar\cf1\b0\f1 MWS = GT\lang1033 L\lang9 PCMap(MWS);\par
+\par
+\cf0\b\f0\lang1033 7 - MAKE SURE THE RIGHT MEMBER OF THE STRUCTURE MWS IS USED IN EACH COMPONENT;\par
+\par
+\b0 For instnace, after calling the function GTLPCMap, the member LPC of the structure MWS must be used to update the external variables, such as:\par
+\par
+\cf1\f1 NcFANMap = MWS.LPC.NcVec * NcGain / NDes;\lang9\par
+\par
+
+\pard\nowidctlpar\qj\cf0\b\f0\lang1033 8 - SET THE VARIABLES NcGAin, WcGain, PRGain AND EffGain CORRECTLY FOR EACH COMPONENT OF THE SPECIFIC ENGINE;\par
+\b0\par
+- \b NcGain \b0 - Correction gain for rotation speed;\par
+- \b WcGain \b0 - Correction gain for air mass flow;\par
+- \b PRGain \b0 - Correctin gain for pressure ratio;\par
+- \b EffGain \b0 - Correction gain for isentropic efficiency;\par
+\par
+For instance, the gais of TF1200 compressor map are defined as follows:\par
+\par
+
+\pard\nowidctlpar\cf1\f1 NcGain = 26400;\cf0\par
+\cf1 WcGain = 0.482062;\cf0\par
+\cf1 PRGain = 0.395551;\cf0\par
+\cf1 EffGain = 1.003058;\cf0\par
+
+\pard\nowidctlpar\qj\f0\par
+\b 9 - RUN DesCode WITH THE VARIABLES getAmbietn, getPIGains AND getCode ALL SET TO 1 FOR DESIGNING THE PI GAINS AND GENERATING THE NECESSARY C CODE FOR BOTH FADEC AND HARDWARE IN THE LOOP SOFTWARES;\par
+\b0\par
+- \b getAmbient \b0 - When set to 1, allows calculatoin of amtient variables Theta and Delta for defined flight conditions;\par
+- \b getPIGains \b0 - When set to 1, allows calculatoin of PI gains for all steady operating points defined;\par
+- \b getCode \b0 - When set to 1, allows generation of C code for loading all necessary matrices in both hardware in the loop and FADEC softwares;\par
+\par
+If the script DesCode is running for the first time for the specific engine, it is a good practice to erase the folders h_Files and c_Files if they exist, since older files from other engine will be present in such folders. h_Files and c_Files will be again generated with the new files of interest for the specific engine.\par
+}
+ 

@@ -1,0 +1,45 @@
+
+/* Steady Operating Points Elements Numbers */
+#define TJ1200_ALT_ELEM				       13;
+#define TJ1200_MN_ELEM 				       11;
+#define TJ1200_FN_ELEM				       12;
+#define TJ1200_TOTAL_ELEM			       1716;
+#define TJ1200_AS_ELEM				       6;
+
+/* Components Maps Element Numbers */
+#define TJ1200_FAN_NC                      10;
+#define TJ1200_FAN_PR                      20;
+#define TJ1200_HPT_NC				       7;
+#define TJ1200_HPT_PR				       21;
+
+
+
+/* Loads matrices */ 
+getTJ1200Mtx(NcFANContMtx, N_KpMtx, N_KiMtx, FNperContMtx, FNcMaxContMtx, 
+     NcMtx, Pt21Mtx, Pt3Mtx, Pt5Mtx, Pt6Mtx, 
+     Tt21Mtx, Tt3Mtx, Tt4Mtx, Tt5Mtx, Tt6Mtx, 
+     WfMtx, AMtx, BMtx, Pt21DMtx, Pt3DMtx, 
+     Pt5DMtx, Pt6DMtx, Tt21DMtx, Tt3DMtx, Tt4DMtx, 
+     Tt5DMtx, Tt6DMtx, NcFANMapMtx, WcFANMapMtx, WcFANStallMtx, 
+     PRFANMapMtx, PRFANStallMtx, EffFANMapMtx, NcHPTMapMtx, WcHPTMapMtx, 
+     PRHPTMapMtx, EffHPTMapMtx, NcHPCMapMtx, WcHPCMapMtx, WcHPCStallMtx, 
+     PRHPCMapMtx, PRHPCStallMtx, EffHPCMapMtx, MNLinVec, AltLinVec, 
+     DeltaMtx, Ts0Mtx, AwmMtx, AshMtx, BwmMtx, 
+     BshMtx, RPMwmMtx, RPMshMtx, Tt4CshMtx, Tt4DshMtx, 
+     Tt4shMtx, WfshMtx, ASVec, DSVec, NcVec);
+
+
+
+/* Loads matrices */ 
+getTJ1200Mtx(&NcFANContMtx, &N_KpMtx, &N_KiMtx, &FNperContMtx, &FNcMaxContMtx, 
+     &NcMtx, &Pt21Mtx, &Pt3Mtx, &Pt5Mtx, &Pt6Mtx, 
+     &Tt21Mtx, &Tt3Mtx, &Tt4Mtx, &Tt5Mtx, &Tt6Mtx, 
+     &WfMtx, &AMtx, &BMtx, &Pt21DMtx, &Pt3DMtx, 
+     &Pt5DMtx, &Pt6DMtx, &Tt21DMtx, &Tt3DMtx, &Tt4DMtx, 
+     &Tt5DMtx, &Tt6DMtx, &NcFANMapMtx, &WcFANMapMtx, &WcFANStallMtx, 
+     &PRFANMapMtx, &PRFANStallMtx, &EffFANMapMtx, &NcHPTMapMtx, &WcHPTMapMtx, 
+     &PRHPTMapMtx, &EffHPTMapMtx, &NcHPCMapMtx, &WcHPCMapMtx, &WcHPCStallMtx, 
+     &PRHPCMapMtx, &PRHPCStallMtx, &EffHPCMapMtx, &MNLinVec, &AltLinVec, 
+     &DeltaMtx, &Ts0Mtx, &AwmMtx, &AshMtx, &BwmMtx, 
+     &BshMtx, &RPMwmMtx, &RPMshMtx, &Tt4CshMtx, &Tt4DshMtx, 
+     &Tt4shMtx, &WfshMtx, &ASVec, &DSVec, &NcVec);

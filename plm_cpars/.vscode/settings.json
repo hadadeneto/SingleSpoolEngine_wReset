@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "*.H": "c",
+        "Control_Types.H": "cpp",
+        "failsafefunctions.h": "c",
+        "functions_tmats.h": "c",
+        "faultsim_types.h": "c",
+        "floatpoint_precision.h": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Enabled"
+
+}

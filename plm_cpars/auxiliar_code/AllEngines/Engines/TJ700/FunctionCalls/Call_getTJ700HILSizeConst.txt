@@ -1,0 +1,7 @@
+
+
+CALLING getTJ700HILSizeConst.c USING VARIABLES AS ARGUMENTS
+
+ getTJ700HILSizeConst( &NcFANMap_Elem,  &WcFANMap_Elem,  &Wc_per_Nc_FAN,  &NcHPTMap_Elem,  &PRHPTMap_Elem, 
+      &WcHPTMap_Elem);
+

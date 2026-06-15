@@ -1,0 +1,16 @@
+/* Steady Operating Points Elements Numbers */
+#define TJ200_ALT_ELEM				       13
+#define TJ200_MN_ELEM 				       11
+#define TJ200_FN_ELEM				       12
+#define TJ200_TOTAL_ELEM			       1716
+#define TJ200_AS_ELEM				       6
+
+/* Components Maps Element Numbers */
+#define TJ200_FAN_NC                      8
+#define TJ200_FAN_PR                      19
+#define TJ200_HPT_NC				       7
+#define TJ200_HPT_PR				       21
+
+/* Engine Design Point Constants */
+#define TJ200_NDES                        65000
+#define TJ200_Ath_NOZZLE                  0.0075593

@@ -1,0 +1,10 @@
+DLL {
+	global:
+		VectorMaker;
+		rtDynamicBoundsError;
+		rtSizeEq1DError;
+		VectorMaker_initialize;
+		VectorMaker_terminate;
+	local:
+		*;
+};

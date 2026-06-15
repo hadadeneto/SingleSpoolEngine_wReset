@@ -1,0 +1,29 @@
+
+
+CALLING getTJ40FADECMtx.c USING POINTERS AS ARGUMENTS
+
+ getTJ40FADECMtx(AMtx, ASVec, AltLinVec, BMtx, DSVec, 
+     DeltaMtx, FNcMaxContMtx, FNperContMtx, MNLinVec, N_KiMtx, 
+     N_KpMtx, NcFANContMtx, NcHPCMapMtx, NcVec, PRHPCMapMtx, 
+     Pt3DMtx, Pt3Mtx, Pt5DMtx, Pt5Mtx, Ts0Mtx, 
+     Tt4DMtx, Tt4Mtx, Tt5DMtx, Tt5Mtx, WcHPCMapMtx, 
+     WfMtx, N_KpshMtx, N_KishMtx, NcFANshContMtx);
+
+CALLING getTJ40FADECMtx.c USING VARIABLES AS ARGUMENTS
+
+ getTJ40FADECMtx(&AMtx, &ASVec, &AltLinVec, &BMtx, &DSVec, 
+     &DeltaMtx, &FNcMaxContMtx, &FNperContMtx, &MNLinVec, &N_KiMtx, 
+     &N_KpMtx, &NcFANContMtx, &NcHPCMapMtx, &NcVec, &PRHPCMapMtx, 
+     &Pt3DMtx, &Pt3Mtx, &Pt5DMtx, &Pt5Mtx, &Ts0Mtx, 
+     &Tt4DMtx, &Tt4Mtx, &Tt5DMtx, &Tt5Mtx, &WcHPCMapMtx, 
+     &WfMtx, &N_KpshMtx, &N_KishMtx, &NcFANshContMtx);
+
+CALLING getTJ40FADECMtx.c USING VARIABLES AS ARGUMENTS
+
+ getTJ40FADECMtx(&AMtx[0], &ASVec[0], &AltLinVec[0], &BMtx[0], &DSVec[0], 
+     &DeltaMtx[0], &FNcMaxContMtx[0], &FNperContMtx[0], &MNLinVec[0], &N_KiMtx[0], 
+     &N_KpMtx[0], &NcFANContMtx[0], &NcHPCMapMtx[0], &NcVec[0], &PRHPCMapMtx[0], 
+     &Pt3DMtx[0], &Pt3Mtx[0], &Pt5DMtx[0], &Pt5Mtx[0], &Ts0Mtx[0], 
+     &Tt4DMtx[0], &Tt4Mtx[0], &Tt5DMtx[0], &Tt5Mtx[0], &WcHPCMapMtx[0], 
+     &WfMtx[0], &N_KpshMtx[0], &N_KishMtx[0], &NcFANshContMtx[0]);
+

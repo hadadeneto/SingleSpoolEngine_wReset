@@ -1,0 +1,16 @@
+/* Steady Operating Points Elements Numbers */
+#define TF1200_ALT_ELEM				       13
+#define TF1200_MN_ELEM 				       12
+#define TF1200_FN_ELEM				       12
+#define TF1200_TOTAL_ELEM			       1872
+#define TF1200_AS_ELEM				       6
+
+/* Components Maps Element Numbers */
+#define TF1200_FAN_NC                      10
+#define TF1200_FAN_PR                      20
+#define TF1200_HPT_NC				       7
+#define TF1200_HPT_PR				       21
+
+/* Engine Design Point Constants */
+#define TF1200_NDES                        26400
+#define TF1200_Ath_NOZZLE                  0.039852

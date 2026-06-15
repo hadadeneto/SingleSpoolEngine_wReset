@@ -1,0 +1,16 @@
+/* Steady Operating Points Elements Numbers */
+#define TG200_ALT_ELEM				       1
+#define TG200_MN_ELEM 				       1
+#define TG200_FN_ELEM				       1
+#define TG200_TOTAL_ELEM			       1
+#define TG200_AS_ELEM				       6
+
+/* Components Maps Element Numbers */
+#define TG200_FAN_NC                      8
+#define TG200_FAN_PR                      19
+#define TG200_HPT_NC				       7
+#define TG200_HPT_PR				       21
+
+/* Engine Design Point Constants */
+#define TG200_NDES                        65000
+#define TG200_Ath_NOZZLE                  0.0074999

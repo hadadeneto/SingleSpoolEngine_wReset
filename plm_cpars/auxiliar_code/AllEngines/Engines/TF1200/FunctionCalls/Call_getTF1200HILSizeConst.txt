@@ -1,0 +1,7 @@
+
+
+CALLING getTF1200HILSizeConst.c USING VARIABLES AS ARGUMENTS
+
+ getTF1200HILSizeConst( &NcFANMap_Elem,  &WcFANMap_Elem,  &Wc_per_Nc_FAN,  &NcHPTMap_Elem,  &PRHPTMap_Elem, 
+      &WcHPTMap_Elem);
+

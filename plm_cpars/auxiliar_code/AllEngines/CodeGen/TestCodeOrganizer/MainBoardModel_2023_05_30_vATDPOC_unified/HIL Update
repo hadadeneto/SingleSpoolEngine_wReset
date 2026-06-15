@@ -1,0 +1,46 @@
+OBSERVAÇÕES:
+
+
+Para comparação dos arquivos presentes em SSModelCFunc e ModelCFunc da pasta do modelo compilado dentro do hardware, usei o seguinte comando no terminal aberto no desktop, com as duas pastas principais no desktop:
+
+diff -q /home/ubuntu/Desktop/MainBoardModel_2022_06_27_vATDPOC_unified/ModelCFunc/ /home/ubuntu/Desktop/SSModelCFunc
+
+O resultado do relatóorio foi o seguinte:
+
+Files /home/ubuntu/Desktop/SSModelCFunc/BearingModel.c and /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc/BearingModel.c differ
+Files /home/ubuntu/Desktop/SSModelCFunc/BearingModel.h and /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc/BearingModel.h differ
+Files /home/ubuntu/Desktop/SSModelCFunc/EngineModel.c and /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc/EngineModel.c differ
+Only in /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc: .Env_SampTime.h.swo
+Only in /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc: .Env_SampTime.h.swp
+Files /home/ubuntu/Desktop/SSModelCFunc/FailSafeFunctions.c and /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc/FailSafeFunctions.c differ
+Files /home/ubuntu/Desktop/SSModelCFunc/FailSafeFunctions.h and /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc/FailSafeFunctions.h differ
+Common subdirectories: /home/ubuntu/Desktop/SSModelCFunc/GEJ85 and /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc/GEJ85
+Files /home/ubuntu/Desktop/SSModelCFunc/InitCond.c and /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc/InitCond.c differ
+Files /home/ubuntu/Desktop/SSModelCFunc/MtxIntFunctions.c and /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc/MtxIntFunctions.c differ
+Files /home/ubuntu/Desktop/SSModelCFunc/Nozzle_TMATS.c and /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc/Nozzle_TMATS.c differ
+Files /home/ubuntu/Desktop/SSModelCFunc/PeripheralDyn.c and /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc/PeripheralDyn.c differ
+Files /home/ubuntu/Desktop/SSModelCFunc/PIMinMaxRF.c and /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc/PIMinMaxRF.c differ
+Only in /home/ubuntu/Desktop/SSModelCFunc: PIMMRF_TJ1200_TestBench.c
+Files /home/ubuntu/Desktop/SSModelCFunc/PIOil.c and /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc/PIOil.c differ
+Files /home/ubuntu/Desktop/SSModelCFunc/ShutDownFunctions.c and /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc/ShutDownFunctions.c differ
+Only in /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc: ShutDownFunctions_Old
+Only in /home/ubuntu/Desktop/SSModelCFunc: SSModelLoop.c
+Files /home/ubuntu/Desktop/SSModelCFunc/StartingEngine.c and /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc/StartingEngine.c differ
+Files /home/ubuntu/Desktop/SSModelCFunc/TCFault.h and /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc/TCFault.h differ
+Common subdirectories: /home/ubuntu/Desktop/SSModelCFunc/TF1200 and /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc/TF1200
+Common subdirectories: /home/ubuntu/Desktop/SSModelCFunc/TJ1200 and /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc/TJ1200
+Only in /home/ubuntu/Desktop/SSModelCFunc: .vs
+
+Os arquivos exclusivos de cada pasta são:
+
+Only in /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc: .Env_SampTime.h.swo
+Only in /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc: .Env_SampTime.h.swp
+Only in /home/ubuntu/Desktop/SSModelCFunc: PIMMRF_TJ1200_TestBench.c
+Only in /home/ubuntu/Desktop/MainBoardModel_2022_09_14_vATDPOC_unified/ModelCFunc: ShutDownFunctions_Old
+Only in /home/ubuntu/Desktop/SSModelCFunc: SSModelLoop.c
+Only in /home/ubuntu/Desktop/SSModelCFunc: .vs
+
+Foram retirados os arquivos SSModelLoop.c e PIMMRF_TJ1200_TestBench.c e colocados no Desktop para serem utilizados no update, caso necessário. Os demais arquivos
+exclusivos de SSModelFunc foram apagados.
+
+

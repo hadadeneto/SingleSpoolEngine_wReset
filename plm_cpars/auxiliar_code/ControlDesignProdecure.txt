@@ -1,0 +1,85 @@
+
+
+
+1 STEP
+
+Choose properly the Altitude values for control gains calculations. For TJ1200, the values are (total of 13 values):
+
+[0 1000 2000 3000 4000 5000 6000 7000 8000 9000 10000 11000 12000];
+
+Choose properly the MN values for linearization. In case of TJ1200 model, the values are (total of 11 values):
+
+MN = [0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 0.95];
+
+Choose properly the Nc values for linearization. In case of TJ1200, POC6 model (boosted version), the Nc values are as follows (Total of 12 valuse per Mach Number):
+
+MN = 0 to 0.6:
+
+[1.04 1:-0.03:0.7];
+
+MN = 0.7:
+
+[1.04 1:-0.025:0.75];
+
+MN = 0.8 to 0.95:
+
+[1.04 1:-0.02:0.8];
+
+2 STEP
+
+Use the T-MATS Linearization option in Dynamic tab to linearize at each Nc point of each MN for Altitude 0. It is not necessary to linearize for different altitudes, since the contlo design software is able to account for different altitudes from sea-level during design procedure.
+
+At the end of this step, the file Alt0dT.txt must be generated.
+
+3 STEP
+
+Go to corresponding engine folder of aux_code (for instance, TJ1200_POC6_Boosted), copy all data from Alt0dT.txt and copy it to Alt0dT0.m inside the LinPars folder.
+
+4 STEP
+
+Define the parameters inside EngineData.m, such as maps gains and acceleration and deceleration vectors.
+
+5 STEP
+
+Delete the current c_File and h_File folders
+
+6 STEP 
+
+Run DesCode in order for C code concerning engine matrices to be generated for both the model and the FADEC. All C code files will be generated in a new c_File folder
+
+7 STEP
+
+FADEC (example for TJ1200):
+
+The files getTJ1200FPInVec.c, getTJ1200FPOutVec.c, getTJ1200OPInVec.c, getTJ1200OPOutVec.c are generated in the current version but are not used. Therefore, such files are to be erased before all files are copyied to the FADEC Mtx folder.
+
+The files getTJ1200Mtx.c, getTJ1200ContConst.c are not generated automatically and must be not altered if only new matrices are required.
+
+MODEL:
+
+The files getTJ1200FPInVec.c, getTJ1200FPOutVec.c, getTJ1200OPInVec.c, getTJ1200OPOutVec.c are generated in the current version but are not used. Therefore, such files are to be erased before all files are copyied to the Model Mtx folder.
+
+The file getTJ1200Mtx.c is not generated automatically and must be not altered if only new matrices are required.
+
+It is always good practice to compare in separate folders the files generated and the files already used in both FADEC and Model. A good software for that is WinMerge, which identifies the files that are present only on the folder containing the recently generated code and must be erased for a direct Ctrl+C, Crl+V operation.
+
+8 STEP
+
+FADEC:
+
+Copy new code to:
+
+C:\Users\anton\OneDrive\TurbineModel\Modelo_Completo\Simulink_Engines\PieceWiseLinModel\SingleSpoolEngine_wReset\plm_cpars\SSModelCFunc\TJ1200\TestBench\FADEC\PIMMRF
+
+Model:
+
+Copy new code to:
+
+C:\Users\anton\OneDrive\TurbineModel\Modelo_Completo\Simulink_Engines\PieceWiseLinModel\SingleSpoolEngine_wReset\plm_cpars\SSModelCFunc\TJ1200\Mtx
+
+
+
+
+
+
+

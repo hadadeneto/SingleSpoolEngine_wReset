@@ -1,0 +1,99 @@
+/*
+ * EngineModel.c
+ *
+ *  Created on: March 1, 2019
+ *      Author: anton
+ */
+
+
+/* Math lib */
+#include <math.h>
+/* Engines libs */
+#include "ConstantsTJ1200.h"
+#include "ConstantsTF1200.h"
+#include "ConstantsGEJ85.h"
+#include "Control_Types.h"
+
+
+
+void getStartPars(struct ControlStart *ContStartP, int WhichEngine)
+{
+	/* LOADS THE GAINS ACCORDING TO REQUESTED ENGINE */
+	/* WhichEngine == 1 -> TJ1200 */
+
+	// if (WhichEngine == 1)
+	// {
+	// 	ContStartP->FuelHighPulse = TJ1200_FUEL_HIGH_PULSE;
+	// 	ContStartP->FuelImpulseTime = TJ1200_FUEL_IMPULSE_TIME;
+	// 	ContStartP->FuelInit = TJ1200_FUEL_INIT;
+	// 	ContStartP->FuelPerc = TJ1200_FUEL_PERC;
+	// 	ContStartP->FuelRamp = TJ1200_FUEL_RAMP;
+	// 	ContStartP->POilAlarm = TJ1200_POIL_ALARM;
+	// 	ContStartP->POilShutDown = TJ1200_POIL_SHUTDOWN;
+	// 	ContStartP->RPMIdle = TJ1200_RPM_IDLE;
+	// 	ContStartP->RPMIgnOff = TJ1200_RPM_IGN_OFF;
+	// 	ContStartP->RPMRelaysOn = TJ1200_RPM_RELAYS_ON;
+	// 	ContStartP->RPMValve100 = TJ1200_RPM_VALVE_100;
+	// 	ContStartP->TimeAccomodation = TJ1200_TIME_ACCOMODATION;
+	// 	ContStartP->TimeIgnition = TJ1200_TIME_IGNITION;
+	// 	ContStartP->TimeLowPOil = TJ1200_TIME_LOW_POIL;
+	// 	ContStartP->TimeOvertemp = TJ1200_TIME_OVERTEMP;
+	// 	ContStartP->Tt5AvFlameOn = TJ1200_Tt5AV_FLAME_ON;
+	// 	ContStartP->Tt5AvMax = TJ1200_Tt5AV_MAX;
+	// 	ContStartP->ValveInit = TJ1200_VALVE_INIT;
+	// 	ContStartP->ValveTotal = TJ1200_VALVE_TOTAL;
+	// 	ContStartP->WaitAction = TJ1200_WAIT_ACTION;
+	// }
+
+	// if (WhichEngine == 2)
+	// {
+	// 	ContStartP->FuelHighPulse = TF1200_FUEL_HIGH_PULSE;
+	// 	ContStartP->FuelImpulseTime = TF1200_FUEL_IMPULSE_TIME;
+	// 	ContStartP->FuelInit = TF1200_FUEL_INIT;
+	// 	ContStartP->FuelPerc = TF1200_FUEL_PERC;
+	// 	ContStartP->FuelRamp = TF1200_FUEL_RAMP;
+	// 	ContStartP->POilAlarm = TF1200_POIL_ALARM;
+	// 	ContStartP->POilShutDown = TF1200_POIL_SHUTDOWN;
+	// 	ContStartP->RPMIdle = TF1200_RPM_IDLE;
+	// 	ContStartP->RPMIgnOff = TF1200_RPM_IGN_OFF;
+	// 	ContStartP->RPMRelaysOn = TF1200_RPM_RELAYS_ON;
+	// 	ContStartP->RPMValve100 = TF1200_RPM_VALVE_100;
+	// 	ContStartP->TimeAccomodation = TF1200_TIME_ACCOMODATION;
+	// 	ContStartP->TimeIgnition = TF1200_TIME_IGNITION;
+	// 	ContStartP->TimeLowPOil = TF1200_TIME_LOW_POIL;
+	// 	ContStartP->TimeOvertemp = TF1200_TIME_OVERTEMP;
+	// 	ContStartP->Tt5AvFlameOn = TF1200_Tt5AV_FLAME_ON;
+	// 	ContStartP->Tt5AvMax = TF1200_Tt5AV_MAX;
+	// 	ContStartP->ValveInit = TF1200_VALVE_INIT;
+	// 	ContStartP->ValveTotal = TF1200_VALVE_TOTAL;
+	// 	ContStartP->WaitAction = TF1200_WAIT_ACTION;
+
+	// }
+
+	if (WhichEngine == 3)
+	{
+		ContStartP->FuelHighPulse = GEJ85_FUEL_HIGH_PULSE;
+		ContStartP->FuelImpulseTime = GEJ85_FUEL_IMPULSE_TIME;
+		ContStartP->FuelInit = GEJ85_FUEL_INIT;
+		ContStartP->FuelPerc = GEJ85_FUEL_PERC;
+		ContStartP->FuelRamp = GEJ85_FUEL_RAMP;
+		ContStartP->POilAlarm = GEJ85_POIL_ALARM;
+		ContStartP->POilShutDown = GEJ85_POIL_SHUTDOWN;
+		ContStartP->RPMIdle = GEJ85_RPM_IDLE;
+		ContStartP->RPMIgnOff = GEJ85_RPM_IGN_OFF;
+		ContStartP->RPMRelaysOn = GEJ85_RPM_RELAYS_ON;
+		ContStartP->RPMValve100 = GEJ85_RPM_VALVE_100;
+		ContStartP->TimeAccomodation = GEJ85_TIME_ACCOMODATION;
+		ContStartP->TimeIgnition = GEJ85_TIME_IGNITION;
+		ContStartP->TimeLowPOil = GEJ85_TIME_LOW_POIL;
+		ContStartP->TimeOvertemp = GEJ85_TIME_OVERTEMP;
+		ContStartP->Tt5AvFlameOn = GEJ85_Tt5AV_FLAME_ON;
+		ContStartP->Tt5AvMax = GEJ85_Tt5AV_MAX;
+		ContStartP->ValveInit = GEJ85_VALVE_INIT;
+		ContStartP->ValveTotal = GEJ85_VALVE_TOTAL;
+		ContStartP->WaitAction = GEJ85_WAIT_ACTION;
+
+	}
+
+}
+

@@ -1,0 +1,6 @@
+disp(' ')
+disp('------------------------------------------------')
+disp('GET700 CALCULATION PROGRAM - VERSION 1.00')
+disp('              External Version                  ')
+disp('------------------------------------------------')
+disp(' ')

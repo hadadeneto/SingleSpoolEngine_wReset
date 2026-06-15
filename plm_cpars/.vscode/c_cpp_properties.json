@@ -1,0 +1,34 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:/ProgramData/MATLAB/SupportPackages/R2019a/3P.instrset/mingw_w64.instrset/x86_64-w64-mingw32/include",
+                "C:/Program Files/MATLAB/R2019a/extern/include",
+                "C:/Program Files/MATLAB/R2019a/simulink/include",
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.17763.0",
+            "compilerPath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\VC\\Tools\\MSVC\\14.16.27023\\bin\\Hostx64\\x64\\cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-msvc-x64",
+            "browse":{
+                "path": [
+                    "C:/ProgramData/MATLAB/SupportPackages/R2019a/3P.instrset/mingw_w64.instrset/x86_64-w64-mingw32/include",
+                    "C:/Program Files/MATLAB/R2019a/extern/include",
+                    "C:/Program Files/MATLAB/R2019a/simulink/include",
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,16 @@
+/* Steady Operating Points Elements Numbers */
+#define TJ700_ALT_ELEM				       13
+#define TJ700_MN_ELEM 				       11
+#define TJ700_FN_ELEM				       12
+#define TJ700_TOTAL_ELEM			       1716
+#define TJ700_AS_ELEM				       6
+
+/* Components Maps Element Numbers */
+#define TJ700_FAN_NC                      10
+#define TJ700_FAN_PR                      20
+#define TJ700_HPT_NC				       7
+#define TJ700_HPT_PR				       21
+
+/* Engine Design Point Constants */
+#define TJ700_NDES                        30200
+#define TJ700_Ath_NOZZLE                  0.022745

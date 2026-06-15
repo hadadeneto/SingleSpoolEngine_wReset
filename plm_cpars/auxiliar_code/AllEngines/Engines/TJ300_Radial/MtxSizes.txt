@@ -1,0 +1,16 @@
+/* Steady Operating Points Elements Numbers */
+#define TJ300R_ALT_ELEM				       13
+#define TJ300R_MN_ELEM 				       11
+#define TJ300R_FN_ELEM				       12
+#define TJ300R_TOTAL_ELEM			       1716
+#define TJ300R_AS_ELEM				       6
+
+/* Components Maps Element Numbers */
+#define TJ300R_FAN_NC                      8
+#define TJ300R_FAN_PR                      19
+#define TJ300R_HPT_NC				       7
+#define TJ300R_HPT_PR				       21
+
+/* Engine Design Point Constants */
+#define TJ300R_NDES                        55400
+#define TJ300R_Ath_NOZZLE                  0.0098838

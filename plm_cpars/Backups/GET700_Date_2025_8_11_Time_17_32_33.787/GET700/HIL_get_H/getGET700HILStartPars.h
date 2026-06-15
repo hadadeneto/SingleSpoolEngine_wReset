@@ -1,0 +1,8 @@
+#ifndef GETGET700HILSTARTPARS_H
+#define GETGET700HILSTARTPARS_H
+
+/* get FUNCTIONS FOR GETTINGHILSTARTING PARAMETERS */
+
+void getGET700HILStartPars(struct ControlStart *ContStartP);
+
+#endif

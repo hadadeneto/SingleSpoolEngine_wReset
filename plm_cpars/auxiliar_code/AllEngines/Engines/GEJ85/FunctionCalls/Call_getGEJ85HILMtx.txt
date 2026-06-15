@@ -1,0 +1,53 @@
+
+
+CALLING getGEJ85HILMtx.c USING POINTERS AS ARGUMENTS
+
+ getGEJ85HILMtx(AshMtx, AwmMtx, BshMtx, BwmMtx, EffFANMapMtx, 
+     EffHPCMapMtx, EffHPTMapMtx, NcFANMapMtx, NcHPTMapMtx, NcMtx, 
+     PRFANMapMtx, PRFANStallMtx, PRHPCStallMtx, PRHPTMapMtx, Pt21DMtx, 
+     Pt21Mtx, Pt6DMtx, Pt6Mtx, RPMshMtx, RPMwmMtx, 
+     Tt21DMtx, Tt21Mtx, Tt3DMtx, Tt3Mtx, Tt4CshMtx, 
+     Tt4DshMtx, Tt4shMtx, Tt6DMtx, Tt6Mtx, WcFANMapMtx, 
+     WcFANStallMtx, WcHPCStallMtx, WcHPTMapMtx, WfshMtx, NcFANshMtx, 
+     WfwmMtx, Pt3shMtx, Pt3DshMtx, Pt21wmMtx, Pt21DwmMtx, 
+     Pt3wmMtx, Pt3DwmMtx, Pt5wmMtx, Pt5DwmMtx, Pt6wmMtx, 
+     Pt6DwmMtx, Tt21wmMtx, Tt21DwmMtx, Tt3wmMtx, Tt3DwmMtx, 
+     Tt4wmMtx, Tt4DwmMtx, Tt5wmMtx, Tt5DwmMtx, Tt6wmMtx, 
+     Tt6DwmMtx, Pt21shMtx, Pt21DshMtx, Pt5shMtx, Pt5DshMtx, 
+     Pt6shMtx, Pt6DshMtx, Tt21shMtx, Tt21DshMtx, Tt3shMtx, 
+     Tt3DshMtx, Tt5shMtx, Tt5DshMtx, Tt6shMtx, Tt6DshMtx);
+
+CALLING getGEJ85HILMtx.c USING VARIABLES AS ARGUMENTS
+
+ getGEJ85HILMtx(&AshMtx, &AwmMtx, &BshMtx, &BwmMtx, &EffFANMapMtx, 
+     &EffHPCMapMtx, &EffHPTMapMtx, &NcFANMapMtx, &NcHPTMapMtx, &NcMtx, 
+     &PRFANMapMtx, &PRFANStallMtx, &PRHPCStallMtx, &PRHPTMapMtx, &Pt21DMtx, 
+     &Pt21Mtx, &Pt6DMtx, &Pt6Mtx, &RPMshMtx, &RPMwmMtx, 
+     &Tt21DMtx, &Tt21Mtx, &Tt3DMtx, &Tt3Mtx, &Tt4CshMtx, 
+     &Tt4DshMtx, &Tt4shMtx, &Tt6DMtx, &Tt6Mtx, &WcFANMapMtx, 
+     &WcFANStallMtx, &WcHPCStallMtx, &WcHPTMapMtx, &WfshMtx, &NcFANshMtx, 
+     &WfwmMtx, &Pt3shMtx, &Pt3DshMtx, &Pt21wmMtx, &Pt21DwmMtx, 
+     &Pt3wmMtx, &Pt3DwmMtx, &Pt5wmMtx, &Pt5DwmMtx, &Pt6wmMtx, 
+     &Pt6DwmMtx, &Tt21wmMtx, &Tt21DwmMtx, &Tt3wmMtx, &Tt3DwmMtx, 
+     &Tt4wmMtx, &Tt4DwmMtx, &Tt5wmMtx, &Tt5DwmMtx, &Tt6wmMtx, 
+     &Tt6DwmMtx, &Pt21shMtx, &Pt21DshMtx, &Pt5shMtx, &Pt5DshMtx, 
+     &Pt6shMtx, &Pt6DshMtx, &Tt21shMtx, &Tt21DshMtx, &Tt3shMtx, 
+     &Tt3DshMtx, &Tt5shMtx, &Tt5DshMtx, &Tt6shMtx, &Tt6DshMtx);
+
+CALLING getGEJ85HILMtx.c USING VARIABLES AS ARGUMENTS
+
+ getGEJ85HILMtx(&AshMtx[0], &AwmMtx[0], &BshMtx[0], &BwmMtx[0], &EffFANMapMtx[0], 
+     &EffHPCMapMtx[0], &EffHPTMapMtx[0], &NcFANMapMtx[0], &NcHPTMapMtx[0], &NcMtx[0], 
+     &PRFANMapMtx[0], &PRFANStallMtx[0], &PRHPCStallMtx[0], &PRHPTMapMtx[0], &Pt21DMtx[0], 
+     &Pt21Mtx[0], &Pt6DMtx[0], &Pt6Mtx[0], &RPMshMtx[0], &RPMwmMtx[0], 
+     &Tt21DMtx[0], &Tt21Mtx[0], &Tt3DMtx[0], &Tt3Mtx[0], &Tt4CshMtx[0], 
+     &Tt4DshMtx[0], &Tt4shMtx[0], &Tt6DMtx[0], &Tt6Mtx[0], &WcFANMapMtx[0], 
+     &WcFANStallMtx[0], &WcHPCStallMtx[0], &WcHPTMapMtx[0], &WfshMtx[0], &NcFANshMtx[0], 
+     &WfwmMtx[0], &Pt3shMtx[0], &Pt3DshMtx[0], &Pt21wmMtx[0], &Pt21DwmMtx[0], 
+     &Pt3wmMtx[0], &Pt3DwmMtx[0], &Pt5wmMtx[0], &Pt5DwmMtx[0], &Pt6wmMtx[0], 
+     &Pt6DwmMtx[0], &Tt21wmMtx[0], &Tt21DwmMtx[0], &Tt3wmMtx[0], &Tt3DwmMtx[0], 
+     &Tt4wmMtx[0], &Tt4DwmMtx[0], &Tt5wmMtx[0], &Tt5DwmMtx[0], &Tt6wmMtx[0], 
+     &Tt6DwmMtx[0], &Pt21shMtx[0], &Pt21DshMtx[0], &Pt5shMtx[0], &Pt5DshMtx[0], 
+     &Pt6shMtx[0], &Pt6DshMtx[0], &Tt21shMtx[0], &Tt21DshMtx[0], &Tt3shMtx[0], 
+     &Tt3DshMtx[0], &Tt5shMtx[0], &Tt5DshMtx[0], &Tt6shMtx[0], &Tt6DshMtx[0]);
+

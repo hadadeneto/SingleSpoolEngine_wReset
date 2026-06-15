@@ -1,0 +1,26 @@
+
+
+- O primeiro passo foi comparar as pastas de interesse com o comando abaixo. Para pegatr o caminho da pasta, clicar com o botão direito do mouse em um arquivo dentro da pasta em questão e clicar em propriedades. O caminho aparecerá escrito e é só copiar e colar na linha de comando do terminal
+
+- O comando do treminal utilizado foi:
+diff -q /home/ubuntu/Desktop/MainBoardFADEC_2022_09_12_VersaoVoo/ModelCFunc /home/ubuntu/Desktop/2022_09_09_Fast/SingleSpoolEngine_wReset/plm_cpars/SSModelCFunc/TJ1200/TestBench/FADEC/PIMMRF
+
+- O resultado foi:
+
+Files /home/ubuntu/Desktop/MainBoardFADEC_2022_09_12_VersaoVoo/ModelCFunc/FailSafeFunctions.c and /home/ubuntu/Desktop/PIMMRF/FailSafeFunctions.c differ
+Files /home/ubuntu/Desktop/MainBoardFADEC_2022_09_12_VersaoVoo/ModelCFunc/FailSafeFunctions.h and /home/ubuntu/Desktop/PIMMRF/FailSafeFunctions.h differ
+Files /home/ubuntu/Desktop/MainBoardFADEC_2022_09_12_VersaoVoo/ModelCFunc/getTJ1200.h and /home/ubuntu/Desktop/PIMMRF/getTJ1200.h differ
+Files /home/ubuntu/Desktop/MainBoardFADEC_2022_09_12_VersaoVoo/ModelCFunc/PeripheralDyn.c and /home/ubuntu/Desktop/PIMMRF/PeripheralDyn.c differ
+Files /home/ubuntu/Desktop/MainBoardFADEC_2022_09_12_VersaoVoo/ModelCFunc/PIMinMaxRF.c and /home/ubuntu/Desktop/PIMMRF/PIMinMaxRF.c differ
+Only in /home/ubuntu/Desktop/PIMMRF: PIMMRF_TJ1200_TestBench.c
+Files /home/ubuntu/Desktop/MainBoardFADEC_2022_09_12_VersaoVoo/ModelCFunc/PIOil.c and /home/ubuntu/Desktop/PIMMRF/PIOil.c differ
+Files /home/ubuntu/Desktop/MainBoardFADEC_2022_09_12_VersaoVoo/ModelCFunc/ShutDownFunctions.c and /home/ubuntu/Desktop/PIMMRF/ShutDownFunctions.c differ
+Files /home/ubuntu/Desktop/MainBoardFADEC_2022_09_12_VersaoVoo/ModelCFunc/TCFault.h and /home/ubuntu/Desktop/PIMMRF/TCFault.h differ
+
+- Os arquivos exclusivos presentes em cada pasta são:
+
+Only in /home/ubuntu/Desktop/PIMMRF: PIMMRF_TJ1200_TestBench.c
+
+O arquivo acima foi colocado no Desktop para referência no update do arquivo principal do FADEC, sendo retirado da pasta PIMMRF
+Os arquivos da pasta do MudelFunc foram apagados e substituidos pelos arquivos de PIMMRF para o update
+

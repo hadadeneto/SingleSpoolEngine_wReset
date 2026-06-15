@@ -1,0 +1,6 @@
+disp(' ')
+disp('------------------------------------------------')
+disp('TJ300R CALCULATION PROGRAM - VERSION 1.00')
+disp('              External Version                  ')
+disp('------------------------------------------------')
+disp(' ')
