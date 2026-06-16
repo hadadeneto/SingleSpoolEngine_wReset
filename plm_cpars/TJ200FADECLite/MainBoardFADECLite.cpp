@@ -4,11 +4,11 @@
 // extern "C"
 // {
 
-/******** COPYFROM START: FADEC_INCLUDES *********/
-
 /* Change for FADEC Lite */
 #include <math.h>
 #include <stdio.h>
+
+/******** COPYFROM START: FADEC_INCLUDES *********/
 
 /*-------------------*/
 /* STANDARD INCLUDES */
@@ -61,6 +61,9 @@
 
 //}
 
+    // The variable below must be declared in this space since in the other FADEC version the same is done. This 
+    //should be changded in the future version and the commented declaration must be used
+    floating dT = 0;
 
 /******** COPYFROM START: FADEC_VARS *********/
 
@@ -461,17 +464,26 @@
 
 /******** COPYFROM END: FADEC_VARS *********/
 
-/******************************************************************************************/
-/* TODA A PARTE ACIMA, QUE DECLARA VARIÁVEIS E AS INICIALIZA, DEVE VIRAR UMA FUNÇÃO OU .h */
-/**************************************************************************************** */
 
+/*******************************************************************************
+ *
+ *	FUNCTION:		FADECReset()
+ *
+ *	PURPOSE:		The function below initites engine specifica variables and 
+ *                  matrices
+ *
+ *	CALLED FROM:	tbd
+ *
+ *	PARAMETERS:		void
+ *
+ *	RETURNS:		void
+ *
+ *	COMMENTS:
+ *
+ *******************************************************************************/
 
-/********************************************************************************************/
-/*
- *                                 MAIN
- */
-/********************************************************************************************/
-int main(int argc, const char** argv)
+ // The function below initites engine specifica variables and matrices
+void FADECInitVars(void)
 {
 
 /******** COPYFROM START: FADEC_LOADPARS *********/
@@ -715,40 +727,178 @@ int main(int argc, const char** argv)
 
 /******** COPYFROM END: FADEC_LOADPARS *********/
 
-    /* Reset variable must be set to 0 in order for inner
-    * loop not to reset the timer consecutively */
-    Reset = 0;
+}  
+
+
+// /*******************************************************************************
+//  *
+//  *	FUNCTION:		FADECReset()
+//  *
+//  *	PURPOSE:		The function executes a software reset in the FADEC
+//  *
+//  *	CALLED FROM:	tbd
+//  *
+//  *	PARAMETERS:		void
+//  *
+//  *	RETURNS:		void
+//  *
+//  *	COMMENTS:
+//  *
+//  *******************************************************************************/
+
+// // The function executes a software reset in the FADEC
+// void FADECReset(void)
+// {
+
+//     /* Verifies if reset has been requested */
+//     if (Reset == 1)
+//     {
+
+//         /******** COPYFROM START: FADEC_RESET *********/
+
+//         /*-----------------*/
+//         /* FADEC AND MODEL */
+//         /*-----------------*/
+
+//         /* RESETS STRUCTS */
+
+//         Ambient = AmbientEmpty;
+//         BlowOutPars = EstParsEmpty;
+//         ContConst = ContConstEmpty;
+//         ContGenOil = ContGenEmpty;
+//         ContInModCL = ContInputEmpty;
+//         ContInput = ContInputEmpty;
+//         ContInput.Reset = 1;
+//         ContOutModCL = ContOutputEmpty;
+//         ContOutput = ContOutputEmpty;
+//         ContStart = ContStartEmpty;
+//         ContStModCL = ContStartEmpty;
+//         EngOnOff = EngOnOffEmpty;
+//         Index3D = Index3DEmpty;
+//         ModelPars = EstParsEmpty;
+//         ModelParsChosen = EstParsEmpty;
+//         ModelParsCL = EstParsEmpty;
+//         PFuelRes = DefaultRes;
+//         POilRes = DefaultRes;
+//         Pt3Res = DefaultRes;
+//         RPMRes = DefaultRes;
+//         Sensors = SensorsEmpty;
+//         TBearRes = DefaultRes;
+//         Ts2Res = DefaultRes;
+//         Tt4Res = DefaultRes;
+//         VibrationRes = DefaultRes;
+
+//         /* RESETS UNIONS */
+
+//         CANFault = FaultDetectEmpty;
+//         digital = digitalEmpty;
+//         digModCL = digitalEmpty;
+//         EngStatus = EngStatusEmpty;
+//         ExistFStatus = FaultDetectEmpty;
+//         ExistFWarning = FaultDetectEmpty;
+//         FaultSensAuthorize = FaultSensEmpty;
+//         FaultSSens = FaultSensEmpty;
+//         FaultSSys = FaultSysEmpty;
+//         FaultStatus = FaultEmpty;
+//         FaultSysAuthorize = FaultSysEmpty;
+//         FaultWarning = FaultEmpty;
+//         FaultWSens = FaultSensEmpty;
+//         FaultWSys = FaultSysEmpty;
+//         HardFAuthorize = FaultDetectEmpty;
+//         HardFStatus = FaultDetectEmpty;
+//         HardFWarning = FaultDetectEmpty;
+//         keys = keysEmpty;
+//         ModPFault.ModParsBits = 0;
+//         SoftFStatus = FaultDetectEmpty;
+//         SoftFWarning = FaultDetectEmpty;
+//         SoftSimFaults = FaultSensEmpty;
+//         TB_0.TCFaultBits = 0;
+//         TB_1.TCFaultBits = 0;
+//         TB_2.TCFaultBits = 0;
+//         TrustAll = FaultDetectEmpty;
+//         TrustHard = FaultDetectEmpty;
+//         TrustSens = FaultDetectEmpty;
+//         Ts2_0.TCFaultBits = 0;
+//         Ts2_1.TCFaultBits = 0;
+//         Tt4_0.TCFaultBits = 0;
+//         Tt4_1.TCFaultBits = 0;
+//         Tt4_2.TCFaultBits = 0;
+
+//         /* RESETS static int TYPE */
+
+//         CriticalFailure = 0;
+//         Current_key_start = 0;
+//         EmergencyCommand = 0;
+//         Old_key_start = 0;
+//         Reset = 0;
+//         ShutDownCommand = 0;
+//         StartCommand = 0;
+//         StartComplete = 0;
+//         StartFaultAnalysis = 0;
+
+//         /* RESETS floating TYPE */
+
+//         OPRPMManual = 0;
+
+//         /* RESETS static floating TYPE */
+
+//         Wf = 0;
+
+//         /*------------*/
+//         /* FADEC ONLY */
+//         /*------------*/
+
+//         /* RESETS int TYPE */
+
+//         Authorize = 0;
+
+//         /******** COMMENT START *********/
+//         //
+//         //        /* -------------------------------------------------- */
+//         //        /* T-MATS AND PWLM           */
+//         //        /* (To be usedi in MATLAB and TMATS simulations only) */
+//         //        /* -------------------------------------------------- */
+//         //
+//         //        SkipStartIn[0] = 0;
+//         //        SkipStartIn[1] = 0;
+//         //
+//         //        /* -------------------------------------------------- */
+//         //
+//         /******** COMMENT END *********/
+
+//         /******** COPYFROM END: FADEC_RESET *********/
+//     }
+
+//     /******** REPLACE START: getTJ1200ContConst BY getTJ1200FADECContConst *********/
+//     /* LOADING OF CONTROLLER CONSTANTS */
+//     getTJ200FADECContConst(&ContConst); // QUAL O MOTIVO DE CHAMAR AQUI DE NOVO?? -> TALVEZ POR CAUSA DO RESET, QUE ZEROU A CONTCONST!
+//     /******** REPLACE END: getTJ1200ContConst BY getTJ1200FADECContConst *********/
+// }
+
+// /* OBSERVAÇÕES: O MAIN NÃO VAI MAIS EXISTIR!! DEVE VIRAR UMA FUNÇÃO DE INICIALIZAÇÃO!!
+//                 O INNER LOOP VIRA SOMENTE UMA FUNÇÃO DE RESET
+//                 VERIFICAR SE DÁ PRA USAR ASSIM TAMBÉM NO MATLAB!! */
+
+
+
 
 
     /********************************************************************************************************************************/
     /*																																*/
-    /*												OUTER LOOP                             									 	*/
+    /*                                                START OF CONTROL UPDATE                 									 	*/
     /*																																*/
     /********************************************************************************************************************************/
-        /*
-         * Node loop.
-         * The thread should not block outside Node::spin().
-         */
 
-    while (true)	//outer loop
+
+//void ControlUpdate(Node& node0, Node& node1)
+void ControlUpdate(void)
+{
+ 
+    /* Verifies if reset has been requested */
+    if (Reset == 1)
     {
 
-        /* Resets static structs and variables */
-        digital = digitalEmpty;
-        Current_key_start = 0;
-        Old_key_start = 0;
-        //fValue = 0;
-        Wf = 0;
-
-        /************************************************ */
-        /* O IF ABAIXO, DE RESET, DEVE VIRAR UMA FUNÇÃO!! */
-        /************************************************ */
-
-        /* Verifies if reset has been requested */
-        if (Reset == 1)
-        {
-
-/******** COPYFROM START: FADEC_RESET *********/
+        /******** COPYFROM START: FADEC_RESET *********/
 
         /*-----------------*/
         /* FADEC AND MODEL */
@@ -784,7 +934,7 @@ int main(int argc, const char** argv)
 
         /* RESETS UNIONS */
 
-		CANFault = FaultDetectEmpty;
+        CANFault = FaultDetectEmpty;
         digital = digitalEmpty;
         digModCL = digitalEmpty;
         EngStatus = EngStatusEmpty;
@@ -832,7 +982,7 @@ int main(int argc, const char** argv)
 
         /* RESETS floating TYPE */
 
-		OPRPMManual = 0;
+        OPRPMManual = 0;
 
         /* RESETS static floating TYPE */
 
@@ -844,81 +994,31 @@ int main(int argc, const char** argv)
 
         /* RESETS int TYPE */
 
-		Authorize = 0;
+        Authorize = 0;
 
-/******** COMMENT START *********/
-//
-//        /* -------------------------------------------------- */
-//        /* T-MATS AND PWLM           */
-//        /* (To be usedi in MATLAB and TMATS simulations only) */
-//        /* -------------------------------------------------- */
-//
-//        SkipStartIn[0] = 0;
-//        SkipStartIn[1] = 0;
-//
-//        /* -------------------------------------------------- */
-//
-/******** COMMENT END *********/
+        /******** COMMENT START *********/
+        //
+        //        /* -------------------------------------------------- */
+        //        /* T-MATS AND PWLM           */
+        //        /* (To be usedi in MATLAB and TMATS simulations only) */
+        //        /* -------------------------------------------------- */
+        //
+        //        SkipStartIn[0] = 0;
+        //        SkipStartIn[1] = 0;
+        //
+        //        /* -------------------------------------------------- */
+        //
+        /******** COMMENT END *********/
 
-/******** COPYFROM END: FADEC_RESET *********/
+        /******** COPYFROM END: FADEC_RESET *********/
+    }
 
-//             fadecSensorsDataFile << "RESET" << std::endl; //Adds a line informing that a reset has been executed
-// printf("Resetado!\n");
-
-        }
-
-/******** REPLACE START: getTJ1200ContConst BY getTJ1200FADECContConst *********/
+    /******** REPLACE START: getTJ1200ContConst BY getTJ1200FADECContConst *********/
     /* LOADING OF CONTROLLER CONSTANTS */
-      getTJ200FADECContConst (&ContConst);   //QUAL O MOTIVO DE CHAMAR AQUI DE NOVO??
-/******** REPLACE END: getTJ1200ContConst BY getTJ1200FADECContConst *********/
+    getTJ200FADECContConst(&ContConst); // QUAL O MOTIVO DE CHAMAR AQUI DE NOVO?? -> TALVEZ POR CAUSA DO RESET, QUE ZEROU A CONTCONST!
+    /******** REPLACE END: getTJ1200ContConst BY getTJ1200FADECContConst *********/
 
 
-    }   //END OF while (true)	//outer loop
-
-    /********************************************************************************************************************************/
-    /*																																*/
-    /*                                                END OF MAIN                              									 	*/
-    /*																																*/
-    /********************************************************************************************************************************/
-
-}   //END OF int main(int argc, const char** argv)
-
-
-
-/* OBSERVAÇÕES: O MAIN NÃO VAI MAIS EXISTIR!! DEVE VIRAR UMA FUNÇÃO DE INICIALIZAÇÃO!!
-                O INNER LOOP VIRA SOMENTE UMA FUNÇÃO DE RESET
-                VERIFICAR SE DÁ PRA USAR ASSIM TAMBÉM NO MATLAB!! */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /********************************************************************************************************************************/
-    /*																																*/
-    /*                                                START OF CONTROL UPDATE                 									 	*/
-    /*																																*/
-    /********************************************************************************************************************************/
-
-
-//void ControlUpdate(Node& node0, Node& node1)
-void ControlUpdate(uavcan_linux::NodePtr& node0, uavcan_linux::NodePtr& node1, int can_atd_poc)
-{
- 
 /******** COPYFROM START: FADEC_SKIPSTART *********/
 
     /*-----------------------------------------------------------*/
@@ -1769,12 +1869,8 @@ void ControlUpdate(uavcan_linux::NodePtr& node0, uavcan_linux::NodePtr& node1, i
 
 /******** COPYFROM END: FADEC_AUTHORIZE3 *********/
 
+        /* FAZER UPDATE DE STRUCT DA SAÍDA */
+
     }
 
 }
-
-    /********************************************************************************************************************************/
-    /*																																*/
-    /*                                                END OF CONTROL UPDATE                 									 	*/
-    /*																																*/
-    /********************************************************************************************************************************/
