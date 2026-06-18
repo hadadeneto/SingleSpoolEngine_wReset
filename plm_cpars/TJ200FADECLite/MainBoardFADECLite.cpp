@@ -730,170 +730,26 @@ void FADECInitVars(void)
 }  
 
 
-// /*******************************************************************************
-//  *
-//  *	FUNCTION:		FADECReset()
-//  *
-//  *	PURPOSE:		The function executes a software reset in the FADEC
-//  *
-//  *	CALLED FROM:	tbd
-//  *
-//  *	PARAMETERS:		void
-//  *
-//  *	RETURNS:		void
-//  *
-//  *	COMMENTS:
-//  *
-//  *******************************************************************************/
+/*******************************************************************************
+ *
+ *	FUNCTION:		FADECReset()
+ *
+ *	PURPOSE:		The function executes a software reset in the FADEC
+ *
+ *	CALLED FROM:	tbd
+ *
+ *	PARAMETERS:		void
+ *
+ *	RETURNS:		void
+ *
+ *	COMMENTS:
+ *
+ *******************************************************************************/
 
-// // The function executes a software reset in the FADEC
-// void FADECReset(void)
-// {
-
-//     /* Verifies if reset has been requested */
-//     if (Reset == 1)
-//     {
-
-//         /******** COPYFROM START: FADEC_RESET *********/
-
-//         /*-----------------*/
-//         /* FADEC AND MODEL */
-//         /*-----------------*/
-
-//         /* RESETS STRUCTS */
-
-//         Ambient = AmbientEmpty;
-//         BlowOutPars = EstParsEmpty;
-//         ContConst = ContConstEmpty;
-//         ContGenOil = ContGenEmpty;
-//         ContInModCL = ContInputEmpty;
-//         ContInput = ContInputEmpty;
-//         ContInput.Reset = 1;
-//         ContOutModCL = ContOutputEmpty;
-//         ContOutput = ContOutputEmpty;
-//         ContStart = ContStartEmpty;
-//         ContStModCL = ContStartEmpty;
-//         EngOnOff = EngOnOffEmpty;
-//         Index3D = Index3DEmpty;
-//         ModelPars = EstParsEmpty;
-//         ModelParsChosen = EstParsEmpty;
-//         ModelParsCL = EstParsEmpty;
-//         PFuelRes = DefaultRes;
-//         POilRes = DefaultRes;
-//         Pt3Res = DefaultRes;
-//         RPMRes = DefaultRes;
-//         Sensors = SensorsEmpty;
-//         TBearRes = DefaultRes;
-//         Ts2Res = DefaultRes;
-//         Tt4Res = DefaultRes;
-//         VibrationRes = DefaultRes;
-
-//         /* RESETS UNIONS */
-
-//         CANFault = FaultDetectEmpty;
-//         digital = digitalEmpty;
-//         digModCL = digitalEmpty;
-//         EngStatus = EngStatusEmpty;
-//         ExistFStatus = FaultDetectEmpty;
-//         ExistFWarning = FaultDetectEmpty;
-//         FaultSensAuthorize = FaultSensEmpty;
-//         FaultSSens = FaultSensEmpty;
-//         FaultSSys = FaultSysEmpty;
-//         FaultStatus = FaultEmpty;
-//         FaultSysAuthorize = FaultSysEmpty;
-//         FaultWarning = FaultEmpty;
-//         FaultWSens = FaultSensEmpty;
-//         FaultWSys = FaultSysEmpty;
-//         HardFAuthorize = FaultDetectEmpty;
-//         HardFStatus = FaultDetectEmpty;
-//         HardFWarning = FaultDetectEmpty;
-//         keys = keysEmpty;
-//         ModPFault.ModParsBits = 0;
-//         SoftFStatus = FaultDetectEmpty;
-//         SoftFWarning = FaultDetectEmpty;
-//         SoftSimFaults = FaultSensEmpty;
-//         TB_0.TCFaultBits = 0;
-//         TB_1.TCFaultBits = 0;
-//         TB_2.TCFaultBits = 0;
-//         TrustAll = FaultDetectEmpty;
-//         TrustHard = FaultDetectEmpty;
-//         TrustSens = FaultDetectEmpty;
-//         Ts2_0.TCFaultBits = 0;
-//         Ts2_1.TCFaultBits = 0;
-//         Tt4_0.TCFaultBits = 0;
-//         Tt4_1.TCFaultBits = 0;
-//         Tt4_2.TCFaultBits = 0;
-
-//         /* RESETS static int TYPE */
-
-//         CriticalFailure = 0;
-//         Current_key_start = 0;
-//         EmergencyCommand = 0;
-//         Old_key_start = 0;
-//         Reset = 0;
-//         ShutDownCommand = 0;
-//         StartCommand = 0;
-//         StartComplete = 0;
-//         StartFaultAnalysis = 0;
-
-//         /* RESETS floating TYPE */
-
-//         OPRPMManual = 0;
-
-//         /* RESETS static floating TYPE */
-
-//         Wf = 0;
-
-//         /*------------*/
-//         /* FADEC ONLY */
-//         /*------------*/
-
-//         /* RESETS int TYPE */
-
-//         Authorize = 0;
-
-//         /******** COMMENT START *********/
-//         //
-//         //        /* -------------------------------------------------- */
-//         //        /* T-MATS AND PWLM           */
-//         //        /* (To be usedi in MATLAB and TMATS simulations only) */
-//         //        /* -------------------------------------------------- */
-//         //
-//         //        SkipStartIn[0] = 0;
-//         //        SkipStartIn[1] = 0;
-//         //
-//         //        /* -------------------------------------------------- */
-//         //
-//         /******** COMMENT END *********/
-
-//         /******** COPYFROM END: FADEC_RESET *********/
-//     }
-
-//     /******** REPLACE START: getTJ1200ContConst BY getTJ1200FADECContConst *********/
-//     /* LOADING OF CONTROLLER CONSTANTS */
-//     getTJ200FADECContConst(&ContConst); // QUAL O MOTIVO DE CHAMAR AQUI DE NOVO?? -> TALVEZ POR CAUSA DO RESET, QUE ZEROU A CONTCONST!
-//     /******** REPLACE END: getTJ1200ContConst BY getTJ1200FADECContConst *********/
-// }
-
-// /* OBSERVAÇÕES: O MAIN NÃO VAI MAIS EXISTIR!! DEVE VIRAR UMA FUNÇÃO DE INICIALIZAÇÃO!!
-//                 O INNER LOOP VIRA SOMENTE UMA FUNÇÃO DE RESET
-//                 VERIFICAR SE DÁ PRA USAR ASSIM TAMBÉM NO MATLAB!! */
-
-
-
-
-
-    /********************************************************************************************************************************/
-    /*																																*/
-    /*                                                START OF CONTROL UPDATE                 									 	*/
-    /*																																*/
-    /********************************************************************************************************************************/
-
-
-//void ControlUpdate(Node& node0, Node& node1)
-void ControlUpdate(void)
+// The function executes a software reset in the FADEC
+void FADECReset(void)
 {
- 
+
     /* Verifies if reset has been requested */
     if (Reset == 1)
     {
@@ -1011,12 +867,83 @@ void ControlUpdate(void)
         /******** COMMENT END *********/
 
         /******** COPYFROM END: FADEC_RESET *********/
+
+        /******** REPLACE START: getTJ1200ContConst BY getTJ1200FADECContConst *********/
+        /* LOADING OF CONTROLLER CONSTANTS */
+        getTJ200FADECContConst(&ContConst); // QUAL O MOTIVO DE CHAMAR AQUI DE NOVO?? -> TALVEZ POR CAUSA DO RESET, QUE ZEROU A CONTCONST!
+        /******** REPLACE END: getTJ1200ContConst BY getTJ1200FADECContConst *********/
     }
 
-    /******** REPLACE START: getTJ1200ContConst BY getTJ1200FADECContConst *********/
-    /* LOADING OF CONTROLLER CONSTANTS */
-    getTJ200FADECContConst(&ContConst); // QUAL O MOTIVO DE CHAMAR AQUI DE NOVO?? -> TALVEZ POR CAUSA DO RESET, QUE ZEROU A CONTCONST!
-    /******** REPLACE END: getTJ1200ContConst BY getTJ1200FADECContConst *********/
+}
+
+/*******************************************************************************
+ *
+ *	FUNCTION:		ControlUpdate()
+ *
+ *	PURPOSE:		Updates the controller status based on read inputs
+ *
+ *	CALLED FROM:	tbd
+ *
+ *	PARAMETERS:		void
+ *
+ *	RETURNS:		void
+ *
+ *	COMMENTS:
+ *
+ *******************************************************************************/
+
+
+// Updates the controller status based on read inputs
+void ControlUpdate(void)
+{
+
+    // i10 a i13 - são sensores analógicos
+    //t10 a t17 - são os termpoares
+    //na struct de warning e failure, vai ser passado:
+    // colocar como argumento: structs com Sensors, ContInputs e ContOutputs
+
+    //Reads FADEC input variables as listed below:
+
+    // 00 - Altitude                    (altitude value in meters) - Function argument
+    // 01 - MN                          (flight Mach number) - Function argument
+    // 02 - RefCAN                      (thrust reference) - Function argument
+    // 03 - Ts2 sensor 0                (Ts2 value measured by sensor 0) - Sensror struct is a function argument
+    // 03 - Ts2 sensor 1                (Ts2 value measured by sensor 1) - Sensror struct is a function argument
+    // 03 - RPM sensor 0                (RPM value measured by sensor 0) - Sensror struct is a function argument
+    // 03 - RPM sensor 1                (RPM value measured by sensor 1) - Sensror struct is a function argument
+    // 03 - Ps3 sensor 0                (Ps3 value measured by senror 0) - Sensror struct is a function argument
+    // 03 - Tt4 sensor 0                (Tt4 value measured by sensor 0) - Sensror struct is a function argument
+    // 03 - Tt4 sensor 1                (Tt4 value measured by sensor 1) - Sensror struct is a function argument
+    // 03 - Tt4 sensor 2                (Tt4 value measured by sensor 2) - Sensror struct is a function argument
+    // 04 - OnOffCom                    (Command for engine start, shut off or emergency shut off) - Function argument
+    // 05 - simMod                      (Variable for changing Authorize variable value) - Function argument
+    // 06 - Reset                       (Variable for reseting the FADEC by software) - Function argument
+    // 07 - SkipStart                   (Variable for skipping start routine) - Function argument
+    // 08 - Authorize                   (Variable for authorizing control loop) - Function argument
+    // 09 - Wf0                         (Fuel flow initial value) - Function argument
+    // 10 - valorMantete                (Value from 0 to 1) - Function argument
+    // 11 - keys.bits.igniter_key       (igniter) - key struct as a function argument
+    // 11 - keys.bits.shut_off_key      (shut off) - key struct as a function argument
+    // 11 - keys.bits.scaveng_key       (scavenge) - key struct as a function argument
+    // 11 - keys.bits.oil_pump_key      (oil pump eneable) - key struct as a function argument
+    // 11 - keys.bits.ac_drive_key      (ac driver eneable) - key struct as a function argument
+    // 11 - keys.bits.ac_drive_key      (AC Drive button always in 0 (pressed)) - key struct as a function argument
+    // 11 - keys.bits.emergency_key     (Emergency button always in 1 (not pressed). No physical button!) - key struct as a function argument
+    // 11 - keys.bits.ignSOV_key        (added for TJ-200) - key struct as a function argument
+    // 12 - LeverMode                   (Variable defining automatic or manual control after idle is reached) - Function argument
+    // 13 - Mode                        (Variable for defining automatic start or complete manual operation) - Function argument
+    // 14 - OPRPMManual                 (Manual oil pump rpm value) - Function argument
+    // 15 - BoosterLStatus              (Left booster status) - Function argument
+    // 16 - BoosterRStatus              (Right booster status) - Funtion argument 
+    // 17 - SoftSimFaults               (Struct for thermocouple fault simulation - must be in FADEC) - Struct as function argument
+    // 18 - StrRPMAct                   (To be written to ContStart.StrRPMAct)
+
+    /*-------------*/
+    /* FADEC RESET */
+    /*-------------*/
+    
+    // Resets the FADEC if requested
+    FADECReset();
 
 
 /******** COPYFROM START: FADEC_SKIPSTART *********/
@@ -1138,7 +1065,7 @@ void ControlUpdate(void)
 /* Reads the potentiomenter value if LeverMode == 2 */
 	if(LeverMode == 2){
         //FNpc = pot_percent;
-        FNpc = valorManete / 100.0;   //converts the range from 0%-100% to 0-1
+        FNpc = valorManete;// / 100.0;   //converts the range from 0%-100% to 0-1
 
 		if(!keys.bits.ac_drive_key == 0)
 			FNpc = 0;
@@ -1869,7 +1796,11 @@ void ControlUpdate(void)
 
 /******** COPYFROM END: FADEC_AUTHORIZE3 *********/
 
-        /* FAZER UPDATE DE STRUCT DA SAÍDA */
+        /* Updates das saídas */
+            // 1 - Wf                           (Fuel flow value - musst normalize)
+            // 2 - ContStart.StrtRPMAct         (Oil pump rpm - must normalize)
+            // 3 - digital.out                  (digital outputs)
+            // 4 - EngStatus.EngineStatus       (Engine status variable)
 
     }
 
