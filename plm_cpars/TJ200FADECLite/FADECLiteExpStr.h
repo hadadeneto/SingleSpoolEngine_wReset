@@ -66,6 +66,8 @@ typedef struct {
             floating StrRPMAct;
             // Engine status bits
             uint64_t EngineStatus;
+            // Flag indicating reset has been accomplished
+            int ResetOK;
 
 } ExpOutputs;
 

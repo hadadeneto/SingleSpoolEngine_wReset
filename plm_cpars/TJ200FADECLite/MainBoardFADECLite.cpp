@@ -754,8 +754,11 @@ void FADECInitVars(void)
  *******************************************************************************/
 
 // The function executes a software reset in the FADEC
-void FADECReset(void)
+int FADECReset(void)
 {
+
+    /* Flag indicating reset has been accomplished */
+    int ResetOK = 0;
 
     /* Verifies if reset has been requested */
     if (Reset == 1)
@@ -879,7 +882,12 @@ void FADECReset(void)
         /* LOADING OF CONTROLLER CONSTANTS */
         getTJ200FADECContConst(&ContConst); // QUAL O MOTIVO DE CHAMAR AQUI DE NOVO?? -> TALVEZ POR CAUSA DO RESET, QUE ZEROU A CONTCONST!
         /******** REPLACE END: getTJ1200ContConst BY getTJ1200FADECContConst *********/
+    
+        ResetOK = 1;
+    
     }
+
+    return ResetOK;
 
 }
 
@@ -901,7 +909,7 @@ void FADECReset(void)
 
 
 // Updates the controller status based on read inputs
-void ControlUpdate(SensedPars* SensorsExp, keys_t* keysExp, SensorFaults* SoftSimFaultsExp, ExpInputs ExpIn, ExpOutputs* ExpOut) 
+void ControlUpdate(SensedPars* SensorsExp, keys_t* keysExp, SensorFaults* SoftSimFaultsExp, ExpInputs* ExpIn, ExpOutputs* ExpOut) 
 {
 
     // i10 a i13 - são sensores analógicos
@@ -953,31 +961,31 @@ void ControlUpdate(SensedPars* SensorsExp, keys_t* keysExp, SensorFaults* SoftSi
 
     /* VARIABLES */
 
-    Altitude                = ExpIn.Altitude;
-    MN                      = ExpIn.MN;
-    RefCAN                  = ExpIn.RefCAN;
-    OnOffCom                = ExpIn.OnOffCom;
-    Reset                   = ExpIn.Reset;
-    SkipStart               = ExpIn.SkipStart;
-    Authorize               = ExpIn.Authorize; 
-    Wf0                     = ExpIn.Wf0;
-    LeverMode               = ExpIn.LeverMode;
-    Mode                    = ExpIn.Mode; 
-    OPRPMManual             = ExpIn.OPRPMManual;
-    BoosterLStatus          = ExpIn.BoosterLStatus;
-    BoosterRStatus          = ExpIn.BoosterRStatus; 
-    ContStart.StrtRPMAct    = ExpIn.StrtRPMAct;
+    Altitude                = ExpIn->Altitude;
+    MN                      = ExpIn->MN;
+    RefCAN                  = ExpIn->RefCAN;
+    OnOffCom                = ExpIn->OnOffCom;
+    Reset                   = ExpIn->Reset;
+    SkipStart               = ExpIn->SkipStart;
+    Authorize               = ExpIn->Authorize; 
+    Wf0                     = ExpIn->Wf0;
+    LeverMode               = ExpIn->LeverMode;
+    Mode                    = ExpIn->Mode; 
+    OPRPMManual             = ExpIn->OPRPMManual;
+    BoosterLStatus          = ExpIn->BoosterLStatus;
+    BoosterRStatus          = ExpIn->BoosterRStatus; 
+    ContStart.StrtRPMAct    = ExpIn->StrtRPMAct;
 
     // The variables below are not declared outside and must be declared here
-    int valorManete         = ExpIn.valorManete;
-    int simMod              = ExpIn.simMod;
+    int valorManete         = ExpIn->valorManete;
+    int simMod              = ExpIn->simMod;
 
     /*-------------*/
     /* FADEC RESET */
     /*-------------*/
     
     // Resets the FADEC if requested
-    FADECReset();
+    int ResetOK = FADECReset();
 
 
 /******** COPYFROM START: FADEC_SKIPSTART *********/
@@ -1844,6 +1852,7 @@ void ControlUpdate(SensedPars* SensorsExp, keys_t* keysExp, SensorFaults* SoftSi
             ExpOut->digitalout = digital.out;
             ExpOut->StrRPMAct = ContStart.StrtRPMAct;
             ExpOut->EngineStatus = EngStatus.EngineStatus;
+            ExpOut->ResetOK = ResetOK;
 
     }
 
