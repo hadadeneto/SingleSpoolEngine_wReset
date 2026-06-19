@@ -8,6 +8,13 @@
 #include <math.h>
 #include <stdio.h>
 
+
+/*--------------------*/
+/* ADDITIONAL STRUCTS */
+/*--------------------*/
+
+#include "FADECLiteExpStr.h"
+
 /******** COPYFROM START: FADEC_INCLUDES *********/
 
 /*-------------------*/
@@ -894,7 +901,7 @@ void FADECReset(void)
 
 
 // Updates the controller status based on read inputs
-void ControlUpdate(void)
+void ControlUpdate(SensedPars* SensorsExp, keys_t* keysExp, SensorFaults* SoftSimFaultsExp, ExpInputs ExpIn, ExpOutputs* ExpOut) 
 {
 
     // i10 a i13 - são sensores analógicos
@@ -937,6 +944,33 @@ void ControlUpdate(void)
     // 16 - BoosterRStatus              (Right booster status) - Funtion argument 
     // 17 - SoftSimFaults               (Struct for thermocouple fault simulation - must be in FADEC) - Struct as function argument
     // 18 - StrRPMAct                   (To be written to ContStart.StrRPMAct)
+
+    /* STRUCTS */
+
+    Sensors = *SensorsExp;
+    keys = *keysExp;
+    SoftSimFaults = *SoftSimFaultsExp;
+
+    /* VARIABLES */
+
+    Altitude                = ExpIn.Altitude;
+    MN                      = ExpIn.MN;
+    RefCAN                  = ExpIn.RefCAN;
+    OnOffCom                = ExpIn.OnOffCom;
+    Reset                   = ExpIn.Reset;
+    SkipStart               = ExpIn.SkipStart;
+    Authorize               = ExpIn.Authorize; 
+    Wf0                     = ExpIn.Wf0;
+    LeverMode               = ExpIn.LeverMode;
+    Mode                    = ExpIn.Mode; 
+    OPRPMManual             = ExpIn.OPRPMManual;
+    BoosterLStatus          = ExpIn.BoosterLStatus;
+    BoosterRStatus          = ExpIn.BoosterRStatus; 
+    ContStart.StrtRPMAct    = ExpIn.StrtRPMAct;
+
+    // The variables below are not declared outside and must be declared here
+    int valorManete         = ExpIn.valorManete;
+    int simMod              = ExpIn.simMod;
 
     /*-------------*/
     /* FADEC RESET */
@@ -1073,42 +1107,42 @@ void ControlUpdate(void)
 
 	}
 
-    Sensors.Ts2[0] = t10;
-    Sensors.Ts2[1] = t11;
+//     Sensors.Ts2[0] = t10;
+//     Sensors.Ts2[1] = t11;
 
-    Sensors.Pt3[0] = (i10 - 1) * 250e+03 + ModelPars.Ps2;   //[PA]        //scaling: Sensor is 4~20mA and 0~10bar (0~1000000Pa). The current is converted to 1~5V and transmitted via CAN.
-                                                                            //Converting 1~5V to 0~1000000Pa: POil = (Voltage - 1) * MaxRange/(4 Volts) = (Voltage - 1) * 1000000/4 = (Voltage - 1) * 250000
-//printf("Sensors.Pt3[0]	 = (i10	 - 1) * 250e+03	 + ModelPars.Ps2\n");
-//printf("%f	 = (%f	 - 1) * 250e+03	 + %f\n", Sensors.Pt3[0], i10, ModelPars.Ps2);
+//     Sensors.Pt3[0] = (i10 - 1) * 250e+03 + ModelPars.Ps2;   //[PA]        //scaling: Sensor is 4~20mA and 0~10bar (0~1000000Pa). The current is converted to 1~5V and transmitted via CAN.
+//                                                                             //Converting 1~5V to 0~1000000Pa: POil = (Voltage - 1) * MaxRange/(4 Volts) = (Voltage - 1) * 1000000/4 = (Voltage - 1) * 250000
+// //printf("Sensors.Pt3[0]	 = (i10	 - 1) * 250e+03	 + ModelPars.Ps2\n");
+// //printf("%f	 = (%f	 - 1) * 250e+03	 + %f\n", Sensors.Pt3[0], i10, ModelPars.Ps2);
 
-    Sensors.Vibration[0] = (i11 - 1) * 12.5; //[mm/s]   //scaling: Sensor is 4~20mA and 0~50mm/s. The current is converted to 1~5V and transmitted via CAN.
-                                                        //Converting 1~5V to 0~50mm/s: Vib = (Voltage - 1) * MaxRange/(4 Volts) = (Voltage - 1) * 50/4 = (Voltage - 1) * 12.5
+//     Sensors.Vibration[0] = (i11 - 1) * 12.5; //[mm/s]   //scaling: Sensor is 4~20mA and 0~50mm/s. The current is converted to 1~5V and transmitted via CAN.
+//                                                         //Converting 1~5V to 0~50mm/s: Vib = (Voltage - 1) * MaxRange/(4 Volts) = (Voltage - 1) * 50/4 = (Voltage - 1) * 12.5
 
-    Sensors.PFuel[0] = (i12 - 1) * 4e+06; //[PA]        //scaling: Sensor is 4~20mA and 0~160bar (0~16000000Pa). The current is converted to 1~5V and transmitted via CAN.
-                                                        //Converting 1~5V to 0~16000000Pa: PFuel = (Voltage - 1) * MaxRange/(4 Volts) = (Voltage - 1) * 16000000/4 = (Voltage - 1) * 4000000
+//     Sensors.PFuel[0] = (i12 - 1) * 4e+06; //[PA]        //scaling: Sensor is 4~20mA and 0~160bar (0~16000000Pa). The current is converted to 1~5V and transmitted via CAN.
+//                                                         //Converting 1~5V to 0~16000000Pa: PFuel = (Voltage - 1) * MaxRange/(4 Volts) = (Voltage - 1) * 16000000/4 = (Voltage - 1) * 4000000
 
-    Sensors.POil[0] = (i13 - 1) * 250e+03; //[PA]       //scaling: Sensor is 4~20mA and 0~10bar (0~1000000Pa). The current is converted to 1~5V and transmitted via CAN.
-                                                        //Converting 1~5V to 0~1000000Pa: POil = (Voltage - 1) * MaxRange/(4 Volts) = (Voltage - 1) * 1000000/4 = (Voltage - 1) * 250000
+//     Sensors.POil[0] = (i13 - 1) * 250e+03; //[PA]       //scaling: Sensor is 4~20mA and 0~10bar (0~1000000Pa). The current is converted to 1~5V and transmitted via CAN.
+//                                                         //Converting 1~5V to 0~1000000Pa: POil = (Voltage - 1) * MaxRange/(4 Volts) = (Voltage - 1) * 1000000/4 = (Voltage - 1) * 250000
 
-    //Test bench and HIL sensors
-    /*Sensors.Tt4[0] = t12;
-    Sensors.Tt4[1] = t13;
-    Sensors.Tt4[2] = t14;*/
+//     //Test bench and HIL sensors
+//     /*Sensors.Tt4[0] = t12;
+//     Sensors.Tt4[1] = t13;
+//     Sensors.Tt4[2] = t14;*/
 
-    //POC sensors
-    Sensors.Tt4[0] = t12;
-    Sensors.Tt4[1] = t13;
-    Sensors.Tt4[2] = t14;
+//     //POC sensors
+//     Sensors.Tt4[0] = t12;
+//     Sensors.Tt4[1] = t13;
+//     Sensors.Tt4[2] = t14;
 
-    //Bearings sensors
-    Sensors.TBear[0] = t15;
-    Sensors.TBear[1] = t16;
-    Sensors.TBear[2] = t17;
+//     //Bearings sensors
+//     Sensors.TBear[0] = t15;
+//     Sensors.TBear[1] = t16;
+//     Sensors.TBear[2] = t17;
 
 
-    Sensors.RPM[0] = r11;
-//Sensors.RPM[1] = r11;       //for now, on testbench there is only one rpm sensor, so the same value will be used on both channels
-    Sensors.RPM[1] = r12;
+//     Sensors.RPM[0] = r11;
+// //Sensors.RPM[1] = r11;       //for now, on testbench there is only one rpm sensor, so the same value will be used on both channels
+//     Sensors.RPM[1] = r12;
 
 
     /*------------------*/
@@ -1796,11 +1830,20 @@ void ControlUpdate(void)
 
 /******** COPYFROM END: FADEC_AUTHORIZE3 *********/
 
+        /*-----------------------------*/
+        /* WRITES OUTPUTS IN STRUCTURE */
+        /*-----------------------------*/
+
         /* Updates das saídas */
             // 1 - Wf                           (Fuel flow value - musst normalize)
             // 2 - ContStart.StrtRPMAct         (Oil pump rpm - must normalize)
             // 3 - digital.out                  (digital outputs)
             // 4 - EngStatus.EngineStatus       (Engine status variable)
+
+            ExpOut->Wf = Wf;
+            ExpOut->digitalout = digital.out;
+            ExpOut->StrRPMAct = ContStart.StrtRPMAct;
+            ExpOut->EngineStatus = EngStatus.EngineStatus;
 
     }
 
