@@ -47,7 +47,7 @@ typedef struct {
     //
     int simMod;
 
-} ExpInputs;
+} ExpInputs_t;
 
 // External outputs struct
 typedef struct {
@@ -69,6 +69,6 @@ typedef struct {
             // Flag indicating reset has been accomplished
             int ResetOK;
 
-} ExpOutputs;
+} ExpOutputs_t;
 
 #endif /* FADECLITEEXPSTR_H_ */

@@ -909,7 +909,7 @@ int FADECReset(void)
 
 
 // Updates the controller status based on read inputs
-void ControlUpdate(SensedPars* SensorsExp, keys_t* keysExp, SensorFaults* SoftSimFaultsExp, ExpInputs* ExpIn, ExpOutputs* ExpOut) 
+void ControlUpdate(SensedPars* SensorsExp, keys_t* keysExp, SensorFaults* SoftSimFaultsExp, ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut) 
 {
 
     // i10 a i13 - são sensores analógicos
