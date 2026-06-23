@@ -10,6 +10,7 @@
 
 #include <stdint.h>
 #include "FADEC_Defines_H/FloatPoint_Precision.h"
+#include "FADEC_Defines_H/IO_Types.h"
 
 // External inputs structure
 typedef struct {
@@ -61,7 +62,7 @@ typedef struct {
             // Fuel flow
             floating Wf;
             // Dital output bits
-            uint64_t digitalout;
+            digital_t digitalout;
             // Electric motor starting variable
             floating StrRPMAct;
             // Engine status bits

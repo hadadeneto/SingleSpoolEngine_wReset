@@ -974,8 +974,13 @@ void ControlUpdate(SensedPars* SensorsExp, keys_t* keysExp, SensorFaults* SoftSi
     OPRPMManual             = ExpIn->OPRPMManual;
     BoosterLStatus          = ExpIn->BoosterLStatus;
     BoosterRStatus          = ExpIn->BoosterRStatus; 
-    ContStart.StrtRPMAct    = ExpIn->StrtRPMAct;
 
+    // ContStart.StrtRPMAct receives external value only if engine control is to be done manually
+    if (LeverMode != 1)
+    {
+        ContStart.StrtRPMAct    = ExpIn->StrtRPMAct;
+    }
+    
     // The variables below are not declared outside and must be declared here
     int valorManete         = ExpIn->valorManete;
     int simMod              = ExpIn->simMod;
@@ -1849,7 +1854,7 @@ void ControlUpdate(SensedPars* SensorsExp, keys_t* keysExp, SensorFaults* SoftSi
             // 4 - EngStatus.EngineStatus       (Engine status variable)
 
             ExpOut->Wf = Wf;
-            ExpOut->digitalout = digital.out;
+            ExpOut->digitalout = digital;
             ExpOut->StrRPMAct = ContStart.StrtRPMAct;
             ExpOut->EngineStatus = EngStatus.EngineStatus;
             ExpOut->ResetOK = ResetOK;
