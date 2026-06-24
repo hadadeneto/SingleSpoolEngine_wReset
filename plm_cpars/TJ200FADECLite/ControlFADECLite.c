@@ -909,7 +909,7 @@ int FADECReset(void)
 
 
 // Updates the controller status based on read inputs
-void ControlUpdate(SensedPars* SensorsExp, keys_t* keysExp, SensorFaults* SoftSimFaultsExp, ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut) 
+void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut) 
 {
 
     // i10 a i13 - são sensores analógicos
@@ -955,9 +955,9 @@ void ControlUpdate(SensedPars* SensorsExp, keys_t* keysExp, SensorFaults* SoftSi
 
     /* STRUCTS */
 
-    Sensors = *SensorsExp;
-    keys = *keysExp;
-    SoftSimFaults = *SoftSimFaultsExp;
+    Sensors = ExpIn->Sensors;//*SensorsExp;
+    keys = ExpIn->keys;//*keysExp;
+    SoftSimFaults = ExpIn->SoftSimFaults;//*SoftSimFaultsExp;
 
     /* VARIABLES */
 
@@ -985,12 +985,12 @@ void ControlUpdate(SensedPars* SensorsExp, keys_t* keysExp, SensorFaults* SoftSi
     int valorManete         = ExpIn->valorManete;
     int simMod              = ExpIn->simMod;
 
-    /*-------------*/
-    /* FADEC RESET */
-    /*-------------*/
+    // /*-------------*/
+    // /* FADEC RESET */
+    // /*-------------*/
     
-    // Resets the FADEC if requested
-    int ResetOK = FADECReset();
+    // // Resets the FADEC if requested
+    // int ResetOK = FADECReset();
 
 
 /******** COPYFROM START: FADEC_SKIPSTART *********/
@@ -1853,11 +1853,18 @@ void ControlUpdate(SensedPars* SensorsExp, keys_t* keysExp, SensorFaults* SoftSi
             // 3 - digital.out                  (digital outputs)
             // 4 - EngStatus.EngineStatus       (Engine status variable)
 
+            /* OUTPUT STRUCTS */
+
+            ExpOut->FaultStatus = FaultStatus;
+            ExpOut->FaultWarning = FaultWarning;
+
+            /* OUTPUT VARIABLES */
+
             ExpOut->Wf = Wf;
             ExpOut->digitalout = digital;
             ExpOut->StrRPMAct = ContStart.StrtRPMAct;
             ExpOut->EngineStatus = EngStatus.EngineStatus;
-            ExpOut->ResetOK = ResetOK;
+            //ExpOut->ResetOK = ResetOK;
 
     }
 

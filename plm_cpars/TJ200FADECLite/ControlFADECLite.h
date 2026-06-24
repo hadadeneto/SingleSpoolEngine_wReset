@@ -22,7 +22,7 @@ void FADECInitVars(void);
 int FADECReset(void);
 
 // Updates the controller status based on read inputs
-void ControlUpdate(SensedPars* SensorsExp, keys_t* keysExp, SensorFaults* SoftSimFaultsExp, ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut); 
+void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut);
 
 
 #endif /* CONTROLFADECLITE_H_ */

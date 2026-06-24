@@ -15,6 +15,13 @@
 // External inputs structure
 typedef struct {
 
+    // Struct for sensors reading
+    SensedPars Sensors;
+    // Struct for digital keys
+    keys_t keys;
+    // Struct for fault injection during simulation
+    SensorFaults SoftSimFaults;
+
     // Reads altitude value
     floating Altitude;
     // Reads Mach number value
@@ -45,7 +52,7 @@ typedef struct {
     int BoosterRStatus; 
     // Used in electric motor starting algorithm
     floating StrtRPMAct;
-    //
+    // Variable indicating the simulation mode - used to control Authorize in HIL usage
     int simMod;
 
 } ExpInputs_t;
@@ -59,6 +66,11 @@ typedef struct {
             // 3 - digital.out                  (digital outputs)
             // 4 - EngStatus.EngineStatus       (Engine status variable)
 
+            // Struct for fault status
+            EngineFaults FaultStatus;
+            // Struct for fault warnings
+            EngineFaults FaultWarning;
+
             // Fuel flow
             floating Wf;
             // Dital output bits
@@ -67,8 +79,8 @@ typedef struct {
             floating StrRPMAct;
             // Engine status bits
             uint64_t EngineStatus;
-            // Flag indicating reset has been accomplished
-            int ResetOK;
+            // // Flag indicating reset has been accomplished
+            // int ResetOK;
 
 } ExpOutputs_t;
 
