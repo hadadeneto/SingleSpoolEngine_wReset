@@ -975,11 +975,18 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
     BoosterLStatus          = ExpIn->BoosterLStatus;
     BoosterRStatus          = ExpIn->BoosterRStatus; 
 
-    // ContStart.StrtRPMAct receives external value only if engine control is to be done manually
-    if (LeverMode != 1)
+    // ContStart.StrtRPMAct receives external value only if engine start is to be done manually
+    if (Mode == 1)
     {
         ContStart.StrtRPMAct    = ExpIn->StrtRPMAct;
     }
+
+    // EngUnits must be set to 0 if manual engine control (post idle) is done manually
+    if (LeverMode != 1)
+    {
+        EngUnits = 0;
+    }
+    
     
     // The variables below are not declared outside and must be declared here
     int valorManete         = ExpIn->valorManete;
