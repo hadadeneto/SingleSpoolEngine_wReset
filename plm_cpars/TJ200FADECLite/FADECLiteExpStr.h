@@ -11,6 +11,8 @@
 #include <stdint.h>
 #include "FADEC_Defines_H/FloatPoint_Precision.h"
 #include "FADEC_Defines_H/IO_Types.h"
+#include "FADEC_Defines_H/Control_Types.h"
+#include "FADEC_Defines_H/FaultSim_Types.h"
 
 // External inputs structure
 typedef struct {
@@ -39,7 +41,7 @@ typedef struct {
     // Intial fuel flow value - HIL simulation
     floating Wf0; 
     // Percent lever value
-    int valorManete;
+    floating valorManete;
     // Lever functioning mode - automatic or manual control after idle
     int LeverMode;
     // Startin mode - manual or automatic start

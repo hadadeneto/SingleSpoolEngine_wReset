@@ -1572,6 +1572,15 @@ void StartLogicTJ200(struct ControllerConstants *ContConstP,struct ControlStart 
 	/* STATE 0 -> Waits for positive edge on Starting key */
 	case 0:
 		StartEdge(ContStartP, &status, 1);
+
+		/* If the status has changed to the next state (1), electric motor esc is activated */
+		if (status == 1)
+		{
+			/* NOTE: Currently, the bits.oil_pump is used for taht - another bit must be created later scpecifically for this function,
+			such as bits.esc_motor */
+			digitalP->bits.oil_pump = 1;
+		}
+		
 		break;
 
 	/* STATE 1 -> Starts electric motor with initial rotation speed */
@@ -1672,6 +1681,15 @@ void StartLogicTJ200(struct ControllerConstants *ContConstP,struct ControlStart 
 	/* STATE 10 -> Waits XXX_TIME_ACCOMODATION seconds for the engine to reach steady-state */
 	case 6:
 		AccomodSR(&TimeAccom, ContConstP->TimeAccomodation, Tsample, &StartComplete, &Wf, WfAccom);
+
+		/* When starting is complete, RFU output must be set to 1 */
+		if (StartComplete == 1)
+		{
+			/* NOTE: Currently, the bits.suction_bomb is used for taht - another bit must be created later scpecifically for this function,
+			such as bits.rfu_output */
+			digitalP->bits.suction_bomb = 1;
+		}
+
 		break;
 	}
 
@@ -1683,6 +1701,10 @@ void StartLogicTJ200(struct ControllerConstants *ContConstP,struct ControlStart 
 	if (RPM >= ContConstP->StrtRPMOff)
 	{
 		ContStartP->StrtRPMAct = 0;
+		/* Disables start motor */
+		/* NOTE: Currently, the bits.oil_pump is used for taht - another bit must be created later scpecifically for this function,
+		such as bits.esc_motor */
+		digitalP->bits.oil_pump = 0;
 	}
 
 	/*------------------------*/

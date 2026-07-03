@@ -989,7 +989,7 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
     
     
     // The variables below are not declared outside and must be declared here
-    int valorManete         = ExpIn->valorManete;
+    floating valorManete         = ExpIn->valorManete;
     int simMod              = ExpIn->simMod;
 
     // /*-------------*/
@@ -1329,7 +1329,7 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
  HardFAuthorize.DetFaults.POil_0_Fault = 0;
  HardFAuthorize.DetFaults.PFuel_0_Fault = 0;
  HardFAuthorize.DetFaults.Vib_0_Fault = 0;
- //HardFAuthorize.FaultBits = 0;
+ HardFAuthorize.FaultBits = 0;
 
 /******** COPYFROM START: FADEC_AUTHORIZE2 *********/
 
