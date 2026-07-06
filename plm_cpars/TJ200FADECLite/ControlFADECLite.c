@@ -955,9 +955,10 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
 
     /* STRUCTS */
 
-    Sensors = ExpIn->Sensors;//*SensorsExp;
-    keys = ExpIn->keys;//*keysExp;
-    SoftSimFaults = ExpIn->SoftSimFaults;//*SoftSimFaultsExp;
+    Sensors                        = ExpIn->Sensors;//*SensorsExp;
+    keys                           = ExpIn->keys;//*keysExp;
+    SoftSimFaults                  = ExpIn->SoftSimFaults;//*SoftSimFaultsExp;
+    FaultStatus.Faults.CAN_1_Fault = ExpIn->CAN_1_Fault;
 
     /* VARIABLES */
 
@@ -990,7 +991,7 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
     
     // The variables below are not declared outside and must be declared here
     floating valorManete         = ExpIn->valorManete;
-    int simMod              = ExpIn->simMod;
+    int simMod                   = ExpIn->simMod;
 
     // /*-------------*/
     // /* FADEC RESET */

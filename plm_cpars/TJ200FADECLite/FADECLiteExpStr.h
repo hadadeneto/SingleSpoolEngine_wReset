@@ -56,6 +56,8 @@ typedef struct {
     floating StrtRPMAct;
     // Variable indicating the simulation mode - used to control Authorize in HIL usage
     int simMod;
+    // Variable indicating CAN fault
+    int CAN_1_Fault;
 
 } ExpInputs_t;
 
