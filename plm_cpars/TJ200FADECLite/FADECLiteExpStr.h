@@ -40,8 +40,6 @@ typedef struct {
     int Authorize;
     // Intial fuel flow value - HIL simulation
     floating Wf0; 
-    // Percent lever value
-    floating valorManete;
     // Lever functioning mode - automatic or manual control after idle
     int LeverMode;
     // Startin mode - manual or automatic start

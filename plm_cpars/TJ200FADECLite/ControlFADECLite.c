@@ -987,10 +987,15 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
     {
         EngUnits = 0;
     }
+    else
+    {
+        EngUnits = 1;
+    }
+    
     
     
     // The variables below are not declared outside and must be declared here
-    floating valorManete         = ExpIn->valorManete;
+    //floating valorManete         = ExpIn->valorManete;
     int simMod                   = ExpIn->simMod;
 
     // /*-------------*/
@@ -1117,16 +1122,16 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
 /******** COPYFROM END: FADEC_SKIPSTART *********/
 
 
-/* Reads the potentiomenter value if LeverMode == 2 */
-	if(LeverMode == 2){
-        //FNpc = pot_percent;
-        FNpc = valorManete;// / 100.0;   //converts the range from 0%-100% to 0-1
+// /* Reads the potentiomenter value if LeverMode == 2 */
+// 	if(LeverMode == 2){
+//         //FNpc = pot_percent;
+//         FNpc = valorManete;// / 100.0;   //converts the range from 0%-100% to 0-1
 
-		if(!keys.bits.ac_drive_key == 0)
-			FNpc = 0;
-//printf("FNpc on if(LeverMode==2) = %f\n", FNpc);
+// 		if(!keys.bits.ac_drive_key == 0)
+// 			FNpc = 0;
+// //printf("FNpc on if(LeverMode==2) = %f\n", FNpc);
 
-	}
+// 	}
 
 //     Sensors.Ts2[0] = t10;
 //     Sensors.Ts2[1] = t11;
