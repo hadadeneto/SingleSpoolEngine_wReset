@@ -89,7 +89,7 @@ TBear3Init = 0;
 %WhichEngine = 5 -> TJ200
 %WhichEngine = 6 -> TJ40
 
-WhichEngine = 5;
+WhichEngine = 1;
 
 Mode = 0;           %0 - Automatic; 1 - Manual
 LeverMode = 1;      %0 - Manual; 1 - Automatic
