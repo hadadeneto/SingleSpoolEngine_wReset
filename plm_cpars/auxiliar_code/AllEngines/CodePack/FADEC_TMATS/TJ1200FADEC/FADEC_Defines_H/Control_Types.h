@@ -145,6 +145,9 @@ struct ControllerConstants
     /* BOOSTER PARAMETERS */
     floating BoostTime;
 
+    /* TEMEPRATURE MEASUREMENT TYPE AT COMPRESSOR INLET - STATION 2 */
+    int T2Type;
+
 };
 typedef struct ControllerConstants ControllerConstants;
 

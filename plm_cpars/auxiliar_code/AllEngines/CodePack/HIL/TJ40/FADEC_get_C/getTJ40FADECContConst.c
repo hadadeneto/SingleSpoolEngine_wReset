@@ -101,6 +101,7 @@ void getTJ40FADECContConst(struct ControllerConstants *ContConst)
     ContConst->StrtRPMOff = TJ40_STRTRPMOFF;
     ContConst->StrtRampCoeff = TJ40_STRTRAMPCOEFF;
     ContConst->StrtWhich = TJ40_STRTWHICH;
+    ContConst->T2Type = TJ40_T2TYPE;
     ContConst->TCOpen = TJ40_TCOPEN;
     ContConst->TCThreshold = TJ40_TCTHRESHOLD;
     ContConst->TMaxBear[0] = TJ40_BEAR_TMAX_0;

@@ -1,0 +1,8 @@
+#ifndef GETTJ40HILSTARTPARS_H
+#define GETTJ40HILSTARTPARS_H
+
+/* get FUNCTIONS FOR GETTINGHILSTARTING PARAMETERS */
+
+void getTJ40HILStartPars(struct ControlStart *ContStartP);
+
+#endif

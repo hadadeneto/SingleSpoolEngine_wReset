@@ -101,6 +101,7 @@ void getTG200FADECContConst(struct ControllerConstants *ContConst)
     ContConst->StrtRPMOff = TG200_STRTRPMOFF;
     ContConst->StrtRampCoeff = TG200_STRTRAMPCOEFF;
     ContConst->StrtWhich = TG200_STRTWHICH;
+    ContConst->T2Type = TG200_T2TYPE;
     ContConst->TCOpen = TG200_TCOPEN;
     ContConst->TCThreshold = TG200_TCTHRESHOLD;
     ContConst->TMaxBear[0] = TG200_BEAR_TMAX_0;

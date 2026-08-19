@@ -101,6 +101,7 @@ void getGET700FADECContConst(struct ControllerConstants *ContConst)
     ContConst->StrtRPMOff = GET700_STRTRPMOFF;
     ContConst->StrtRampCoeff = GET700_STRTRAMPCOEFF;
     ContConst->StrtWhich = GET700_STRTWHICH;
+    ContConst->T2Type = GET700_T2TYPE;
     ContConst->TCOpen = GET700_TCOPEN;
     ContConst->TCThreshold = GET700_TCTHRESHOLD;
     ContConst->TMaxBear[0] = GET700_BEAR_TMAX_0;

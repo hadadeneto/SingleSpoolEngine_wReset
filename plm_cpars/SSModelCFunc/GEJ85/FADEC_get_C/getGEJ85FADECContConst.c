@@ -101,6 +101,7 @@ void getGEJ85FADECContConst(struct ControllerConstants *ContConst)
     ContConst->StrtRPMOff = GEJ85_STRTRPMOFF;
     ContConst->StrtRampCoeff = GEJ85_STRTRAMPCOEFF;
     ContConst->StrtWhich = GEJ85_STRTWHICH;
+    ContConst->T2Type = GEJ85_T2TYPE;
     ContConst->TCOpen = GEJ85_TCOPEN;
     ContConst->TCThreshold = GEJ85_TCTHRESHOLD;
     ContConst->TMaxBear[0] = GEJ85_BEAR_TMAX_0;

@@ -191,7 +191,6 @@ untrusted sensors */
 #define GEJ85_POILTHRESHOLD            0.5     /* Percentual value used for POil sensor bias identification */
 #define GEJ85_PFUELTHRESHOLD           0.5     /* Percentual value used for PFuel sensor bias identification */
 
-
 /*----------------------------------------------------------*/
 /* SENSOR THRESHOLDS FOR SHORT-CIRCUITED AND OPEN-CIRCUITED */
 /*----------------------------------------------------------*/
@@ -382,6 +381,14 @@ untrusted sensors */
 #define GEJ85_STRTRPMOFF               13000   /* Rotation speed where the electric motor is deactivated during engine start */
 #define GEJ85_STRTWHICH                1       /* Defines the statrting logic to be used: 1 - windmill; 2 - electric motor starter */
 
+/*--------------------------------------------------------------*/
+/* TEMEPRATURE MEASUREMENT TYPE AT COMPRESSOR INLET - STATION 2 */
+/*--------------------------------------------------------------*/
+
+/* 0 - Measures Ts2 (local day temperature) */
+/* 1 - Measures Tt2 (total temperature) */
+#define GEJ85_T2TYPE                   0
+
 /*-------------------------------------------------------------------------------------*/
 /* ADDITIONAL PARAMETERS PRESENT IN OLDER VERSION - USE DURING SOFTWARE MIGRATION ONLY */
 /*-------------------------------------------------------------------------------------*/
@@ -391,6 +398,5 @@ untrusted sensors */
 #define GEJ85_Tt5AV_MAX				    860			//K
 
 /*-------------------------------------------------------------------------------------*/
-
 
 #endif  /* CONSTANTSGEJ85_H */

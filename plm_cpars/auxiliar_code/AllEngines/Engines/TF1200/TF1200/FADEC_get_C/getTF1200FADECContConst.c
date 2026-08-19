@@ -101,6 +101,7 @@ void getTF1200FADECContConst(struct ControllerConstants *ContConst)
     ContConst->StrtRPMOff = TF1200_STRTRPMOFF;
     ContConst->StrtRampCoeff = TF1200_STRTRAMPCOEFF;
     ContConst->StrtWhich = TF1200_STRTWHICH;
+    ContConst->T2Type = TF1200_T2TYPE;
     ContConst->TCOpen = TF1200_TCOPEN;
     ContConst->TCThreshold = TF1200_TCTHRESHOLD;
     ContConst->TMaxBear[0] = TF1200_BEAR_TMAX_0;

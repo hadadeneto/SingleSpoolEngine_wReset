@@ -101,6 +101,7 @@ void getTJ1200FADECContConst(struct ControllerConstants *ContConst)
     ContConst->StrtRPMOff = TJ1200_STRTRPMOFF;
     ContConst->StrtRampCoeff = TJ1200_STRTRAMPCOEFF;
     ContConst->StrtWhich = TJ1200_STRTWHICH;
+    ContConst->T2Type = TJ1200_T2TYPE;
     ContConst->TCOpen = TJ1200_TCOPEN;
     ContConst->TCThreshold = TJ1200_TCTHRESHOLD;
     ContConst->TMaxBear[0] = TJ1200_BEAR_TMAX_0;

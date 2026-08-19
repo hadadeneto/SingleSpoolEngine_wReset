@@ -101,6 +101,7 @@ void getTJ300ARFADECContConst(struct ControllerConstants *ContConst)
     ContConst->StrtRPMOff = TJ300AR_STRTRPMOFF;
     ContConst->StrtRampCoeff = TJ300AR_STRTRAMPCOEFF;
     ContConst->StrtWhich = TJ300AR_STRTWHICH;
+    ContConst->T2Type = TJ300AR_T2TYPE;
     ContConst->TCOpen = TJ300AR_TCOPEN;
     ContConst->TCThreshold = TJ300AR_TCTHRESHOLD;
     ContConst->TMaxBear[0] = TJ300AR_BEAR_TMAX_0;

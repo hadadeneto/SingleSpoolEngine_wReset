@@ -5,7 +5,7 @@
 %Ambient calculations are to be performed only if getAmbient = 1
 getAmbient = 1;
 %PI calculations are to be performed only if getAmbient = 1
-getPIGains = 0;
+getPIGains = 1;
 %Sub-Idle PI calculations are to be performed only if getAmbient = 1
 getPIshGains = 1;
 %Choses between new or older sub-idle and windmill model
@@ -19,7 +19,7 @@ AddZOH = 0;
 %first order model of the pump is considered if AddPump = 1
 AddPump = 1;
 %C code is to be generated only if getAmbient = 1
-getCCode = 0;
+getCCode = 1;
 
 %----------------------------------------------------
 %DEFINITION OF ALTITUDE POINTS, NcDes AND ENGINE NAME

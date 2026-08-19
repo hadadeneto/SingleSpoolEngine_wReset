@@ -101,6 +101,7 @@ void getTJ700FADECContConst(struct ControllerConstants *ContConst)
     ContConst->StrtRPMOff = TJ700_STRTRPMOFF;
     ContConst->StrtRampCoeff = TJ700_STRTRAMPCOEFF;
     ContConst->StrtWhich = TJ700_STRTWHICH;
+    ContConst->T2Type = TJ700_T2TYPE;
     ContConst->TCOpen = TJ700_TCOPEN;
     ContConst->TCThreshold = TJ700_TCTHRESHOLD;
     ContConst->TMaxBear[0] = TJ700_BEAR_TMAX_0;

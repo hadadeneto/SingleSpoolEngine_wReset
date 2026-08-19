@@ -381,6 +381,14 @@ untrusted sensors */
 #define TJ300AR_STRTRPMOFF               13000   /* Rotation speed where the electric motor is deactivated during engine start */
 #define TJ300AR_STRTWHICH                1//2       /* Defines the statrting logic to be used: 1 - windmill; 2 - electric motor starter */
 
+/*--------------------------------------------------------------*/
+/* TEMEPRATURE MEASUREMENT TYPE AT COMPRESSOR INLET - STATION 2 */
+/*--------------------------------------------------------------*/
+
+/* 0 - Measures Ts2 (local day temperature) */
+/* 1 - Measures Tt2 (total temperature) */
+#define TJ300AR_T2TYPE                   0
+
 /*-------------------------------------------------------------------------------------*/
 /* ADDITIONAL PARAMETERS PRESENT IN OLDER VERSION - USE DURING SOFTWARE MIGRATION ONLY */
 /*-------------------------------------------------------------------------------------*/
