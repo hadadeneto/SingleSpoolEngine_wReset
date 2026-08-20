@@ -942,6 +942,44 @@ void MatchSens(floating *SensVec, int *MatchVec, int NumSens, floating MaxError)
 
 /*******************************************************************************
  *
+ *	FUNCTION:		Tt2ToTs2()
+ *
+ *	PURPOSE:		Converts Ts2 to Tt2 and flight Mach number
+ *
+ *	CALLED FROM:	tbd
+ *
+ *	PARAMETERS:		SensedPars Sensors, int SensNum, floating MN, floating gamma, int Tt2Measured
+ *
+ *	RETURNS:		void
+ *
+ *	COMMENTS:      
+ *
+ *******************************************************************************/
+
+ /* Converts Ts2 to Tt2 and flight Mach number */
+void Tt2toTs2(SensedPars* SensorsP, int SensNum, floating MN, floating gamma, int Convert)
+{
+    /* Verifies if conversion must be performed */
+    switch (Convert)
+    {
+    case 1:
+
+        /* Converts measured value to static value */
+        for (int i = 0; i < SensNum; i++)
+        {
+            SensorsP->Ts2[i] = SensorsP->Ts2[i] / (1 + (gamma-1) / 2 * MN * MN);
+        }
+        
+        break;
+    
+    default:
+        break;
+    }
+        
+}
+
+/*******************************************************************************
+ *
  *	FUNCTION:		Ts2MediumValue()
  *
  *	PURPOSE:		Calculates the medium value of Ts2

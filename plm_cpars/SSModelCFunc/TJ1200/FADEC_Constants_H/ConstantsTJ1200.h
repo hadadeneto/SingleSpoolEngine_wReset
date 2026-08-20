@@ -387,7 +387,7 @@ untrusted sensors */
 
 /* 0 - Measures Ts2 (local day temperature) */
 /* 1 - Measures Tt2 (total temperature) */
-#define TJ1200_T2TYPE                   0
+#define TJ1200_T2TYPE                   1
 
 /*-------------------------------------------------------------------------------------*/
 /* ADDITIONAL PARAMETERS PRESENT IN OLDER VERSION - USE DURING SOFTWARE MIGRATION ONLY */

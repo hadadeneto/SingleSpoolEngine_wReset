@@ -2416,6 +2416,13 @@ mexPrintf("Wf0 = %f\n\n",Wf0);
     /* Updates sensor values */
     SensorsUpdt(&Sensors, &EngOutput);
 
+	/* Verifies if Tt2 is to be sent instead of Ts2 */
+	if (ContConst.T2Type == 1)
+	{
+		Sensors.Ts2[0] = Tt2;
+		Sensors.Ts2[1] = Tt2;
+	}
+
 	/* Simulation of sensors faults */
     SensFaultSim(&SensFaults, &Sensors, &EngPars);
 	
@@ -2598,6 +2605,13 @@ mexPrintf("Wf0 = %f\n\n",Wf0);
 		/*     FADEC and as function (..., Tsample, ...) in the HIL	           */
 		/*     			  													   */
 		/*=====================================================================*/
+
+		/*----------------------------------------------------*/
+		/* CONVERTS Tt2 INTO Ts2 IF Tt2 WAS DIRECTLY MEASURED */
+		/*----------------------------------------------------*/
+
+		/* Converts from total temperature to static temperature for further claculations if total temperature has been directly measured */
+		Tt2toTs2(&Sensors, ContConst.NumTs2Sens, MN, GAMMA_AIR, ContConst.T2Type);
 
         /*--------------------------------------------*/
         /* THERMOCOUPLE FAULT SIMULATION VIA SOFTWARE */
@@ -3239,7 +3253,7 @@ mexPrintf("Wf0 = %f\n\n",Wf0);
 	Init[2] = EngOutput.ICAuthorize;
     
     /* Simulation of sensors - SIMULINK Output */
-    
+	    
     /* Station 2 */
     ISens[0] = Sensors.Ts2[0];
     ISens[1] = Sensors.Ts2[1];
