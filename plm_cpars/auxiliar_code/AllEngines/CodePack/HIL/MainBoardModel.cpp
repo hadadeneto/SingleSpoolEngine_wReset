@@ -3828,6 +3828,13 @@ void EngineModelUpdate(uavcan_linux::NodePtr& node0, int can_atd_poc)
     /* Updates sensor values */
     SensorsUpdt(&Sensors, &EngOutput);
 
+	/* Verifies if Tt2 is to be sent instead of Ts2 */
+	if (ContConst.T2Type == 1)
+	{
+		Sensors.Ts2[0] = Tt2;
+		Sensors.Ts2[1] = Tt2;
+	}
+
 	/* Simulation of sensors faults */
     SensFaultSim(&SensFaults, &Sensors, &EngPars);
 
@@ -4060,6 +4067,13 @@ printf("Wf0=%d, command=%x\n", initialWf.valueInUint16, commands.valueInByte);
 		/*     FADEC and as function (..., Ts, ...) in the HIL	           */
 		/*     			  													   */
 		/*=====================================================================*/
+
+		/*----------------------------------------------------*/
+		/* CONVERTS Tt2 INTO Ts2 IF Tt2 WAS DIRECTLY MEASURED */
+		/*----------------------------------------------------*/
+
+		/* Converts from total temperature to static temperature for further claculations if total temperature has been directly measured */
+		Tt2toTs2(&Sensors, ContConst.NumTs2Sens, MN, GAMMA_AIR, ContConst.T2Type);
 
         /*--------------------------------------------*/
         /* THERMOCOUPLE FAULT SIMULATION VIA SOFTWARE */

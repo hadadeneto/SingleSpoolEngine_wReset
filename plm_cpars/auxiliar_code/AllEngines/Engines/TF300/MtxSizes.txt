@@ -1,0 +1,16 @@
+/* Steady Operating Points Elements Numbers */
+#define TF300_ALT_ELEM				       13
+#define TF300_MN_ELEM 				       11
+#define TF300_FN_ELEM				       12
+#define TF300_TOTAL_ELEM			       1716
+#define TF300_AS_ELEM				       6
+
+/* Components Maps Element Numbers */
+#define TF300_FAN_NC                      12
+#define TF300_FAN_PR                      20
+#define TF300_HPT_NC				       7
+#define TF300_HPT_PR				       21
+
+/* Engine Design Point Constants */
+#define TF300_NDES                        59000
+#define TF300_Ath_NOZZLE                  0.014053

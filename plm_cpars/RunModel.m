@@ -89,7 +89,7 @@ TBear3Init = 0;
 %WhichEngine = 5 -> TJ200
 %WhichEngine = 6 -> TJ40
 
-WhichEngine = 1;
+WhichEngine = 5;
 
 Mode = 0;           %0 - Automatic; 1 - Manual
 LeverMode = 1;      %0 - Manual; 1 - Automatic
@@ -746,9 +746,9 @@ TCFaultSoftSim = 1;
 %     SysFaultStartTime(1) = 90;            %SysFaultStopTime(1) = 24;
 %     SysFaultStartTime(2) = 100;%-200;            %SysFaultStopTime(2) = 24;
 %     SysFaultStartTime(3) = 20;            %SysFaultStopTime(3) = 24;
-%     SysFaultStartTime(4) = -65;            SysFaultStopTime(4) = -57;
-%     SysFaultStartTime(5) = -65;            SysFaultStopTime(5) = -57;
-%     SysFaultStartTime(6) = -65;            SysFaultStopTime(6) = -57;
+%     SysFaultStartTime(4) = 100;            %SysFaultStopTime(4) = -57;
+%     SysFaultStartTime(5) = 100;            %SysFaultStopTime(5) = -57;
+%     SysFaultStartTime(6) = 100;            %SysFaultStopTime(6) = -57;
 %     SysFaultStartTime(7) = 20;            %SysFaultStopTime(7) = 24;
 %     SysFaultStartTime(8) = 20;            %SysFaultStopTime(8) = 24;
 %     SysFaultStartTime(9) = 20;            %SysFaultStopTime(9) = 24;

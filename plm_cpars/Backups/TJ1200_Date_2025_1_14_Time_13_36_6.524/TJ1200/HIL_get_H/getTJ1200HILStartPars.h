@@ -1,8 +1,0 @@
-#ifndef GETTJ1200HILSTARTPARS_H
-#define GETTJ1200HILSTARTPARS_H
-
-/* get FUNCTIONS FOR GETTINGHILSTARTING PARAMETERS */
-
-void getTJ1200HILStartPars(struct ControlStart *ContStartP);
-
-#endif

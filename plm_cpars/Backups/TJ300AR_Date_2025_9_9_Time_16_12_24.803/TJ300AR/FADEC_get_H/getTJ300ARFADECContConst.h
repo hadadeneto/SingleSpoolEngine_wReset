@@ -1,8 +1,0 @@
-#ifndef GETTJ300ARFADECCONTCONST_H
-#define GETTJ300ARFADECCONTCONST_H
-
-/* get FUNCTIONS FOR ENGINE AND CONTROLLER CONSTANTS */
-
-void getTJ300ARFADECContConst(struct ControllerConstants *ContConst);
-
-#endif

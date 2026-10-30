@@ -15,6 +15,7 @@ include_directories(GET700)
 include_directories(HIL_Functions_C)
 include_directories(HIL_Functions_H)
 include_directories(TF1200)
+include_directories(TF300)
 include_directories(TG200)
 include_directories(TJ1200)
 include_directories(TJ200)
@@ -35,6 +36,8 @@ file(GLOB_RECURSE SOURCES
         HIL_Functions_H/*.h
         TF1200/*.c
         TF1200/*.h
+        TF300/*.c
+        TF300/*.h
         TG200/*.c
         TG200/*.h
         TJ1200/*.c

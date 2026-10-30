@@ -1427,6 +1427,13 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 		/*     			  													   */
 		/*=====================================================================*/
 
+		/*----------------------------------------------------*/
+		/* CONVERTS Tt2 INTO Ts2 IF Tt2 WAS DIRECTLY MEASURED */
+		/*----------------------------------------------------*/
+
+		/* Converts from total temperature to static temperature for further claculations if total temperature has been directly measured */
+		Tt2toTs2(&Sensors, ContConst.NumTs2Sens, MN, GAMMA_AIR, ContConst.T2Type);
+
         /*--------------------------------------------*/
         /* THERMOCOUPLE FAULT SIMULATION VIA SOFTWARE */
         /*--------------------------------------------*/
@@ -1481,7 +1488,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
 /******** SAVETO END: FADEC_AUTHORIZE1 *********/
 
-// HardFAuthorize.FaultBits = 0;
+HardFAuthorize.FaultBits = 0;
 // FaultSensAuthorize.FaultBits = 0;
 // FaultSysAuthorize.FaultBits = 0;
 // HardFAuthorize.DetFaults.Ts2_0_Fault = 0;

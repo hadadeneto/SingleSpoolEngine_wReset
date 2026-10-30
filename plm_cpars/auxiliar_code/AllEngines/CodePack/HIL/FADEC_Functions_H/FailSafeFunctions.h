@@ -70,6 +70,9 @@ int RelError(floating Sens0, floating Sens1, floating MaxError);
 
 void MatchSens(floating *SensVec, int *MatchVec, int NumSens, floating MaxError);
 
+ /* Converts Ts2 to Tt2 and flight Mach number */
+void Tt2toTs2(SensedPars* SensorsP, int SensNum, floating MN, floating gamma, int Convert);
+
 void Ts2MediumValue(ModelParsFault *ModPFaultP, floating *Ts2MedValP, int SensNum, FaultDetect *TrustSensP, struct SensedPars *SensorsP, floating Ts2Model,  int MinTrustedSens);
 
 void Pt3MediumValue(ModelParsFault *ModPFaultP, floating *Pt3MedValP, int SensNum, FaultDetect *TrustSensP, struct SensedPars *SensorsP, floating Pt3Model,  int MinTrustedSens);

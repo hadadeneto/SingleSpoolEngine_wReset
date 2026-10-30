@@ -23,3 +23,5 @@ MainGen = ['HardwareMain' filesep 'Generated'];
 MainHILGen = ['HardwareMain' filesep 'Generated' filesep 'HIL'];
 %Folder where generated main C++ FADEC code is saved
 MainFADECGen = ['HardwareMain' filesep 'Generated' filesep 'FADEC'];
+%Folder containing the base file for constants update
+ConstantsHBase = 'ConstantsHBase';

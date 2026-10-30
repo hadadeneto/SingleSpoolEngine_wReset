@@ -151,6 +151,13 @@
     /* Updates sensor values */
     SensorsUpdt(&Sensors, &EngOutput);
 
+	/* Verifies if Tt2 is to be sent instead of Ts2 */
+	if (ContConst.T2Type == 1)
+	{
+		Sensors.Ts2[0] = Tt2;
+		Sensors.Ts2[1] = Tt2;
+	}
+
 	/* Simulation of sensors faults */
     SensFaultSim(&SensFaults, &Sensors, &EngPars);
 

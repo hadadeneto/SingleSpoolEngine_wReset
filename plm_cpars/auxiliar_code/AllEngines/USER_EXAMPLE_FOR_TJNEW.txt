@@ -110,3 +110,21 @@ copyfile(SourceFilePath,CurPath,'f');
         are correctly set
 
     5 - Finally, run a dynamic simulaton with the FADEC code
+
+Updating ConstantsTJNEW.h from ConstantsBase.h
+
+    1 - Make any required updates in SSModelCFunc\ConstantsHBase\ConstantsBase.h 
+        NOTE: The updates must be consistent, since they will be made in 
+              all ConstantsXXX.h files for all engines.
+
+    2 - In the file plm_cpars\auxiliar_code\AllEngines\EngConstUpdate.m, 
+        set the desired value of COMMENTS_FROM_BASE, either 0, for keeping 
+        the comments after each constant from original file, or 1, for 
+        replacing the comments for the ones in ConstantsBase.h
+
+    3 - Run EngConstUpdate.m by either opening the file and pressing run 
+        inside the opened file or by typing EngConstUpdate in the MATLAB
+        command window. All original constants .h files will be backed up
+        in the plm_cpars\Backups\ConstantsH_Date... folder.
+
+
