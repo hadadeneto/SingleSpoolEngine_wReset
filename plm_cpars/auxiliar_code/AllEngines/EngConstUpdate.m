@@ -1,6 +1,7 @@
 
 %Adds paths
 word = [pwd filesep, 'NewCodeGen'];
+NewCodeGenPath = word;
 addpath(word);
 %Sets host folders
 SetHostFolder;
@@ -10,7 +11,7 @@ SetEngineList;
 CurrPath = pwd;
 cd .. 
 cd ..
-%
+%Sets Backup path
 BackupPath = [pwd filesep BackupFolder];
 %Goes to folder where base file is stored
 word = [HostFolder filesep ConstantsHBase];
@@ -30,6 +31,8 @@ cd ..;
 %constant's value - for right tabulation
 MAX_CHARS_VAL = 50;
 MAX_CHARS_COMMENT = 15;
+%Flag requesting automatic update of ContConstPars.m
+AUTO_UPDT_CONTCONSTPARS = 1;
 %Selects the variable comments either from the base file or from the
 %existing engine constants file
 COMMENTS_FROM_BASE = 0;
@@ -43,6 +46,28 @@ DateTimeCell = GetDateTime;
 BackupPath = [BackupPath filesep 'ConstantsH_' char(DateTimeCell)];
 %Generates backup folder
 CodeGenMkDir(BackupPath,[])
+
+%Performs automatic update of ContConstPars.m if requested
+if AUTO_UPDT_CONTCONSTPARS >= 0.5
+    %Saves current path
+    CurrPath_1 = pwd;
+    %Goes to NewCodeGen folder
+    cd(NewCodeGenPath);
+    %
+    Output = UpdtContConstPars(ConsNameBase,ConsComBase,BackupPath,'<Control>');   
+    %
+    cd(CurrPath_1);
+    
+end
+
+%NOTE: Whenever a new constant is added, it also needs to be added to
+%ContConstantPars.m in case it is used by the control routine, it is
+%recommended that the added contants's comment in the file ConstantsBase.h
+%presents the command <Control> somewhere in the commented part so the
+%addition is done automatically by the above loop. Since it is only going
+%to be added once, regardless if <Control> is still present
+%afterwards on the comment, the constant's comment may be modified without
+%any problems.
 
 %Loop for reading every engine's constants file, comparing and making the
 %necessary modifications

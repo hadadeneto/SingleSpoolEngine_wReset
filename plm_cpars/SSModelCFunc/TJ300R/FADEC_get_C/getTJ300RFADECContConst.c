@@ -16,6 +16,7 @@ void getTJ300RFADECContConst(struct ControllerConstants *ContConst)
     ContConst->CLLever = TJ300R_CLOOP;
     ContConst->EmergencyCom = TJ300R_COMMAND_EMERGENCY;
     ContConst->EmergencyWait = TJ300R_WAIT_EMERGENCY_COMMAND;
+    ContConst->Engcooling = TJ300R_ENGCOOLING;
     ContConst->ErrorFracSD = TJ300R_SD_ERRORFRAC;
     ContConst->FNIdle = TJ300R_FN_IDLE;
     ContConst->Fn_Elem = TJ300R_FN_ELEM;

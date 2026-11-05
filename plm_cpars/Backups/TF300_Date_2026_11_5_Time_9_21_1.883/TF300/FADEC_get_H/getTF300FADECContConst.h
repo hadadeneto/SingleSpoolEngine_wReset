@@ -1,0 +1,8 @@
+#ifndef GETTF300FADECCONTCONST_H
+#define GETTF300FADECCONTCONST_H
+
+/* get FUNCTIONS FOR ENGINE AND CONTROLLER CONSTANTS */
+
+void getTF300FADECContConst(struct ControllerConstants *ContConst);
+
+#endif

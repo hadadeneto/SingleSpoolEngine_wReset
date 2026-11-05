@@ -16,6 +16,7 @@ void getTF300FADECContConst(struct ControllerConstants *ContConst)
     ContConst->CLLever = TF300_CLOOP;
     ContConst->EmergencyCom = TF300_COMMAND_EMERGENCY;
     ContConst->EmergencyWait = TF300_WAIT_EMERGENCY_COMMAND;
+    ContConst->Engcooling = TF300_ENGCOOLING;
     ContConst->ErrorFracSD = TF300_SD_ERRORFRAC;
     ContConst->FNIdle = TF300_FN_IDLE;
     ContConst->Fn_Elem = TF300_FN_ELEM;

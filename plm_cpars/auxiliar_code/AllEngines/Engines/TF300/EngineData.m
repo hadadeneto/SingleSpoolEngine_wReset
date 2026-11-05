@@ -3,9 +3,9 @@
 %--------------------
 
 %Ambient calculations are to be performed only if getAmbient = 1
-getAmbient = 1;
+getAmbient = 0;
 %PI calculations are to be performed only if getAmbient = 1
-getPIGains = 1;
+getPIGains = 0;
 %Sub-Idle PI calculations are to be performed only if getAmbient = 1
 getPIshGains = 0;
 %Choses between new or older sub-idle and windmill model

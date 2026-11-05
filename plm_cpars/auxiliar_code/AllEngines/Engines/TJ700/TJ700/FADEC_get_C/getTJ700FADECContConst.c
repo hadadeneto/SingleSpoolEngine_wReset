@@ -16,6 +16,7 @@ void getTJ700FADECContConst(struct ControllerConstants *ContConst)
     ContConst->CLLever = TJ700_CLOOP;
     ContConst->EmergencyCom = TJ700_COMMAND_EMERGENCY;
     ContConst->EmergencyWait = TJ700_WAIT_EMERGENCY_COMMAND;
+    ContConst->Engcooling = TJ700_ENGCOOLING;
     ContConst->ErrorFracSD = TJ700_SD_ERRORFRAC;
     ContConst->FNIdle = TJ700_FN_IDLE;
     ContConst->Fn_Elem = TJ700_FN_ELEM;

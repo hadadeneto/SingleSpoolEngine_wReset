@@ -33,6 +33,23 @@ addpath(word);
 
 EngineData;
 
+%Verifies if getCCodeOnly exists, meaning that AllCodeUpdt is being
+%executed and that that only C code is to be generated
+if exist('getCCodeOnly','var')
+    
+    %Verifies if only C code is to be generated
+    if getCCodeOnly == 1
+        %Sets to zero all flags indicating other actions than C code
+        %generation
+        getAmbient = 0;
+        getPIGains = 0;
+        getPIshGains = 0;
+        %Sets to 1 the flag indicating that C code must be generated
+        getCCode = 1;
+    end
+    
+end
+
 %--------------------------
 %LOADING OF ENGINE MATRICES
 %--------------------------

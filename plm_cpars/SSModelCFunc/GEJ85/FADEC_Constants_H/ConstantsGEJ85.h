@@ -15,24 +15,24 @@
 /*------------------*/
 
 /* Steady Operating Points Elements Numbers */
-#define GEJ85_ALT_ELEM                                    13             
-#define GEJ85_MN_ELEM                                     10             
-#define GEJ85_FN_ELEM                                     18             
-#define GEJ85_TOTAL_ELEM                                  2340           
-#define GEJ85_AS_ELEM                                     6              
+#define GEJ85_ALT_ELEM				       13
+#define GEJ85_MN_ELEM 				       10
+#define GEJ85_FN_ELEM				       18
+#define GEJ85_TOTAL_ELEM			       2340
+#define GEJ85_AS_ELEM				       6
 
 /* Components Maps Element Numbers */
-#define GEJ85_FAN_NC                                      7              
-#define GEJ85_FAN_PR                                      11             
-#define GEJ85_HPT_NC                                      7              
-#define GEJ85_HPT_PR                                      21             
+#define GEJ85_FAN_NC                      7
+#define GEJ85_FAN_PR                      11
+#define GEJ85_HPT_NC				       7
+#define GEJ85_HPT_PR				       21
 
 /* Engine Design Point Constants */
-#define GEJ85_NDES                                        16540          
-#define GEJ85_Ath_NOZZLE                                  0.062862       
+#define GEJ85_NDES                        16540
+#define GEJ85_Ath_NOZZLE                  0.062862
 
 /* Engine Starting Model Parameters */
-#define GEJ85_VALVE_FUEL                                  7.76e-3        
+#define GEJ85_VALVE_FUEL                                  7.76e-3
 #define GEJ85_FUEL_BOUT                                   0.01           //kg/s
 #define GEJ85_IGN_TIME                                    10             //s
 #define GEJ85_IGN_DELTAT                                  900            //K
@@ -43,9 +43,9 @@
 /* ENGINE STARTING ALGORITHM CONSTANTS */
 /*-------------------------------------*/
 
-#define GEJ85_MANUAL                                      1              
-#define GEJ85_CLOOP                                       1              
-#define GEJ85_ENGUNITS                                    1              
+#define GEJ85_MANUAL                                      1
+#define GEJ85_CLOOP                                       1
+#define GEJ85_ENGUNITS                                    1
 
 /* Time Parameters */
 #define GEJ85_FUEL_IMPULSE_TIME                           1              //Second
@@ -97,32 +97,32 @@
 #define GEJ85_FUEL_RAMP_DEC_FAST                          -0.0024        /* kg/s^2 - Faster decreasing fuel ramp constant used during open-loop start logic, FuelIncrease function */
 #define GEJ85_FUEL_RAMP_DEC_LOWLIM                        0.0033333      /* kg/s - Low fuel limit during use of decreasing fuel ramp */
 
-#define GEJ85_ON                                          1              
-#define GEJ85_OFF                                         0              
+#define GEJ85_ON                                          1
+#define GEJ85_OFF                                         0
 
 /*----------------------------------------*/
 /* ENGINE PI MIN-MAX CONTROLLER CONSTANTS */
 /*----------------------------------------*/
 
 /* Engine Limits */
-#define GEJ85_NMAX                                        16540          
-#define GEJ85_NMAXREF                                     16540          
-#define GEJ85_TT4MAX                                      1250           
-#define GEJ85_TT4MAXREF                                   1250           
-#define GEJ85_TT5MAX                                      1005           
-#define GEJ85_TT5MAXREF                                   1005           
-#define GEJ85_SMMIN                                       15             
-#define GEJ85_RUMIN                                       2.8e-7         
+#define GEJ85_NMAX                                        16540
+#define GEJ85_NMAXREF                                     16540
+#define GEJ85_TT4MAX                                      1250
+#define GEJ85_TT4MAXREF                                   1250
+#define GEJ85_TT5MAX                                      1005
+#define GEJ85_TT5MAXREF                                   1005
+#define GEJ85_SMMIN                                       15
+#define GEJ85_RUMIN                                       2.8e-7
 
 /* Maximum Pump Fuel Flow */
 #define GEJ85_WFMAX                                       0.62           //kg/s
 
 /* Controller Constant Gains */
-#define GEJ85_KPTT4                                       0              
-#define GEJ85_KITT4                                       0.0039328      
-#define GEJ85_KBN                                         20000          
+#define GEJ85_KPTT4                                       0
+#define GEJ85_KITT4                                       0.0039328
+#define GEJ85_KBN                                         20000
 #define GEJ85_KBT                                         1000           //10000
-#define GEJ85_REFRAMP                                     500            
+#define GEJ85_REFRAMP                                     500
 
 /*----------------------------------*/
 /* ENGINE PERIPHEALS TIME CONSTANTS */
@@ -137,19 +137,19 @@
 /*-----------------------*/
 
 /* Station 2 */
-#define GEJ85_TS2SENS                                     2              
+#define GEJ85_TS2SENS                                     2
 /*  Station 3 */
-#define GEJ85_PS3SENS                                     1              
+#define GEJ85_PS3SENS                                     1
 /* Station 4 */
-#define GEJ85_TT4SENS                                     3              
+#define GEJ85_TT4SENS                                     3
 /* Shaft */
-#define GEJ85_RPMSENS                                     2              
+#define GEJ85_RPMSENS                                     2
 /* Structure */
-#define GEJ85_VIBRATIONSENS                               1              
+#define GEJ85_VIBRATIONSENS                               1
 /* Lubrication */
-#define GEJ85_POILSENS                                    1              
+#define GEJ85_POILSENS                                    1
 /* Fuel System */
-#define GEJ85_PFUELSENS                                   1              
+#define GEJ85_PFUELSENS                                   1
 
 /*----------------------------------------*/
 /* ENGINE MINIMUM TRUSTED SENSORS NUMBERS */
@@ -161,13 +161,13 @@ calculated model values are used to replace
 untrusted sensors */
 
 /* Station 2 */
-#define GEJ85_TS2SENSTRUST                                2              
+#define GEJ85_TS2SENSTRUST                                2
 /*  Station 3 */
-#define GEJ85_PS3SENSTRUST                                1              
+#define GEJ85_PS3SENSTRUST                                1
 /* Station 4 */
-#define GEJ85_TT4SENSTRUST                                3              
+#define GEJ85_TT4SENSTRUST                                3
 /* Shaft */
-#define GEJ85_RPMSENSTRUST                                2              
+#define GEJ85_RPMSENSTRUST                                2
 
 /*--------------------------------------------------*/
 /* ENGINE MODEL PARAMETERS OF POIL, PFUEL VIBRATION */
@@ -206,9 +206,9 @@ untrusted sensors */
 /* ENGINE THERMOCOUPLE FAULT VALUES */
 /*----------------------------------*/
 
-#define GEJ85_TCSCV                                       5000           
-#define GEJ85_TCSCG                                       5000           
-#define GEJ85_TCOPEN                                      5000           
+#define GEJ85_TCSCV                                       5000
+#define GEJ85_TCSCG                                       5000
+#define GEJ85_TCOPEN                                      5000
 
 /*-------------------------------------*/
 /* ENGINE PRESSURE SENSOR FAULT VALUES */
@@ -217,9 +217,9 @@ untrusted sensors */
 #define GEJ85_PSSHORT                                     200*100000     //Pascal
 #define GEJ85_PFUELSHORT                                  200*100000     //Pascal
 #define GEJ85_POILSHORT                                   200*100000     //Pascal
-#define GEJ85_PSSOPEN                                     0              
-#define GEJ85_PFUELOPEN                                   0              
-#define GEJ85_POILOPEN                                    0              
+#define GEJ85_PSSOPEN                                     0
+#define GEJ85_PFUELOPEN                                   0
+#define GEJ85_POILOPEN                                    0
 
 /*-------------------------------------*/
 /* ENGINE PRESSURE SENSOR FAULT VALUES */
@@ -298,21 +298,21 @@ untrusted sensors */
 /* NUMBER OF INTEGRATION STEPS FOR MODEL ESTIMATION */
 /*--------------------------------------------------*/
 
-#define GEJ85_NUMSTEPS                                    10             
+#define GEJ85_NUMSTEPS                                    10
 
 /*------------------------------------------------------------*/
 /* MAXIMUM NUMBER OF INTERACTIONS BEFORE FAULT IDENDIFICATION */
 /*------------------------------------------------------------*/
 
-#define GEJ85_MAXINTERFAULT                               3              
+#define GEJ85_MAXINTERFAULT                               3
 
 /*------------------------------*/
 /* NOMINAL SHUT DOWN PARAMETERS */
 /*------------------------------*/
 
-#define GEJ85_SD_ERRORFRAC                                0.02           
-#define GEJ85_SD_RMPMIN                                   12000          
-#define GEJ85_SD_FUELRAMP                                 0.000875       
+#define GEJ85_SD_ERRORFRAC                                0.02
+#define GEJ85_SD_RMPMIN                                   12000
+#define GEJ85_SD_FUELRAMP                                 0.000875
 #define GEJ85_SD_TIME_TORAMP                              5              /* s - Time before ramp status becomes active */
 #define GEJ85_SD_TIME_TOEMERG                             10             /* S - Time before emergency shut off is activated */
 // #define XXX_TS2FAULTS                3
@@ -341,9 +341,9 @@ untrusted sensors */
 /* EXTERNAL START/SHUT DOWN/EMERGENCY COMMANDS */
 /*---------------------------------------------*/
 
-#define GEJ85_COMMAND_START                               0xAA           
-#define GEJ85_COMMAND_SHUTDOWN                            0x00           
-#define GEJ85_COMMAND_EMERGENCY                           0xCC           
+#define GEJ85_COMMAND_START                               0xAA
+#define GEJ85_COMMAND_SHUTDOWN                            0x00
+#define GEJ85_COMMAND_EMERGENCY                           0xCC
 
 /*---------------*/
 /* BEARINGS DATA */
@@ -387,7 +387,13 @@ untrusted sensors */
 
 /* 0 - Measures Ts2 (local day temperature) */
 /* 1 - Measures Tt2 (total temperature) */
-#define GEJ85_T2TYPE                                      0              
+#define GEJ85_T2TYPE                                      0
+
+/*----------------*/
+/* ENGINE COOLING */
+/*----------------*/
+
+#define GEJ85_ENGCOOLING                                  0              /* <Control> - Flag that activates engine cooling when set to 1 */
 
 /*-------------------------------------------------------------------------------------*/
 /* ADDITIONAL PARAMETERS PRESENT IN OLDER VERSION - USE DURING SOFTWARE MIGRATION ONLY */

@@ -1,0 +1,8 @@
+#ifndef GETTJ300RFADECCONTCONST_H
+#define GETTJ300RFADECCONTCONST_H
+
+/* get FUNCTIONS FOR ENGINE AND CONTROLLER CONSTANTS */
+
+void getTJ300RFADECContConst(struct ControllerConstants *ContConst);
+
+#endif

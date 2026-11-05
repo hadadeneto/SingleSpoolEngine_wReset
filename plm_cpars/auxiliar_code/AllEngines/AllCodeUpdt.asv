@@ -1,0 +1,25 @@
+
+%Sets the engine lists
+SetEngineList;
+
+%Flag indicating that only C code must be aquired
+getCCodeOnly = 1;
+
+%EXECUTION OF DESCODE FOR ALL PROJECTS AND GETTING C CODE ONLY
+
+%Loop for 
+for i = 1:length(ProjectList)
+    %
+    EngFoldName = Project
+    %ProjectName variable is used by backup routine
+    Project = EngFoldName;
+    %Sets file separator
+    File_Sep = '/';
+    %Sets the host folder
+    SetHostFolder
+    %Complements folder name
+    EngFoldName = ['Engines' File_Sep EngFoldName];
+    %Calls script to perform above actions
+    MainScript
+    
+end

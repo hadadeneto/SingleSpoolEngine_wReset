@@ -7,17 +7,17 @@
 clear %all
 
 %Chosen project
-EngFoldName = 'TJ1200_POC6_Boosted';
+% EngFoldName = 'TJ1200_POC6_Boosted';
 % EngFoldName = 'TF1200';
-% EngFoldName = 'GEJ85';
+EngFoldName = 'GEJ85';
 % EngFoldName = 'TJ700';
 % EngFoldName = 'TJ200';
 % EngFoldName = 'TJ40';
 % EngFoldName = 'GET700_Turboshaft';
 % EngFoldName = 'TG200_Turboshaft';
 % EngFoldName = 'TJ300_AxRad';
-EngFoldName = 'TJ300_Radial';
-EngFoldName = 'TF300';
+% EngFoldName = 'TJ300_Radial';
+% EngFoldName = 'TF300';
 
 %ProjectName variable is used by backup routine
 Project = EngFoldName;
