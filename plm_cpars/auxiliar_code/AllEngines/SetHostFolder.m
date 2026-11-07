@@ -25,3 +25,5 @@ MainHILGen = ['HardwareMain' filesep 'Generated' filesep 'HIL'];
 MainFADECGen = ['HardwareMain' filesep 'Generated' filesep 'FADEC'];
 %Folder containing the base file for constants update
 ConstantsHBase = 'ConstantsHBase';
+%Folder containing the base files of MATLAB FADECs
+FADECMLBase = 'FADECMLBase';

@@ -5,6 +5,10 @@
 ProjectList = [{'TJ1200_POC6_Boosted'},{'TF1200'},{'GEJ85'},{'TJ700'}, {'TJ200'}, {'TJ40'}, {'GET700_Turboshaft'}, {'TG200_Turboshaft'}, {'TJ300_AxRad'}, {'TJ300_Radial'}, {'TF300'}];
 EngineNameList = [{'TJ1200'},{'TF1200'},{'GEJ85'},{'TJ700'},{'TJ200'},{'TJ40'},{'GET700'},{'TG200'},{'TJ300AR'},{'TJ300R'},{'TF300'}];
 VersionName = [{'2.20'},{'1.10'},{'1.10'},{'1.11'},{'1.20'},{'1.00'},{'1.00'},{'1.00'},{'1.00'},{'1.00'},{'1.00'}];
+%Creates engine type list according to the numbers below
+%1 - State-space representatoion requires dimX = 1 and dimU = 1
+%2 - State-space representatoion requires dimX > 1 or dimU > 1
+EngineTypeList = [1,1,1,1,1,1,2,2,1,1,1];
 
 %ENGINES LIST FOR FADEC AND HIL
 

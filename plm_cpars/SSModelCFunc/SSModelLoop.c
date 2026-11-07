@@ -2582,8 +2582,9 @@ mexPrintf("Wf0 = %f\n\n",Wf0);
 		EmergencyCommand = EngOnOff.Emergency;
 		ShutDownCommand = EngOnOff.ShutDown;
 
+//<FADECCore>		
 		/*=====================================================================*/
-		/*   START OF SSModelLoop.c AND PIMMRF_TJ1200.c IDENTICAL CODE PIECE   */
+		/*   START OF SSModelLoop.c AND PIMMRF_XXX.c IDENTICAL CODE PIECE   */
 		/*																       */
 		/*   NOTE: The following procedures must be accomplished for the       */
 		/*         current versions of FADEC and HIL					       */
@@ -2664,11 +2665,17 @@ mexPrintf("Wf0 = %f\n\n",Wf0);
         SysAnalisysAuthorize(&FaultSysAuthorize, &ContStart, &ContInput, &EngStatus, StartFaultAnalysis);
 
         BiasAnalisysAuthorize(&HardFAuthorize, &ContStart, &ContInput, &EngStatus, StartFaultAnalysis);
+
+/******** SAVETO END: FADEC_AUTHORIZE1 *********/
+
 // HardFAuthorize.FaultBits = 0;
 // FaultSensAuthorize.FaultBits = 0;
 // FaultSysAuthorize.FaultBits = 0;
 // HardFAuthorize.DetFaults.Ts2_0_Fault = 0;
 // HardFAuthorize.DetFaults.Ts2_1_Fault = 0;
+
+/******** SAVETO START: FADEC_AUTHORIZE2 *********/
+
         /* RESIDUAL CALCULATION AND PROCESSING */
 
         /* Residuals calculations */
@@ -2864,9 +2871,13 @@ mexPrintf("Wf0 = %f\n\n",Wf0);
         ModelParsCL.dT = ModelPars.dT;
         ModelParsCL.Ts2StdSL = ModelPars.Ts2StdSL;
 
+/******** SAVETO END: FADEC_AUTHORIZE2 *********/
+
         PrintFaults(&FaultWarning,0,1);
         PrintFaults(&FaultStatus,1,0);
         PrintEngStatus(&EngStatus,1);
+
+/******** SAVETO START: FADEC_AUTHORIZE3 *********/
 
         /*-----------------------------------------------------*/
         /* VERIFIES EMERGENCY SHUT DOWN DUE TO ENGINE FAILURE  */
@@ -2946,9 +2957,8 @@ mexPrintf("Wf0 = %f\n\n",Wf0);
 		/* If booster is connected, measured value of Pt3 must not be considered and blow out protection must be deactivated */
 		BoosterProtect(&ContConst, &ContInput, Delta, BoosterLStatus, BoosterRStatus, Ts);
 //mexPrintf("RealCont: BoostL=%d BoostR=%d Time=%f status=%d Delta=%f Pt3=%f\n",BoosterLStatus, BoosterRStatus, ContInput.TimerBoost, ContInput.statusBooster, Delta, ContInput.Pt3);
-        
-		/* CALCULATES THE CONTROL LAW */            
-                    
+        /* CALCULATES THE CONTROL LAW */            
+                   
         /* Calculates fuel flow from control law */
 		PIMinMaxRF(AltLinVec, MNLinVec, NcVec, ASVec, DSVec,
 				   Mtx2D, Mtx2DH, Mtx1D, Mtx1DH,
@@ -3175,11 +3185,12 @@ mexPrintf("Wf0 = %f\n\n",Wf0);
 				  MapHPC1D, MapHPC1DH, MapHPC2D, MapHPC2DH);
 
         /*===============================================================*/
-        /* END OF SSModelLoop.c AND PIMMRF_TJ1200.c IDENTICAL CODE PIECE */
+        /* END OF SSModelLoop.c AND PIMMRF_XXX.c IDENTICAL CODE PIECE */
         /*                                                               */
         /* NOTE: The codes are to be identical except for the considera- */
         /*       tions mentioned at the note above                       */
         /*===============================================================*/
+//<FADECCore>
 
 		/*---------------------------------------*/
 		/* UPDATES PRESENT ONLY ON MODEL (MATLAB)*/
