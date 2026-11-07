@@ -76,7 +76,7 @@
 /*-----------------*/
 
 /* Engine .h files */
-#include "XXX/FADEC_Constants_H/ConstantsXXX.h" 
+#include "XXX/FADEC_Constants_H/ConstantsXXX.h"
 #include "XXX/FADEC_get_H/getXXXFADECContConst.h"
 #include "XXX/FADEC_get_H/getXXXFADECMtx.h"       /* XXX Engine Constants */
 #include "XXX/FADEC_get_H/getXXXFADECSizeConst.h"
@@ -133,17 +133,17 @@ static void mdlInitializeSizes(SimStruct *S)
 
     ssSetInputPortWidth(S, 1, 1);
 	ssSetInputPortRequiredContiguous(S, 1, true); /*direct input signal access*/
-    
+
     ssSetInputPortWidth(S, 2, 14);
 	ssSetInputPortRequiredContiguous(S, 2, true); /*direct input signal access*/
-    
+
     ssSetInputPortWidth(S, 3, 1);
 	ssSetInputPortRequiredContiguous(S, 3, true); /*direct input signal access*/
 
     ssSetInputPortWidth(S, 4, 1);
 	ssSetInputPortRequiredContiguous(S, 4, true); /*direct input signal access*/
 
-// 
+//
 
 	/*
 	 * Set direct feedthrough flag (1=yes, 0=no).
@@ -155,7 +155,7 @@ static void mdlInitializeSizes(SimStruct *S)
     ssSetInputPortDirectFeedThrough(S, 2, 1);
     ssSetInputPortDirectFeedThrough(S, 3, 1);
     ssSetInputPortDirectFeedThrough(S, 4, 1);
-        
+
 
 	if (!ssSetNumOutputPorts(S, 4)) return;
 	ssSetOutputPortWidth(S, 0, 7);
@@ -251,18 +251,18 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     real_T       *IoutModel = ssGetOutputPortSignal(S, 1);
     real_T       *IoutBlowOut = ssGetOutputPortSignal(S, 2);
     real_T       *IoutModelCL = ssGetOutputPortSignal(S, 3);
-    
+
     /* --------------------------------------------------- */
 
     /* -------------------------------------------------- */
 	/* AUXILIARY VARIABLE - T-MATS                        */
 	/* (To be usedi in MATLAB and TMATS simulations only) */
 	/* -------------------------------------------------- */
-    
+
     /* int TYPE */
 
     int TMATS_StartComplete = 0;
- 
+
     /* static int TYPE */
 
     static int Out2;                            //igniter
@@ -278,7 +278,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     static floating Out4;                         //filterRef
     static floating Out5;                         //engine operating status
     static floating Out6;                         //Oil Pump RPM reference
-    
+
     /* -------------------------------------------------- */
 
 /******** SAVETO START: FADEC_VARS *********/
@@ -289,15 +289,15 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
     /* STRUCTURES */
 
-    static AllResiduals PFuelRes;                       /* Struct - Residuals calcultaions and treatment */ 
-    static AllResiduals POilRes;                        /* Struct - Residuals calcultaions and treatment */ 
-    static AllResiduals Pt3Res;                         /* Struct - Residuals calcultaions and treatment */ 
-    static AllResiduals RPMRes;                         /* Struct - Residuals calcultaions and treatment */ 
-    static AllResiduals TBearRes;                       /* Struct - Residuals calcultaions and treatment */ 
-    static AllResiduals Ts2Res;                         /* Struct - Residuals calcultaions and treatment */      
-    static AllResiduals Tt4Res;                         /* Struct - Residuals calcultaions and treatment */ 
-    static AllResiduals VibrationRes;                   /* Struct - Residuals calcultaions and treatment */ 
-    static AllResiduals DefaultRes = {1000000};         /* Struct - Residuals calcultaions and treatment */ 
+    static AllResiduals PFuelRes;                       /* Struct - Residuals calcultaions and treatment */
+    static AllResiduals POilRes;                        /* Struct - Residuals calcultaions and treatment */
+    static AllResiduals Pt3Res;                         /* Struct - Residuals calcultaions and treatment */
+    static AllResiduals RPMRes;                         /* Struct - Residuals calcultaions and treatment */
+    static AllResiduals TBearRes;                       /* Struct - Residuals calcultaions and treatment */
+    static AllResiduals Ts2Res;                         /* Struct - Residuals calcultaions and treatment */
+    static AllResiduals Tt4Res;                         /* Struct - Residuals calcultaions and treatment */
+    static AllResiduals VibrationRes;                   /* Struct - Residuals calcultaions and treatment */
+    static AllResiduals DefaultRes = {1000000};         /* Struct - Residuals calcultaions and treatment */
 
     static AmbientPars Ambient;                         /* Struct - Ambient calculations */
     static AmbientPars AmbientEmpty = { 0 };            /* Struct - Ambient calculations */
@@ -309,8 +309,8 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     static ControllerGeneral ContGenOilCL;              /* Struct - Bearings temperature control */
     static ControllerGeneral ContGenEmpty = {0};        /* Struct - Bearings temperature control */
 
-	static ControllerInput ContInput;                   /* Struct - Controller Inputs */	
-    static ControllerInput ContInModCL;                 /* Struct - Controller Inputs */	
+	static ControllerInput ContInput;                   /* Struct - Controller Inputs */
+    static ControllerInput ContInModCL;                 /* Struct - Controller Inputs */
     static ControllerInput ContInputEmpty = {0};        /* Struct - Controller Inputs */
 
 	static ControllerOutput ContOutput;                 /* Struct - Controller outputs */
@@ -323,9 +323,9 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
 	static EngineOnOff EngOnOff;                        /* Struct - On/Off logic */
 	static EngineOnOff EngOnOffEmpty = {0};             /* Struct - On/Off logic */
-    
-    static EstimatedPars BlowOutPars;                   /* Struct - Engine model parameters */           
-    static EstimatedPars ModelPars;                     /* Struct - Engine model parameters */       
+
+    static EstimatedPars BlowOutPars;                   /* Struct - Engine model parameters */
+    static EstimatedPars ModelPars;                     /* Struct - Engine model parameters */
     static EstimatedPars ModelParsChosen;               /* Struct - Engine model parameters */
     static EstimatedPars ModelParsCL;                   /* Struct - Engine model parameters */
     static EstimatedPars EstParsEmpty = {0};            /* Struct - Engine model parameters */
@@ -339,13 +339,13 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     /* UNIONS */
 
 	static digital_t digital;                           /* Union - Digital outputs */
-    static digital_t digModCL;                          /* Union - Digital outputs */	
+    static digital_t digModCL;                          /* Union - Digital outputs */
 	static digital_t digitalEmpty = { 0 };              /* Union - Digital outputs */
-	
+
     static EngineFaults FaultStatus;                    /* Union - Fault Status */
     static EngineFaults FaultWarning;                   /* Union - Fault Warining */
     static EngineFaults FaultEmpty = {0};               /* Union - Fault Status and warning */
-     
+
     static EngineStatus EngStatus;                      /* Union - Contains engine status */
     static EngineStatus EngStatusEmpty = {0};           /* Union - Contains engine status */
 
@@ -362,7 +362,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     static FaultDetect TrustSens;                       /* Union - General information about sensors faults*/
     static FaultDetect FaultDetectEmpty = {0};          /* Union - General information about sensors faults*/
 
-    static keys_t keys;                                 /* Union - Input keys */	
+    static keys_t keys;                                 /* Union - Input keys */
     static keys_t keysEmpty = {0};                      /* Union - Input keys */
 
     static ModelParsFault ModPFault;                    /* Union - Fault analysis */
@@ -372,20 +372,20 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     static SensorFaults FaultWSens;                     /* Union - Fault analysis */
     static SensorFaults SoftSimFaults;                  /* Union - Thermocouple full scale simulation */
     static SensorFaults FaultSensEmpty = {0};           /* Union - Fault analysis */
-    
+
     static SystemFaults FaultSSys;                      /* Union - Fault analysis */
     static SystemFaults FaultSysAuthorize;              /* Union - Fault analysis */
     static SystemFaults FaultWSys;                      /* Union - Fault analysis */
     static SystemFaults FaultSysEmpty = {0};            /* Union - Fault analysis */
-   
-    static TCFaults Ts2_0;                              /* Union - Contains thermocouple faults*/ 
-    static TCFaults Ts2_1;                              /* Union - Contains thermocouple faults*/ 
-    static TCFaults Tt4_0;                              /* Union - Contains thermocouple faults*/  
-    static TCFaults Tt4_1;                              /* Union - Contains thermocouple faults*/  
-    static TCFaults Tt4_2;                              /* Union - Contains thermocouple faults*/ 
-    static TCFaults TB_0;                               /* Union - Contains thermocouple faults*/ 
-    static TCFaults TB_1;                               /* Union - Contains thermocouple faults*/  
-    static TCFaults TB_2;                               /* Union - Contains thermocouple faults*/ 
+
+    static TCFaults Ts2_0;                              /* Union - Contains thermocouple faults*/
+    static TCFaults Ts2_1;                              /* Union - Contains thermocouple faults*/
+    static TCFaults Tt4_0;                              /* Union - Contains thermocouple faults*/
+    static TCFaults Tt4_1;                              /* Union - Contains thermocouple faults*/
+    static TCFaults Tt4_2;                              /* Union - Contains thermocouple faults*/
+    static TCFaults TB_0;                               /* Union - Contains thermocouple faults*/
+    static TCFaults TB_1;                               /* Union - Contains thermocouple faults*/
+    static TCFaults TB_2;                               /* Union - Contains thermocouple faults*/
 
 /******** COMMENT START *********/
 
@@ -394,7 +394,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     SoftSimFaults = FaultSensEmpty;                     /* Union - Thermocouple full scale simulation */
 
     /* Each union is initiated with null values */
-    Ts2_0.TCFaultBits = 0;                              
+    Ts2_0.TCFaultBits = 0;
     Ts2_1.TCFaultBits = 0;
     Tt4_0.TCFaultBits = 0;
     Tt4_1.TCFaultBits = 0;
@@ -406,9 +406,9 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 /******** COMMENT END *********/
 
 	/* VARIABLES */
-    
+
     /* int TYPE */
-                                                        
+
     int EngUnits = 1;                                   /* Engineering units for thrust reference*/
     int Ignition = 0;                                   /* Ignition Signal */
     int LeverMode = 1;                                  /* Lever Mode */
@@ -420,18 +420,18 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 	static int BoosterRStatus = 0xFF;					/* Indicates if left booster is connected (0x55 -> boster connected; 0xAA -> boster released) */
     static int ControlPhase = 0;                        /* Controller phase */
     static int CriticalFailure = 0;                     /* Flag indicating critical failure */
-    static int Current_key_start = 0;                   /* Start key current value */   
-    static int EmergencyCommand = 0;                    /* External command for emergency shut-off */    
+    static int Current_key_start = 0;                   /* Start key current value */
+    static int EmergencyCommand = 0;                    /* External command for emergency shut-off */
     static int EmergShutDwn = 0;                        /* Flag (internal) indicating emergency shut-off */
     static int IgnitionFail = 0;                        /* Flag indicating ignition failure */
     static int ModelParsStart = 0;                      /* Flag indicating if model parameters initiation is needed */
     static int Old_key_start = 0;                       /* Start key old value */
     static int OnOffCom = 0xFF;                         /* Command for on/off */
     static int Reset = 0;                               /* Reset flag and pulse detection variable */
-    static int ResetButton[2] = {0, 0};                 /* String containing reset button states */ 
+    static int ResetButton[2] = {0, 0};                 /* String containing reset button states */
     static int ShutDownCommand = 0;                     /* Command for standard shut-Off */
     static int SingleStop = 0;                          /* Flag for single execution of piece of code */
-    static int SkipStart = 0;                           /* Flag indicating if starting algorithm is needed */   
+    static int SkipStart = 0;                           /* Flag indicating if starting algorithm is needed */
     static int StartCommand = 0;                        /* Command for engine start */
     static int StartComplete = 0;                       /* Flag indicating that engine start is complete */
     static int StartFaultAnalysis = 0;                  /* Flag indicating that fault analysis must be accomplished */
@@ -439,15 +439,15 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     /* unsigned int TYPE */
 
     unsigned int digitalWord = 0;                      /* Word containing digital outputs states */
-	unsigned int GPIOIn = 0;                           /* Contains key states in a single number */	
-	unsigned int KeyBit0 = 1;                          // Igniter   - Input Keys for software in the loop simulation		
-	unsigned int KeyBit1 = 1;                          // Shut_Off  - Input Keys for software in the loop simulation	 
-	unsigned int KeyBit2 = 0;                          // Scaveng   - Input Keys for software in the loop simulation		
-	unsigned int KeyBit3 = 1;                          // Oil Pump  - Input Keys for software in the loop simulation	
-	unsigned int KeyBit4 = 0;                          // AC_Drive  - Input Keys for software in the loop simulation	
-	unsigned int KeyBit5 = 1;                          // Emergency - Input Keys for software in the loop simulation	
+	unsigned int GPIOIn = 0;                           /* Contains key states in a single number */
+	unsigned int KeyBit0 = 1;                          // Igniter   - Input Keys for software in the loop simulation
+	unsigned int KeyBit1 = 1;                          // Shut_Off  - Input Keys for software in the loop simulation
+	unsigned int KeyBit2 = 0;                          // Scaveng   - Input Keys for software in the loop simulation
+	unsigned int KeyBit3 = 1;                          // Oil Pump  - Input Keys for software in the loop simulation
+	unsigned int KeyBit4 = 0;                          // AC_Drive  - Input Keys for software in the loop simulation
+	unsigned int KeyBit5 = 1;                          // Emergency - Input Keys for software in the loop simulation
 	unsigned int KeyBit6 = 0;                          // Mode	    - Input Keys for software in the loop simulation
-    unsigned int keysWord = 0;                         /* Word containing external key states */   
+    unsigned int keysWord = 0;                         /* Word containing external key states */
 
 	/* floating TYPE */
 
@@ -463,13 +463,13 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 	floating OPRPMManual = 0;								/* Manual reference for oil pump rotation speed */
     floating POil = 0;                                    /* Oil pressure */
     floating Pt2 = 101325;                                /* Compressor inlet total pressure */
-    floating Pt3 = 101325;                                /* Compressor exhaust total pressure */ 
+    floating Pt3 = 101325;                                /* Compressor exhaust total pressure */
     floating Pt3MedVal = 101325;                          /* Pt3 medium value */
-    floating RefCAN = 0;                                  /* Reference from CAN */    
+    floating RefCAN = 0;                                  /* Reference from CAN */
 /******** COMMENT START *********/
-//    floating reference = 0.35;                            /* Reference value used initially */    
+//    floating reference = 0.35;                            /* Reference value used initially */
 /******** COMMENT END *********/
-    floating RPM = 0;                                     /* Engine mechanical rotation speed */  
+    floating RPM = 0;                                     /* Engine mechanical rotation speed */
     floating RPMMedVal = 0;                               /* RPM medium value */
     floating TBear[5] = {0,0,0,0,0};                      /* String containing bearings temperatures */
     floating Ts2 = 288.15;                              	/* Compressor inlet static temperature */
@@ -487,9 +487,9 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     static floating Wf = 0;                               /* Fuel flow */
 
     // /* VARIABLES */
-    
+
     // /* int TYPE */
-                                                        
+
     // int EngUnits = 0;                                   /* Engineering units for thrust reference*/
     // int Ignition = 0;                                   /* Ignition Signal */
     // int LeverMode = 1;                                  /* Lever Mode */
@@ -499,18 +499,18 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
     // static int ControlPhase = 0;                        /* Controller phase */
     // static int CriticalFailure = 0;                     /* Flag indicating critical failure */
-    // static int Current_key_start;                       /* Start key current value */   
-    // static int EmergencyCommand = 0;                    /* External command for emergency shut-off */    
+    // static int Current_key_start;                       /* Start key current value */
+    // static int EmergencyCommand = 0;                    /* External command for emergency shut-off */
     // static int EmergShutDwn = 0;                        /* Flag (internal) indicating emergency shut-off */
     // static int IgnitionFail = 0;                        /* Flag indicating ignition failure */
     // static int ModelParsStart = 0;                      /* Flag indicating if model parameters initiation is needed */
     // static int Old_key_start;                           /* Start key old value */
     // static int OnOffCom = 0xFF;                         /* Command for on/off */
     // static int Reset = 0;                               /* Reset flag and pulse detection variable */
-    // static int ResetButton[2] = {0, 0};                 /* String containing reset button states */ 
+    // static int ResetButton[2] = {0, 0};                 /* String containing reset button states */
     // static int ShutDownCommand = 0;                     /* Command for standard shut-Off */
     // static int SingleStop = 0;                          /* Flag for single execution of piece of code */
-    // static int SkipStart = 0;                           /* Flag indicating if starting algorithm is needed */   
+    // static int SkipStart = 0;                           /* Flag indicating if starting algorithm is needed */
     // static int StartCommand = 0;                        /* Command for engine start */
     // static int StartComplete = 0;                       /* Flag indicating that engine start is complete */
     // static int StartFaultAnalysis = 0;                  /* Flag indicating that fault analysis must be accomplished */
@@ -518,15 +518,15 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     // /* unsigned int TYPE */
 
     // unsigned int digitalWord;                          /* Word containing digital outputs states */
-	// unsigned int GPIOIn = 0;                           /* Contains key states in a single number */	
-	// unsigned int KeyBit0 = 1;                          // Igniter   - Input Keys for software in the loop simulation		
-	// unsigned int KeyBit1 = 1;                          // Shut_Off  - Input Keys for software in the loop simulation	 
-	// unsigned int KeyBit2 = 0;                          // Scaveng   - Input Keys for software in the loop simulation		
-	// unsigned int KeyBit3 = 1;                          // Oil Pump  - Input Keys for software in the loop simulation	
-	// unsigned int KeyBit4 = 0;                          // AC_Drive  - Input Keys for software in the loop simulation	
-	// unsigned int KeyBit5 = 1;                          // Emergency - Input Keys for software in the loop simulation	
+	// unsigned int GPIOIn = 0;                           /* Contains key states in a single number */
+	// unsigned int KeyBit0 = 1;                          // Igniter   - Input Keys for software in the loop simulation
+	// unsigned int KeyBit1 = 1;                          // Shut_Off  - Input Keys for software in the loop simulation
+	// unsigned int KeyBit2 = 0;                          // Scaveng   - Input Keys for software in the loop simulation
+	// unsigned int KeyBit3 = 1;                          // Oil Pump  - Input Keys for software in the loop simulation
+	// unsigned int KeyBit4 = 0;                          // AC_Drive  - Input Keys for software in the loop simulation
+	// unsigned int KeyBit5 = 1;                          // Emergency - Input Keys for software in the loop simulation
 	// unsigned int KeyBit6 = 0;                          // Mode	    - Input Keys for software in the loop simulation
-    // unsigned int keysWord;                             /* Word containing external key states */   
+    // unsigned int keysWord;                             /* Word containing external key states */
 
 	// /* floating TYPE */
 
@@ -539,11 +539,11 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 	// floating OPRPMManual = 0;								/* Manual reference for oil pump rotation speed */
     // floating POil = 0;                                    /* Oil pressure */
     // floating Pt2 = 101325;                                /* Compressor inlet total pressure */
-    // floating Pt3;                                         /* Compressor exhaust total pressure */ 
+    // floating Pt3;                                         /* Compressor exhaust total pressure */
     // floating Pt3MedVal = 0;                               /* Pt3 medium value */
-    // floating RefCAN = 0;                                  /* Reference from CAN */    
-    // floating reference = 0.35;                            /* Reference value used initially */    
-    // floating RPM;                                         /* Engine mechanical rotation speed */  
+    // floating RefCAN = 0;                                  /* Reference from CAN */
+    // floating reference = 0.35;                            /* Reference value used initially */
+    // floating RPM;                                         /* Engine mechanical rotation speed */
     // floating RPMMedVal = 0;                               /* RPM medium value */
     // floating TBear[5];                                    /* String containing bearings temperatures */
     // floating Ts2 = 288.15;                                /* Compressor inlet static temperature */
@@ -584,7 +584,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     floating Ts = 0.001 * TICK;                           /* Sampling Time */
 
     /* floating TYPE STRINGS */
-  
+
     // floating AltLinVec[XXX_ALT_ELEM];                      /* Altitude breakpoints */
     // floating AMtx[XXX_MN_ELEM * XXX_FN_ELEM];           /* Model - A matrix */
     // floating ASVec[XXX_AS_ELEM];                           /* Controller - Asceleration schedule (ASVec) break points */
@@ -654,7 +654,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     floating *Mtx2D;                                      /* Auxiliar matrix */
     floating *Mtx2DH;                                     /* Auxiliar matrix */
 	floating *N_KiMtx;                                    /* Controller - pointer for Ki matrix of N control law */
-	floating *N_KishMtx;                                    /* Controller - pointer for Ki matrix of N control law - sub-idle */ 
+	floating *N_KishMtx;                                    /* Controller - pointer for Ki matrix of N control law - sub-idle */
     floating *N_KpMtx;                                    /* Controller - pointer for Kp matrix of N control law */
     floating *N_KpshMtx;                                    /* Controller - pointer for Kp matrix of N control law - sub-idle */
     floating *NcFANContMtx;                               /* Controller - pointer for fan Nc breakpoint values */
@@ -733,8 +733,8 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     Tt5DMtx        = FADECMalloc(SteadyOp_Elem * DimU, &MemSize);
     Tt5Mtx         = FADECMalloc(SteadyOp_Elem, &MemSize);
     WcHPCMapMtx    = FADECMalloc(WcHPCMap_Elem, &MemSize);
-    WfMtx          = FADECMalloc(SteadyOp_Elem, &MemSize);    
-    
+    WfMtx          = FADECMalloc(SteadyOp_Elem, &MemSize);
+
     // AltLinVec = (floating *)malloc(Alt_Elem * sizeof(floating));
     // AMtx = (floating *)malloc(SteadyOp_Elem * sizeof(floating));
     // ASVec = (floating *)malloc(AS_Elem * sizeof(floating));
@@ -783,18 +783,18 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     /*=======================================================*/
 	/* PIECE OF CODE TO BE EXECUTED WITHIN THE MAIN FUNCTION */
 	/*=======================================================*/
-        
+
     /* ----------- */
-	/* SINGLE STOP */ 
+	/* SINGLE STOP */
 	/* ----------- */
-    
+
     if(SingleStop == 0)
     {
 
         /*-----------------*/
         /* FADEC AND MODEL */
         /*-----------------*/
-        
+
         /* STRUCTS INITIALIZATION */
 
         Ambient = AmbientEmpty;
@@ -862,10 +862,10 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
         SingleStop = 1;
 
-    } 
-    
+    }
+
     /* -------------------------------------------------- */
-    
+
 
     /* LOADING OF CONTROLLER CONSTANTS */
     getXXXFADECContConst(&ContConst);
@@ -897,9 +897,9 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     // getXXXASVec(&ASVec);
     // getXXXDSVec(&DSVec);
     // getXXXNcVec(&NcVec);
-    
+
     // /* LOADING OF MODEL MATRICES */
-        
+
     // getXXXAMtx(&AMtx);
     // getXXXBMtx(&BMtx);
     // getXXXPt3DMtx(&Pt3DMtx);
@@ -907,7 +907,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     // getXXXTt4DMtx(&Tt4DMtx);
     // getXXXTt5DMtx(&Tt5DMtx);
     // getXXXPt3Mtx(&Pt3Mtx);
-    // getXXXPt5Mtx(&Pt5Mtx);    
+    // getXXXPt5Mtx(&Pt5Mtx);
     // getXXXTt4Mtx(&Tt4Mtx);
     // getXXXTt5Mtx(&Tt5Mtx);
     // getXXXWfMtx(&WfMtx);
@@ -936,17 +936,17 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 	/* ================================================================================= */
 	/* THE FOLLOWIN CODE MUST BE EXECUTED BY A TIMER ROUTINE OF THE HARDWARE IN THE LOOP */
 	/* ================================================================================= */
-    
+
     /* -------------------------------------------------- */
 	/* AUXILIARY VARIABLE - TMATS                         */
 	/* (To be usedi in MATLAB and TMATS simulations only) */
 	/* -------------------------------------------------- */
-    
+
     TMATS_StartComplete = InputTMATS[0];
-            
-    /* In the case of TMATS simulation, the static variables are preserved even between two 
+
+    /* In the case of TMATS simulation, the static variables are preserved even between two
     consecutive simulations. Therefore, the extra flag TMATS_StartComplete is used with inverted
-    logic to guarantee that the logical condition SkipStart == 1 && StartComplete == 0 is met. This 
+    logic to guarantee that the logical condition SkipStart == 1 && StartComplete == 0 is met. This
     is done with the use of a memory block having 1 as initial value and having 0 as its input, where
     its output is conected to InputTMATS[0]. When using the PWLM, this input must be kept zero at all
     instants (eliminating the memory block and seting InputTMATS[0] to 0 is sufficient)
@@ -955,9 +955,9 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     {
         StartComplete = 0;
     }
-    
+
     /* -------------------------------------------------- */
-	
+
     /* ---------------------------------------- */
 	/* INPUT READINS - T-MATS & PWML            */
 	/* (To be usedi in MATLAB simulations only) */
@@ -978,14 +978,14 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 	/* Reads mode key */
 	Mode = InputVars[12];
 	LeverMode = InputVars[13];
-    
+
     /* Reads Pt2 - Needed for Delta calculations */
 	Pt2 = InputVars[14];
 
 	/* Reads tick value - FOR USE WITH T-MATS ONLY. COMMENT IF HARDWARE*/
 	tack = tick;
 	tick = InputVars[15];
-    
+
     /* Reads flag indicating that engine units are used for thrust reference */
     EngUnits = InputVars[16];
 
@@ -1006,14 +1006,14 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     /* Booster state */
     BoosterLStatus = InputVars[23];
     BoosterRStatus = InputVars[24];
- 
+
     /* ---------------------------------------- */
-    
+
     /* -------------------------------------------------- */
 	/* SENSOR READING - TMATS & PWLM                      */
 	/* (To be usedi in MATLAB and TMATS simulations only) */
 	/* -------------------------------------------------- */
-    
+
     Sensors.Ts2[0] = InputSensors[0];
     Sensors.Ts2[1] = InputSensors[1];
     Sensors.Pt3[0] = InputSensors[2];
@@ -1028,19 +1028,19 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     Sensors.TBear[0] = InputVars[19];
     Sensors.TBear[1] = InputVars[20];
     Sensors.TBear[2] = InputVars[21];
-    
+
     /* Reads word containing faults simulated by siftware */
     SoftSimFaults.FaultBits = (uint64_t)InputFaults[0];
 
     /* Reads word containing CAN faults */
     CANFault.FaultBits = (uint64_t)InputCANFaults[0];
-        
+
     /* -------------------------------------------------- */
 
     // /*--------------------------------------------*/
 	// /* THERMOCOUPLE FAULT SIMULATION VIA SOFTWARE */
 	// /*--------------------------------------------*/
-    
+
     // /* Thermocouple fault simulation */
     // TCFault(&Sensors, &SoftSimFaults, &FaultSensAuthorize, &Ts2_0, &Ts2_1, &Tt4_0, &Tt4_1, &Tt4_2, &TB_0, &TB_1, &TB_2, ContConst.TCOpen);
 
@@ -1069,7 +1069,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 	ResetButton[1] = ResetButton[0];
 
 	/* Verifies if reset has been requested */
-	if (Reset == 1) 
+	if (Reset == 1)
 	{
 
 /******** SAVETO START: FADEC_RESET *********/
@@ -1107,7 +1107,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
         VibrationRes = DefaultRes;
 
         /* RESETS UNIONS */
-        
+
 		CANFault = FaultDetectEmpty;
         digital = digitalEmpty;
         digModCL = digitalEmpty;
@@ -1143,12 +1143,12 @@ static void mdlOutputs(SimStruct *S, int_T tid)
         Tt4_2.TCFaultBits = 0;
 
         /* RESETS static int TYPE */
-              
+
         CriticalFailure = 0;
         Current_key_start = 0;
         EmergencyCommand = 0;
         Old_key_start = 0;
-        Reset = 0;     
+        Reset = 0;
         ShutDownCommand = 0;
         StartCommand = 0;
         StartComplete = 0;
@@ -1212,7 +1212,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     /* engine thrust is non-zero is considered					 */
     /*-----------------------------------------------------------*/
 
-    if (SkipStart == 1 && StartComplete == 0) 
+    if (SkipStart == 1 && StartComplete == 0)
 	{
 
 		/* Sets initial conditions for fuel values and rotation speed references */
@@ -1308,7 +1308,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 	/* -------------------------------------------------- */
 
 	//FNpc = RefCAN;
-    
+
     /* Stores CAN fault bit value */
 	// FaultSSys.SysFaults.CAN_0_Fault = CANFault.SysFaults.CAN_0_Fault;
 	// FaultSSys.SysFaults.CAN_1_Fault = CANFault.SysFaults.CAN_1_Fault;
@@ -1321,12 +1321,12 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 	/*---------------*/
 	/* CONTROL LOGIC */
 	/*---------------*/
-   
+
     /* -------------------------------------------------- */
 	/* EXTERNAL SAMPLING TIME - TMATS & PWLM              */
 	/* (To be usedi in MATLAB and TMATS simulations only) */
 	/* -------------------------------------------------- */
-    
+
     /* TMATS */
 
     // Authorize = 0;
@@ -1339,9 +1339,9 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     if (tick == tack) {
         Authorize = 0;
     }
-    
+
     /*----------------------------------------------------*/
-    
+
     /* Checks for authorization of controller calculations */
     if(Authorize == 1)
     {
@@ -1350,7 +1350,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 	    /* SIMULATION OF GPIO PINES - TMATS & PWLM            */
 	    /* (To be usedi in MATLAB and TMATS simulations only) */
 	    /* -------------------------------------------------- */
-        
+
         /* Simulates reading from each GPIO pin */
         keys.in = GPIOIn & 0x7FF;
 
@@ -1373,7 +1373,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 		EngOnOff.ShutDownKey = keys.bits.ac_drive_key;
 		EngOnOff.ShutDownWait = ContConst.ShutDownWait;
 		EngOnOff.StartKey = 0;//!keys.bits.ac_drive_key;
-		EngOnOff.StartWait = ContConst.StartWait;	
+		EngOnOff.StartWait = ContConst.StartWait;
 		EngOnOff.Emergency = EmergencyCommand;
 		EngOnOff.Start = StartCommand;
 		EngOnOff.ShutDown = ShutDownCommand;
@@ -1386,7 +1386,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 		/* Updates starting keys */
 		Old_key_start = EngOnOff.OldKey;
 		Current_key_start = EngOnOff.CurrentKey;
-	
+
     	/* Updates commands */
 		StartCommand = EngOnOff.Start;
 		EmergencyCommand = EngOnOff.Emergency;
@@ -1398,9 +1398,9 @@ static void mdlOutputs(SimStruct *S, int_T tid)
         /* AUXILIARY VARIABLE - TMATS                         */
         /* (To be usedi in MATLAB and TMATS simulations only) */
         /* -------------------------------------------------- */
-   
+
         ContInput.TMATS_StartComplete = TMATS_StartComplete;
-        
+
         /* -------------------------------------------------- */
 
 /******** COMMENT END *********/
@@ -1452,7 +1452,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
                   &Ts2Res, &Tt4Res, &TBearRes);
 
         /* Estimation of indexes using current Altitude, MN and FNpc values */
-        /* In this case, the structure ModelPars must be used - Open-Loop model */      
+        /* In this case, the structure ModelPars must be used - Open-Loop model */
 		EstIndex(&ModelPars, AltLinVec, MNLinVec,
 				 Mtx2D, Mtx2DH, Mtx1D, Mtx1DH,
 				 FNperContMtx, &ContConst, &Index3D);
@@ -1501,7 +1501,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
         /* RESIDUAL CALCULATION AND PROCESSING */
 
         /* Residuals calculations */
-        /* In this case, two options: 
+        /* In this case, two options:
 		- ModelPars for Open-Loop model
 		- ModelParsCL for Closed-Loop model
 		*/
@@ -1512,7 +1512,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
              &VibrationRes, &TBearRes);
 
         /* Sensors residuals processing */
-        /* In this case, two options: 
+        /* In this case, two options:
 		- ModelPars for Open-Loop model
 		- ModelParsCL for Closed-Loop model
 		*/
@@ -1523,7 +1523,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
             &FaultSSens, &FaultWSens, &FaultSensAuthorize);
 
         /* Systems residuals processing */
-        /* In this case, two options: 
+        /* In this case, two options:
 		- ModelPars for Open-Loop model
 		- ModelParsCL for Closed-Loop model
 		*/
@@ -1536,14 +1536,14 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 				   &CANFault, &ContStart);
 
         /* Sensor bias residuals processing */
-        /* In this case, two options: 
+        /* In this case, two options:
 		- ModelPars for Open-Loop model
 		- ModelParsCL for Closed-Loop model
 		*/
         ResProcBias(&ContConst, &ModelParsChosen,
              &Ts2Res, &Pt3Res, &Tt4Res,
              &RPMRes, &POilRes, &PFuelRes,
-             &VibrationRes, &HardFStatus, &HardFWarning, &HardFAuthorize); 
+             &VibrationRes, &HardFStatus, &HardFWarning, &HardFAuthorize);
 
         /* FAULT ANALYSIS */
 
@@ -1575,7 +1575,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
         /* Sensors thrustworthiness analysis - checks if isolated sensor faults have occurred */
         SensorTrust(&TrustSens, &FaultSSens, &FaultWSens);
-        
+
 
         /* SYSTEM FAULTS ISOLATED AT EACH SENSOR */
 
@@ -1617,15 +1617,15 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
         /* Identifies initial or windmilling status */
         EngStatusDeff(&EngStatus, &ModPFault, &ContInput,
-                    &ContStart, &ContConst, 
+                    &ContStart, &ContConst,
                     0, 6,
-                    StartCommand, 1, ContInput.ThrustCommandOn, 
+                    StartCommand, 1, ContInput.ThrustCommandOn,
                     ShutDownCommand, 1, EmergencyCommand, 1,
                     CriticalFailure, 1, Ts);
 
         /* CALCULATION OF MEDIUM VALUES */
 
-        /* In this case, two options: 
+        /* In this case, two options:
 		- ModelPars for Open-Loop model
 		- ModelParsCL for Closed-Loop model
 		*/
@@ -1633,22 +1633,22 @@ static void mdlOutputs(SimStruct *S, int_T tid)
         /*The variable TrustAll indicates if either any sensor short/open or any sensor bias has occurred*/
         TrustAll.FaultBits = TrustHard.FaultBits & TrustSens.FaultBits;
 
-        /* Below, the ModPFault struct indicates which modeled parameters has any fault at each of its sensors, indicating 
+        /* Below, the ModPFault struct indicates which modeled parameters has any fault at each of its sensors, indicating
         that, for this particular parameter, only the model estimation is being used */
 
-        /* Calculates the medium value of Ts2 - The last indicates the minimum number of trusted sensors before 
+        /* Calculates the medium value of Ts2 - The last indicates the minimum number of trusted sensors before
         untrusted sensors are replaced by model calculated values */
         Ts2MediumValue(&ModPFault, &Ts2MedVal, ContConst.NumTs2Sens, &TrustAll, &Sensors, ModelParsChosen.Ts2,ContConst.NumTs2SensTrust);
-        /* Calculates the medium value of Pt3 - The last indicates the minimum number of trusted sensors before 
+        /* Calculates the medium value of Pt3 - The last indicates the minimum number of trusted sensors before
         untrusted sensors are replaced by model calculated values */
         Pt3MediumValue(&ModPFault, &Pt3MedVal, ContConst.NumPs3Sens, &TrustAll, &Sensors, ModelParsChosen.Pt3,ContConst.NumPs3SensTrust);
-        /* Calculates the medium value of Tt4 - The last indicates the minimum number of trusted sensors before 
+        /* Calculates the medium value of Tt4 - The last indicates the minimum number of trusted sensors before
         untrusted sensors are replaced by model calculated values */
         Tt4MediumValue(&ModPFault, &Tt4MedVal, ContConst.NumTt4Sens, &TrustAll, &Sensors, ModelParsChosen.Tt4,ContConst.NumTt4SensTrust);
-        /* Calculates the medium value of RPM - The last indicates the minimum number of trusted sensors before 
+        /* Calculates the medium value of RPM - The last indicates the minimum number of trusted sensors before
         untrusted sensors are replaced by model calculated values */
         RPMMediumValue(&ModPFault, &RPMMedVal, ContConst.NumRPMSens, &TrustAll, &Sensors, ModelParsChosen.RPM,ContConst.NumRPMSensTrust);
-       
+
         /* Updates variables with calculated medium values */
         Ts2 = Ts2MedVal;
         Pt3 = Pt3MedVal;
@@ -1676,8 +1676,8 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     	ModelPars.MN = MN;
     	ModelPars.Ts2Std = Ambient.Ts;
 
-        /* Calculation of total temperature */        
-        Tt2Calc(Ts2, &ModelPars); 
+        /* Calculation of total temperature */
+        Tt2Calc(Ts2, &ModelPars);
 
         /* Updates Tt2 and dT values */
         Tt2 = ModelPars.Tt2;
@@ -1723,7 +1723,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
 		/* Finds indexes from a dummy percentual value of Fnpc for obtaining the Mach number indexes */
         InterpInd3DRPM(0, MN, 0.95, AltLinVec, MNLinVec, FNperContMtx, Mtx2D, Mtx2DH, Mtx1D, Mtx1DH, 1, MN_Elem, Fn_Elem, &Index3D);
-		
+
         /* Shifts the indexes of Index3D for finding a 1D element */
 		Index3D.kRPM = Index3D.kMN;
 		Index3D.kRPMH = Index3D.kMNH;
@@ -1748,7 +1748,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
         /*--------------------*/
         /* ENGINE CONTROL LAW */
         /*--------------------*/
-                
+
         /* Updates Controller Inputs */
         ContInput.Old_key_start = Old_key_start;
         ContInput.Current_key_start = Current_key_start;
@@ -1779,16 +1779,16 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 		/* If booster is connected, measured value of Pt3 must not be considered and blow out protection must be deactivated */
 		BoosterProtect(&ContConst, &ContInput, Delta, BoosterLStatus, BoosterRStatus, Ts);
 //mexPrintf("RealCont: BoostL=%d BoostR=%d Time=%f status=%d Delta=%f Pt3=%f\n",BoosterLStatus, BoosterRStatus, ContInput.TimerBoost, ContInput.statusBooster, Delta, ContInput.Pt3);
-        /* CALCULATES THE CONTROL LAW */            
-                   
+        /* CALCULATES THE CONTROL LAW */
+
         /* Calculates fuel flow from control law */
 		PIMinMaxRF(AltLinVec, MNLinVec, NcVec, ASVec, DSVec,
 				   Mtx2D, Mtx2DH, Mtx1D, Mtx1DH,
 				   DeltaMtx2D, DeltaMtx2DH, DeltaMtx1D, DeltaMtx1DH,
 				   &ContConst, &ContStart, &ContInput, &ContOutput, &digitalWord, &keysWord,
 				   DeltaMtx, NcFANContMtx, FNcMaxContMtx, FNperContMtx,
-				   N_KpMtx, N_KpshMtx, N_KiMtx, N_KishMtx, Ts);                
-        
+				   N_KpMtx, N_KpshMtx, N_KiMtx, N_KishMtx, Ts);
+
         /* Updates digital outputs and fuel flow value */
         digital.out = digitalWord;
 
@@ -1796,22 +1796,22 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
         ShutDownRamp(&ContInput, &ContInputEmpty,
                      &ContOutput, &ContOutputEmpty,
-                     &ContStart, &ContStartEmpty, 
+                     &ContStart, &ContStartEmpty,
                      &ContGenOil, &ContGenEmpty,
                      &digital, &ContConst, Ts);
 
         /* EXECUTES EMERGENCY SHUT DOWN ROUTINE IF EMERGENCY HAS OCCURRED */
 
-        /* Engine must execute emergency shut down either through external command of 
+        /* Engine must execute emergency shut down either through external command of
         Emergency or through detection of critical failure */
         EmergShutDwn = EmergencyCommand || CriticalFailure;
 
         EmergencyShutDown(&ContInput, &ContInputEmpty,
 						  &ContOutput, &ContOutputEmpty,
-						  &ContStart, &ContStartEmpty, 
+						  &ContStart, &ContStartEmpty,
                           &ContGenOil, &ContGenEmpty,
                           &digital, EmergShutDwn);
-        
+
         /* Updates fuel flow value */
         Wf = ContOutput.Wf;
 
@@ -1823,7 +1823,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
         IgnitionFail = ContOutput.IgnitionFail;
         ControlPhase = ContOutput.ControlPhase;
 
-        /*--------------------*/             
+        /*--------------------*/
         /* MODEL CALCULATIONS */
         /*--------------------*/
 
@@ -1868,12 +1868,12 @@ static void mdlOutputs(SimStruct *S, int_T tid)
         ModelPars.Ts = 0.001 * TICK;
         ModelPars.NumSteps = ContConst.NumSteps;
         ModelPars.MaxInter = ContConst.MaxInterFault;
-        
+
         /* Updates fuel lack model inputs */
         BlowOutPars = ModelPars;
         /* Sets fuel value to 0 for simulating fuel lack situation */
         BlowOutPars.Wf = 0;
-        
+
         /* Calculates model for normal functioning */
         ModelCalc(&ModelPars, DeltaMtx,
                   AltLinVec, MNLinVec, &ContConst,
@@ -1885,8 +1885,8 @@ static void mdlOutputs(SimStruct *S, int_T tid)
                   Pt5Mtx, Pt5DMtx, Tt5Mtx, Tt5DMtx,
                   NcHPCMapMtx, WcHPCMapMtx, PRHPCMapMtx,
                   MapHPC1D, MapHPC1DH, MapHPC2D, MapHPC2DH);
-        
-        /* Calculates model for fuel lack */  
+
+        /* Calculates model for fuel lack */
 		ModelCalc(&BlowOutPars, DeltaMtx,
 				  AltLinVec, MNLinVec, &ContConst,
 				  Mtx2D, Mtx2DH, Mtx1D, Mtx1DH,
@@ -1900,11 +1900,11 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
         /* CLOSED-LOOP INTERNAL MODEL */
 
-        /* Checks if fault analysis has started. If not, the closed-loop model must match exactly 
+        /* Checks if fault analysis has started. If not, the closed-loop model must match exactly
         the open-loop model and simulation controller must match the real one */
         if (EngStatus.EngineStatus <= 8 | StartFaultAnalysis == 0)
         {
-            /* Sets input  simulation controller  and real controller parameters as equal, 
+            /* Sets input  simulation controller  and real controller parameters as equal,
             and close-loop and opem-loop models as equal */
             ContStModCL = ContStart;
             ContInModCL = ContInput;
@@ -1923,9 +1923,9 @@ static void mdlOutputs(SimStruct *S, int_T tid)
             ContInModCL.EngUnits = EngUnits;
             ContInModCL.Altitude = Altitude;
             ContInModCL.MN = MN;
-            ContInModCL.FNpc = FNpc;   
+            ContInModCL.FNpc = FNpc;
 
-            /* Parameters calculated by model */         
+            /* Parameters calculated by model */
             ContInModCL.Tt2 = ModelParsCL.Tt2;
             ContInModCL.Pt3 = ModelParsCL.Pt3;
             ContInModCL.Tt4 = ModelParsCL.Tt4;
@@ -1963,7 +1963,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
             for more accurate reproduction of the real situation */
             ShutDownRamp(&ContInModCL, &ContInputEmpty,
                          &ContOutModCL, &ContOutputEmpty,
-                         &ContStModCL, &ContStartEmpty, 
+                         &ContStModCL, &ContStartEmpty,
                          &ContGenOilCL, &ContGenEmpty,
                          &digModCL, &ContConst, Ts);
 
@@ -1973,7 +1973,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
             for more accurate reproduction of the real situation */
             EmergencyShutDown(&ContInModCL, &ContInputEmpty,
                               &ContOutModCL, &ContOutputEmpty,
-                              &ContStModCL, &ContStartEmpty, 
+                              &ContStModCL, &ContStartEmpty,
                               &ContGenOilCL, &ContGenEmpty,
                               &digModCL, EmergShutDwn);
         }
@@ -2019,7 +2019,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
         /* AUXILIARY VARIABLE - PWLM                          */
         /* (To be usedi in MATLAB and TMATS simulations only) */
         /* -------------------------------------------------- */
-        
+
         // Out0 = fValue;
         Out0 = Wf;
         Out1 = ContOutput.Active;
@@ -2029,7 +2029,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
         Out5 = (floating)EngStatus.EngineStatus;
         Out6 = OPRPM;
         //Out5 = ContStart.status;//EngStatus.EngineStatus;
-                
+
         /* -------------------------------------------------- */
 //mexPrintf("StatusSD=%d\n",ContInput.StatusSD);
     }
@@ -2048,13 +2048,13 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 	Iout[4] = Out4;
     Iout[5] = Out5;
     Iout[6] = Out6;
-    
+
     IoutModel[0] = ModelPars.RPM;
     IoutModel[1] = ModelPars.Tt4;
 //mexPrintf("\n ModelPars.Tt4 = %f", ModelPars.Tt4);
     IoutModel[2] = ModelPars.Pt3;
     IoutModel[3] = ModelPars.WfOutfp;
-    
+
     IoutBlowOut[0] = BlowOutPars.RPM;
     IoutBlowOut[1] = BlowOutPars.Tt4;
     IoutBlowOut[2] = BlowOutPars.Pt3;
@@ -2065,7 +2065,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 //mexPrintf("\n ModelPars.Tt4 = %f", ModelPars.Tt4);
     IoutModelCL[2] = ModelParsCL.Fn;
     IoutModelCL[3] = ModelParsCL.Tt2;
-    
+
     /*---------------------------------------------*/
 // mexPrintf("ModelPOil = %f, CLModelPOil = %f\n",ModelPars.POil, ModelParsCL.POil);
 // mexPrintf("ModelPFuel = %f, CLModelPFuel = %f\n",ModelPars.PFuel, ModelParsCL.PFuel);
