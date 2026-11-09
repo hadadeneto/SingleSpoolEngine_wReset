@@ -16,6 +16,7 @@ void getGEJ85FADECContConst(struct ControllerConstants *ContConst)
     ContConst->CLLever = GEJ85_CLOOP;
     ContConst->EmergencyCom = GEJ85_COMMAND_EMERGENCY;
     ContConst->EmergencyWait = GEJ85_WAIT_EMERGENCY_COMMAND;
+    ContConst->Engcooling = GEJ85_ENGCOOLING;
     ContConst->ErrorFracSD = GEJ85_SD_ERRORFRAC;
     ContConst->FNIdle = GEJ85_FN_IDLE;
     ContConst->Fn_Elem = GEJ85_FN_ELEM;

@@ -147,6 +147,9 @@ struct ControllerConstants
 
     /* TEMEPRATURE MEASUREMENT TYPE AT COMPRESSOR INLET - STATION 2 */
     int T2Type;
+    
+    /* ENGINE COOLING */
+    int Engcooling;
 
 };
 typedef struct ControllerConstants ControllerConstants;

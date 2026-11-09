@@ -15,24 +15,24 @@
 /*------------------*/
 
 /* Steady Operating Points Elements Numbers */
-#define TF1200_ALT_ELEM                                   13             
-#define TF1200_MN_ELEM                                    12             
-#define TF1200_FN_ELEM                                    12             
-#define TF1200_TOTAL_ELEM                                 1872           
-#define TF1200_AS_ELEM                                    6              
+#define TF1200_ALT_ELEM				       13
+#define TF1200_MN_ELEM 				       12
+#define TF1200_FN_ELEM				       12
+#define TF1200_TOTAL_ELEM			       1872
+#define TF1200_AS_ELEM				       6
 
 /* Components Maps Element Numbers */
-#define TF1200_FAN_NC                                     10             
-#define TF1200_FAN_PR                                     20             
-#define TF1200_HPT_NC                                     7              
-#define TF1200_HPT_PR                                     21             
+#define TF1200_FAN_NC                      10
+#define TF1200_FAN_PR                      20
+#define TF1200_HPT_NC				       7
+#define TF1200_HPT_PR				       21
 
 /* Engine Design Point Constants */
-#define TF1200_NDES                                       26400          
-#define TF1200_Ath_NOZZLE                                 0.039852       
+#define TF1200_NDES                        26400
+#define TF1200_Ath_NOZZLE                  0.039852
 
 /* Engine Starting Model Parameters */
-#define TF1200_VALVE_FUEL                                 7.76e-3        
+#define TF1200_VALVE_FUEL                                 7.76e-3
 #define TF1200_FUEL_BOUT                                  0.01           //kg/s
 #define TF1200_IGN_TIME                                   10             //s
 #define TF1200_IGN_DELTAT                                 900            //K
@@ -43,9 +43,9 @@
 /* ENGINE STARTING ALGORITHM CONSTANTS */
 /*-------------------------------------*/
 
-#define TF1200_MANUAL                                     1              
-#define TF1200_CLOOP                                      1              
-#define TF1200_ENGUNITS                                   1              
+#define TF1200_MANUAL                                     1
+#define TF1200_CLOOP                                      1
+#define TF1200_ENGUNITS                                   1
 
 /* Time Parameters */
 #define TF1200_FUEL_IMPULSE_TIME                          1              //Second
@@ -97,32 +97,32 @@
 #define TF1200_FUEL_RAMP_DEC_FAST                         -0.0024        /* kg/s^2 - Faster decreasing fuel ramp constant used during open-loop start logic, FuelIncrease function */
 #define TF1200_FUEL_RAMP_DEC_LOWLIM                       0.0033333      /* kg/s - Low fuel limit during use of decreasing fuel ramp */
 
-#define TF1200_ON                                         1              
-#define TF1200_OFF                                        0              
+#define TF1200_ON                                         1
+#define TF1200_OFF                                        0
 
 /*----------------------------------------*/
 /* ENGINE PI MIN-MAX CONTROLLER CONSTANTS */
 /*----------------------------------------*/
 
 /* Engine Limits */
-#define TF1200_NMAX                                       30000          
-#define TF1200_NMAXREF                                    29800          
-#define TF1200_TT4MAX                                     1150           
-#define TF1200_TT4MAXREF                                  1150           
-#define TF1200_TT5MAX                                     1005           
-#define TF1200_TT5MAXREF                                  1005           
-#define TF1200_SMMIN                                      15             
-#define TF1200_RUMIN                                      7e-8           
+#define TF1200_NMAX                                       30000
+#define TF1200_NMAXREF                                    29800
+#define TF1200_TT4MAX                                     1150
+#define TF1200_TT4MAXREF                                  1150
+#define TF1200_TT5MAX                                     1005
+#define TF1200_TT5MAXREF                                  1005
+#define TF1200_SMMIN                                      15
+#define TF1200_RUMIN                                      7e-8
 
 /* Maximum Pump Fuel Flow */
 #define TF1200_WFMAX                                      0.2            //kg/s
 
 /* Controller Constant Gains */
-#define TF1200_KPTT4                                      0              
-#define TF1200_KITT4                                      0.001          
-#define TF1200_KBN                                        50000          
+#define TF1200_KPTT4                                      0
+#define TF1200_KITT4                                      0.001
+#define TF1200_KBN                                        50000
 #define TF1200_KBT                                        4000           //50000
-#define TF1200_REFRAMP                                    500            
+#define TF1200_REFRAMP                                    500
 
 /*----------------------------------*/
 /* ENGINE PERIPHEALS TIME CONSTANTS */
@@ -137,19 +137,19 @@
 /*-----------------------*/
 
 /* Station 2 */
-#define TF1200_TS2SENS                                    2              
+#define TF1200_TS2SENS                                    2
 /*  Station 3 */
-#define TF1200_PS3SENS                                    1              
+#define TF1200_PS3SENS                                    1
 /* Station 4 */
-#define TF1200_TT4SENS                                    3              
+#define TF1200_TT4SENS                                    3
 /* Shaft */
-#define TF1200_RPMSENS                                    2              
+#define TF1200_RPMSENS                                    2
 /* Structure */
-#define TF1200_VIBRATIONSENS                              1              
+#define TF1200_VIBRATIONSENS                              1
 /* Lubrication */
-#define TF1200_POILSENS                                   1              
+#define TF1200_POILSENS                                   1
 /* Fuel System */
-#define TF1200_PFUELSENS                                  1              
+#define TF1200_PFUELSENS                                  1
 
 /*----------------------------------------*/
 /* ENGINE MINIMUM TRUSTED SENSORS NUMBERS */
@@ -161,13 +161,13 @@ calculated model values are used to replace
 untrusted sensors */
 
 /* Station 2 */
-#define TF1200_TS2SENSTRUST                               2              
+#define TF1200_TS2SENSTRUST                               2
 /*  Station 3 */
-#define TF1200_PS3SENSTRUST                               1              
+#define TF1200_PS3SENSTRUST                               1
 /* Station 4 */
-#define TF1200_TT4SENSTRUST                               3              
+#define TF1200_TT4SENSTRUST                               3
 /* Shaft */
-#define TF1200_RPMSENSTRUST                               2              
+#define TF1200_RPMSENSTRUST                               2
 
 /*--------------------------------------------------*/
 /* ENGINE MODEL PARAMETERS OF POIL, PFUEL VIBRATION */
@@ -206,9 +206,9 @@ untrusted sensors */
 /* ENGINE THERMOCOUPLE FAULT VALUES */
 /*----------------------------------*/
 
-#define TF1200_TCSCV                                      5000           
-#define TF1200_TCSCG                                      5000           
-#define TF1200_TCOPEN                                     5000           
+#define TF1200_TCSCV                                      5000
+#define TF1200_TCSCG                                      5000
+#define TF1200_TCOPEN                                     5000
 
 /*-------------------------------------*/
 /* ENGINE PRESSURE SENSOR FAULT VALUES */
@@ -217,9 +217,9 @@ untrusted sensors */
 #define TF1200_PSSHORT                                    200*100000     //Pascal
 #define TF1200_PFUELSHORT                                 200*100000     //Pascal
 #define TF1200_POILSHORT                                  200*100000     //Pascal
-#define TF1200_PSSOPEN                                    0              
-#define TF1200_PFUELOPEN                                  0              
-#define TF1200_POILOPEN                                   0              
+#define TF1200_PSSOPEN                                    0
+#define TF1200_PFUELOPEN                                  0
+#define TF1200_POILOPEN                                   0
 
 /*-------------------------------------*/
 /* ENGINE PRESSURE SENSOR FAULT VALUES */
@@ -298,21 +298,21 @@ untrusted sensors */
 /* NUMBER OF INTEGRATION STEPS FOR MODEL ESTIMATION */
 /*--------------------------------------------------*/
 
-#define TF1200_NUMSTEPS                                   10             
+#define TF1200_NUMSTEPS                                   10
 
 /*------------------------------------------------------------*/
 /* MAXIMUM NUMBER OF INTERACTIONS BEFORE FAULT IDENDIFICATION */
 /*------------------------------------------------------------*/
 
-#define TF1200_MAXINTERFAULT                              3              
+#define TF1200_MAXINTERFAULT                              3
 
 /*------------------------------*/
 /* NOMINAL SHUT DOWN PARAMETERS */
 /*------------------------------*/
 
-#define TF1200_SD_ERRORFRAC                               0.02           
-#define TF1200_SD_RMPMIN                                  18000          
-#define TF1200_SD_FUELRAMP                                0.000875       
+#define TF1200_SD_ERRORFRAC                               0.02
+#define TF1200_SD_RMPMIN                                  18000
+#define TF1200_SD_FUELRAMP                                0.000875
 #define TF1200_SD_TIME_TORAMP                             5              /* s - Time before ramp status becomes active */
 #define TF1200_SD_TIME_TOEMERG                            10             /* S - Time before emergency shut off is activated */
 // #define XXX_TS2FAULTS                3
@@ -341,9 +341,9 @@ untrusted sensors */
 /* EXTERNAL START/SHUT DOWN/EMERGENCY COMMANDS */
 /*---------------------------------------------*/
 
-#define TF1200_COMMAND_START                              0xAA           
-#define TF1200_COMMAND_SHUTDOWN                           0x00           
-#define TF1200_COMMAND_EMERGENCY                          0xCC           
+#define TF1200_COMMAND_START                              0xAA
+#define TF1200_COMMAND_SHUTDOWN                           0x00
+#define TF1200_COMMAND_EMERGENCY                          0xCC
 
 /*---------------*/
 /* BEARINGS DATA */
@@ -387,7 +387,13 @@ untrusted sensors */
 
 /* 0 - Measures Ts2 (local day temperature) */
 /* 1 - Measures Tt2 (total temperature) */
-#define TF1200_T2TYPE                                     0              
+#define TF1200_T2TYPE                                     0
+
+/*----------------*/
+/* ENGINE COOLING */
+/*----------------*/
+
+#define TF1200_ENGCOOLING                                 0              /* <Control> - Flag that activates engine cooling when set to 1 */
 
 /*-------------------------------------------------------------------------------------*/
 /* ADDITIONAL PARAMETERS PRESENT IN OLDER VERSION - USE DURING SOFTWARE MIGRATION ONLY */

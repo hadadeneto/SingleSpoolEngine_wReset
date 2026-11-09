@@ -15,24 +15,24 @@
 /*------------------*/
 
 /* Steady Operating Points Elements Numbers */
-#define TJ1200_ALT_ELEM                                   13             
-#define TJ1200_MN_ELEM                                    11             
-#define TJ1200_FN_ELEM                                    12             
-#define TJ1200_TOTAL_ELEM                                 1716           
-#define TJ1200_AS_ELEM                                    6              
+#define TJ1200_ALT_ELEM				       13
+#define TJ1200_MN_ELEM 				       11
+#define TJ1200_FN_ELEM				       12
+#define TJ1200_TOTAL_ELEM			       1716
+#define TJ1200_AS_ELEM				       6
 
 /* Components Maps Element Numbers */
-#define TJ1200_FAN_NC                                     10             
-#define TJ1200_FAN_PR                                     20             
-#define TJ1200_HPT_NC                                     7              
-#define TJ1200_HPT_PR                                     21             
+#define TJ1200_FAN_NC                      10
+#define TJ1200_FAN_PR                      20
+#define TJ1200_HPT_NC				       7
+#define TJ1200_HPT_PR				       21
 
 /* Engine Design Point Constants */
-#define TJ1200_NDES                                       23042          
-#define TJ1200_Ath_NOZZLE                                 0.028124       
+#define TJ1200_NDES                        23042
+#define TJ1200_Ath_NOZZLE                  0.028124
 
 /* Engine Starting Model Parameters */
-#define TJ1200_VALVE_FUEL                                 7.76e-3        
+#define TJ1200_VALVE_FUEL                                 7.76e-3
 #define TJ1200_FUEL_BOUT                                  0.005          //0.01	//kg/s
 #define TJ1200_IGN_TIME                                   1              //10		//s
 #define TJ1200_IGN_DELTAT                                 900            //K
@@ -43,9 +43,9 @@
 /* ENGINE STARTING ALGORITHM CONSTANTS */
 /*-------------------------------------*/
 
-#define TJ1200_MANUAL                                     1              
-#define TJ1200_CLOOP                                      1              
-#define TJ1200_ENGUNITS                                   1              
+#define TJ1200_MANUAL                                     1
+#define TJ1200_CLOOP                                      1
+#define TJ1200_ENGUNITS                                   1
 
 /* Time Parameters */
 #define TJ1200_FUEL_IMPULSE_TIME                          8              //5//2//4 -> At TestBench			//Second
@@ -97,21 +97,21 @@
 #define TJ1200_FUEL_RAMP_DEC_FAST                         -0.0024        /* kg/s^2 - Faster decreasing fuel ramp constant used during open-loop start logic, FuelIncrease function */
 #define TJ1200_FUEL_RAMP_DEC_LOWLIM                       0.0033333      /* kg/s - Low fuel limit during use of decreasing fuel ramp */
 
-#define TJ1200_ON                                         1              
-#define TJ1200_OFF                                        0              
+#define TJ1200_ON                                         1
+#define TJ1200_OFF                                        0
 
 /*----------------------------------------*/
 /* ENGINE PI MIN-MAX CONTROLLER CONSTANTS */
 /*----------------------------------------*/
 
 /* Engine Limits */
-#define TJ1200_NMAX                                       26400          
-#define TJ1200_NMAXREF                                    25800          
+#define TJ1200_NMAX                                       26400
+#define TJ1200_NMAXREF                                    25800
 #define TJ1200_TT4MAX                                     1215           //1157//1152
 #define TJ1200_TT4MAXREF                                  1210           //1152
 #define TJ1200_TT5MAX                                     995            //1005
-#define TJ1200_TT5MAXREF                                  995            
-#define TJ1200_SMMIN                                      5              
+#define TJ1200_TT5MAXREF                                  995
+#define TJ1200_SMMIN                                      5
 #define TJ1200_RUMIN                                      1.6e-7         //1.9e-7
 
 /* Maximum Pump Fuel Flow */
@@ -120,7 +120,7 @@
 /* Controller Constant Gains */
 #define TJ1200_KPTT4                                      0.00046391     //0.00086391//0
 #define TJ1200_KITT4                                      0.00020778     //0.00065778//0.00015	//0.00045 //0.001262
-#define TJ1200_KBN                                        20000          
+#define TJ1200_KBN                                        20000
 #define TJ1200_KBT                                        7000           //10000
 #define TJ1200_REFRAMP                                    100000000      //500
 
@@ -137,19 +137,19 @@
 /*-----------------------*/
 
 /* Station 2 */
-#define TJ1200_TS2SENS                                    2              
+#define TJ1200_TS2SENS                                    2
 /*  Station 3 */
-#define TJ1200_PS3SENS                                    1              
+#define TJ1200_PS3SENS                                    1
 /* Station 4 */
 #define TJ1200_TT4SENS                                    3              //2 -> 2 at test bench. In this case, protections will fail due to shift on bit indication position
 /* Shaft */
 #define TJ1200_RPMSENS                                    2              //1 -> 1 at test bench. In this case, protections will fail due to shift on bit indication position
 /* Structure */
-#define TJ1200_VIBRATIONSENS                              1              
+#define TJ1200_VIBRATIONSENS                              1
 /* Lubrication */
-#define TJ1200_POILSENS                                   1              
+#define TJ1200_POILSENS                                   1
 /* Fuel System */
-#define TJ1200_PFUELSENS                                  1              
+#define TJ1200_PFUELSENS                                  1
 
 /*----------------------------------------*/
 /* ENGINE MINIMUM TRUSTED SENSORS NUMBERS */
@@ -161,9 +161,9 @@ calculated model values are used to replace
 untrusted sensors */
 
 /* Station 2 */
-#define TJ1200_TS2SENSTRUST                               2              
+#define TJ1200_TS2SENSTRUST                               2
 /*  Station 3 */
-#define TJ1200_PS3SENSTRUST                               1              
+#define TJ1200_PS3SENSTRUST                               1
 /* Station 4 */
 #define TJ1200_TT4SENSTRUST                               2              //3
 /* Shaft */
@@ -298,20 +298,20 @@ untrusted sensors */
 /* NUMBER OF INTEGRATION STEPS FOR MODEL ESTIMATION */
 /*--------------------------------------------------*/
 
-#define TJ1200_NUMSTEPS                                   10             
+#define TJ1200_NUMSTEPS                                   10
 
 /*------------------------------------------------------------*/
 /* MAXIMUM NUMBER OF INTERACTIONS BEFORE FAULT IDENDIFICATION */
 /*------------------------------------------------------------*/
 
-#define TJ1200_MAXINTERFAULT                              3              
+#define TJ1200_MAXINTERFAULT                              3
 
 /*------------------------------*/
 /* NOMINAL SHUT DOWN PARAMETERS */
 /*------------------------------*/
 
-#define TJ1200_SD_ERRORFRAC                               0.02           
-#define TJ1200_SD_RMPMIN                                  16000          
+#define TJ1200_SD_ERRORFRAC                               0.02
+#define TJ1200_SD_RMPMIN                                  16000
 #define TJ1200_SD_FUELRAMP                                0.00875        // 0.000875
 #define TJ1200_SD_TIME_TORAMP                             5              /* s - Time before ramp status becomes active */
 #define TJ1200_SD_TIME_TOEMERG                            10             /* S - Time before emergency shut off is activated */
@@ -341,9 +341,9 @@ untrusted sensors */
 /* EXTERNAL START/SHUT DOWN/EMERGENCY COMMANDS */
 /*---------------------------------------------*/
 
-#define TJ1200_COMMAND_START                              0xAA           
-#define TJ1200_COMMAND_SHUTDOWN                           0x00           
-#define TJ1200_COMMAND_EMERGENCY                          0xCC           
+#define TJ1200_COMMAND_START                              0xAA
+#define TJ1200_COMMAND_SHUTDOWN                           0x00
+#define TJ1200_COMMAND_EMERGENCY                          0xCC
 
 /*---------------*/
 /* BEARINGS DATA */
@@ -387,7 +387,13 @@ untrusted sensors */
 
 /* 0 - Measures Ts2 (local day temperature) */
 /* 1 - Measures Tt2 (total temperature) */
-#define TJ1200_T2TYPE                                     1              
+#define TJ1200_T2TYPE                                     1
+
+/*----------------*/
+/* ENGINE COOLING */
+/*----------------*/
+
+#define TJ1200_ENGCOOLING                                 0              /* <Control> - Flag that activates engine cooling when set to 1 */
 
 /*-------------------------------------------------------------------------------------*/
 /* ADDITIONAL PARAMETERS PRESENT IN OLDER VERSION - USE DURING SOFTWARE MIGRATION ONLY */

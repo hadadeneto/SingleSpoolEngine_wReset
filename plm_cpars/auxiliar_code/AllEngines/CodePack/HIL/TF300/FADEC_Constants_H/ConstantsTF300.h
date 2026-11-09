@@ -389,6 +389,12 @@ untrusted sensors */
 /* 1 - Measures Tt2 (total temperature) */
 #define TF300_T2TYPE                                      0
 
+/*----------------*/
+/* ENGINE COOLING */
+/*----------------*/
+
+#define TF300_ENGCOOLING                                  0              /* <Control> - Flag that activates engine cooling when set to 1 */
+
 /*-------------------------------------------------------------------------------------*/
 /* ADDITIONAL PARAMETERS PRESENT IN OLDER VERSION - USE DURING SOFTWARE MIGRATION ONLY */
 /*-------------------------------------------------------------------------------------*/

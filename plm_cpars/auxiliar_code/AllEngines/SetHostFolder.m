@@ -4,6 +4,8 @@ HostFolder = 'SSModelCFunc';
 TMATSFolder = 'TMATSData';
 %Sets TMATS folder for storing FADEC code pack
 TMATSFADECPack = 'TMATSFADEC';
+%Sets FADEC Lite folder for storing FADEC code pack
+FADECLitePack = 'FADECLite';
 %Sets Bacup folder
 BackupFolder = 'Backups';
 %Folder for saving MATLAB compile code files

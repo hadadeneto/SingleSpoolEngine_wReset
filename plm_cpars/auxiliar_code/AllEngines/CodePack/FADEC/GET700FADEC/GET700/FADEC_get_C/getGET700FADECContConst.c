@@ -16,6 +16,7 @@ void getGET700FADECContConst(struct ControllerConstants *ContConst)
     ContConst->CLLever = GET700_CLOOP;
     ContConst->EmergencyCom = GET700_COMMAND_EMERGENCY;
     ContConst->EmergencyWait = GET700_WAIT_EMERGENCY_COMMAND;
+    ContConst->Engcooling = GET700_ENGCOOLING;
     ContConst->ErrorFracSD = GET700_SD_ERRORFRAC;
     ContConst->FNIdle = GET700_FN_IDLE;
     ContConst->Fn_Elem = GET700_FN_ELEM;

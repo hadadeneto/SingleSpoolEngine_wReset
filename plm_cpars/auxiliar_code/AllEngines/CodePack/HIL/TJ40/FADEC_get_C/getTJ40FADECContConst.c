@@ -16,6 +16,7 @@ void getTJ40FADECContConst(struct ControllerConstants *ContConst)
     ContConst->CLLever = TJ40_CLOOP;
     ContConst->EmergencyCom = TJ40_COMMAND_EMERGENCY;
     ContConst->EmergencyWait = TJ40_WAIT_EMERGENCY_COMMAND;
+    ContConst->Engcooling = TJ40_ENGCOOLING;
     ContConst->ErrorFracSD = TJ40_SD_ERRORFRAC;
     ContConst->FNIdle = TJ40_FN_IDLE;
     ContConst->Fn_Elem = TJ40_FN_ELEM;

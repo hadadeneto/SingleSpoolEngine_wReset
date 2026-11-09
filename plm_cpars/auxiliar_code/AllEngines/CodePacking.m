@@ -197,6 +197,12 @@ cd(CurPath);
 
 TMATSFADECPacking;
 
+%------------------------
+%SETS PACK FOR FADEC LITE
+%------------------------
+
+FADECLitePacking;
+
 %-------------
 %REMOVES PATHS
 %-------------

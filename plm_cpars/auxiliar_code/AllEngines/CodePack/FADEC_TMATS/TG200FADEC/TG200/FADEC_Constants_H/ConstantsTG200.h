@@ -15,24 +15,24 @@
 /*------------------*/
 
 /* Steady Operating Points Elements Numbers */
-#define TG200_ALT_ELEM                                    1              
-#define TG200_MN_ELEM                                     1              
-#define TG200_FN_ELEM                                     1              
-#define TG200_TOTAL_ELEM                                  1              
-#define TG200_AS_ELEM                                     6              
+#define TG200_ALT_ELEM				       1
+#define TG200_MN_ELEM 				       1
+#define TG200_FN_ELEM				       1
+#define TG200_TOTAL_ELEM			       1
+#define TG200_AS_ELEM				       6
 
 /* Components Maps Element Numbers */
-#define TG200_FAN_NC                                      8              
-#define TG200_FAN_PR                                      19             
-#define TG200_HPT_NC                                      7              
-#define TG200_HPT_PR                                      21             
+#define TG200_FAN_NC                      8
+#define TG200_FAN_PR                      19
+#define TG200_HPT_NC				       7
+#define TG200_HPT_PR				       21
 
 /* Engine Design Point Constants */
-#define TG200_NDES                                        65000          
-#define TG200_Ath_NOZZLE                                  0.0074999      
+#define TG200_NDES                        65000
+#define TG200_Ath_NOZZLE                  0.0074999
 
 /* Engine Starting Model Parameters */
-#define TG200_VALVE_FUEL                                  7.76e-3        
+#define TG200_VALVE_FUEL                                  7.76e-3
 #define TG200_FUEL_BOUT                                   0.01           //kg/s
 #define TG200_IGN_TIME                                    10             //s
 #define TG200_IGN_DELTAT                                  900            //K
@@ -43,9 +43,9 @@
 /* ENGINE STARTING ALGORITHM CONSTANTS */
 /*-------------------------------------*/
 
-#define TG200_MANUAL                                      1              
-#define TG200_CLOOP                                       1              
-#define TG200_ENGUNITS                                    1              
+#define TG200_MANUAL                                      1
+#define TG200_CLOOP                                       1
+#define TG200_ENGUNITS                                    1
 
 /* Time Parameters */
 #define TG200_FUEL_IMPULSE_TIME                           1              //Second
@@ -97,8 +97,8 @@
 #define TG200_FUEL_RAMP_DEC_FAST                          -0.0024        /* kg/s^2 - Faster decreasing fuel ramp constant used during open-loop start logic, FuelIncrease function */
 #define TG200_FUEL_RAMP_DEC_LOWLIM                        0.0033333      /* kg/s - Low fuel limit during use of decreasing fuel ramp */
 
-#define TG200_ON                                          1              
-#define TG200_OFF                                         0              
+#define TG200_ON                                          1
+#define TG200_OFF                                         0
 
 /*----------------------------------------*/
 /* ENGINE PI MIN-MAX CONTROLLER CONSTANTS */
@@ -109,9 +109,9 @@
 #define TG200_NMAXREF                                     50000          //16540
 #define TG200_TT4MAX                                      1500           //1250
 #define TG200_TT4MAXREF                                   1500           //1250
-#define TG200_TT5MAX                                      1005           
-#define TG200_TT5MAXREF                                   1005           
-#define TG200_SMMIN                                       15             
+#define TG200_TT5MAX                                      1005
+#define TG200_TT5MAXREF                                   1005
+#define TG200_SMMIN                                       15
 #define TG200_RUMIN                                       0              //2.8e-7
 
 /* Maximum Pump Fuel Flow */
@@ -120,9 +120,9 @@
 /* Controller Constant Gains */
 #define TG200_KPTT4                                       0.000234524000654794//0
 #define TG200_KITT4                                       0.000340956721410899//0.0039328
-#define TG200_KBN                                         20000          
+#define TG200_KBN                                         20000
 #define TG200_KBT                                         5000           //1000//10000
-#define TG200_REFRAMP                                     500            
+#define TG200_REFRAMP                                     500
 
 /*----------------------------------*/
 /* ENGINE PERIPHEALS TIME CONSTANTS */
@@ -137,19 +137,19 @@
 /*-----------------------*/
 
 /* Station 2 */
-#define TG200_TS2SENS                                     2              
+#define TG200_TS2SENS                                     2
 /*  Station 3 */
-#define TG200_PS3SENS                                     1              
+#define TG200_PS3SENS                                     1
 /* Station 4 */
-#define TG200_TT4SENS                                     3              
+#define TG200_TT4SENS                                     3
 /* Shaft */
-#define TG200_RPMSENS                                     2              
+#define TG200_RPMSENS                                     2
 /* Structure */
-#define TG200_VIBRATIONSENS                               1              
+#define TG200_VIBRATIONSENS                               1
 /* Lubrication */
-#define TG200_POILSENS                                    1              
+#define TG200_POILSENS                                    1
 /* Fuel System */
-#define TG200_PFUELSENS                                   1              
+#define TG200_PFUELSENS                                   1
 
 /*----------------------------------------*/
 /* ENGINE MINIMUM TRUSTED SENSORS NUMBERS */
@@ -161,13 +161,13 @@ calculated model values are used to replace
 untrusted sensors */
 
 /* Station 2 */
-#define TG200_TS2SENSTRUST                                2              
+#define TG200_TS2SENSTRUST                                2
 /*  Station 3 */
-#define TG200_PS3SENSTRUST                                1              
+#define TG200_PS3SENSTRUST                                1
 /* Station 4 */
-#define TG200_TT4SENSTRUST                                3              
+#define TG200_TT4SENSTRUST                                3
 /* Shaft */
-#define TG200_RPMSENSTRUST                                2              
+#define TG200_RPMSENSTRUST                                2
 
 /*--------------------------------------------------*/
 /* ENGINE MODEL PARAMETERS OF POIL, PFUEL VIBRATION */
@@ -206,9 +206,9 @@ untrusted sensors */
 /* ENGINE THERMOCOUPLE FAULT VALUES */
 /*----------------------------------*/
 
-#define TG200_TCSCV                                       5000           
-#define TG200_TCSCG                                       5000           
-#define TG200_TCOPEN                                      5000           
+#define TG200_TCSCV                                       5000
+#define TG200_TCSCG                                       5000
+#define TG200_TCOPEN                                      5000
 
 /*-------------------------------------*/
 /* ENGINE PRESSURE SENSOR FAULT VALUES */
@@ -217,9 +217,9 @@ untrusted sensors */
 #define TG200_PSSHORT                                     200*100000     //Pascal
 #define TG200_PFUELSHORT                                  200*100000     //Pascal
 #define TG200_POILSHORT                                   200*100000     //Pascal
-#define TG200_PSSOPEN                                     0              
-#define TG200_PFUELOPEN                                   0              
-#define TG200_POILOPEN                                    0              
+#define TG200_PSSOPEN                                     0
+#define TG200_PFUELOPEN                                   0
+#define TG200_POILOPEN                                    0
 
 /*-------------------------------------*/
 /* ENGINE PRESSURE SENSOR FAULT VALUES */
@@ -298,21 +298,21 @@ untrusted sensors */
 /* NUMBER OF INTEGRATION STEPS FOR MODEL ESTIMATION */
 /*--------------------------------------------------*/
 
-#define TG200_NUMSTEPS                                    10             
+#define TG200_NUMSTEPS                                    10
 
 /*------------------------------------------------------------*/
 /* MAXIMUM NUMBER OF INTERACTIONS BEFORE FAULT IDENDIFICATION */
 /*------------------------------------------------------------*/
 
-#define TG200_MAXINTERFAULT                               3              
+#define TG200_MAXINTERFAULT                               3
 
 /*------------------------------*/
 /* NOMINAL SHUT DOWN PARAMETERS */
 /*------------------------------*/
 
-#define TG200_SD_ERRORFRAC                                0.02           
-#define TG200_SD_RMPMIN                                   12000          
-#define TG200_SD_FUELRAMP                                 0.000875       
+#define TG200_SD_ERRORFRAC                                0.02
+#define TG200_SD_RMPMIN                                   12000
+#define TG200_SD_FUELRAMP                                 0.000875
 #define TG200_SD_TIME_TORAMP                              5              /* s - Time before ramp status becomes active */
 #define TG200_SD_TIME_TOEMERG                             10             /* S - Time before emergency shut off is activated */
 // #define XXX_TS2FAULTS                3
@@ -341,9 +341,9 @@ untrusted sensors */
 /* EXTERNAL START/SHUT DOWN/EMERGENCY COMMANDS */
 /*---------------------------------------------*/
 
-#define TG200_COMMAND_START                               0xAA           
-#define TG200_COMMAND_SHUTDOWN                            0x00           
-#define TG200_COMMAND_EMERGENCY                           0xCC           
+#define TG200_COMMAND_START                               0xAA
+#define TG200_COMMAND_SHUTDOWN                            0x00
+#define TG200_COMMAND_EMERGENCY                           0xCC
 
 /*---------------*/
 /* BEARINGS DATA */
@@ -387,7 +387,13 @@ untrusted sensors */
 
 /* 0 - Measures Ts2 (local day temperature) */
 /* 1 - Measures Tt2 (total temperature) */
-#define TG200_T2TYPE                                      0              
+#define TG200_T2TYPE                                      0
+
+/*----------------*/
+/* ENGINE COOLING */
+/*----------------*/
+
+#define TG200_ENGCOOLING                                  0              /* <Control> - Flag that activates engine cooling when set to 1 */
 
 /*-------------------------------------------------------------------------------------*/
 /* ADDITIONAL PARAMETERS PRESENT IN OLDER VERSION - USE DURING SOFTWARE MIGRATION ONLY */

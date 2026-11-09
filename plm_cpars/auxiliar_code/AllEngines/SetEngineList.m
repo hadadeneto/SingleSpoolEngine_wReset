@@ -26,5 +26,14 @@ EngFADECPack = [{'TJ1200'},{'TJ200'},{'GET700'},{'TG200'},{'TJ300AR'},{'TJ300R'}
 %2 - State-space representatoion requires dimX > 1 or dimU > 1
 FADECTypeList = [1,1,2,2,1,1];
 
+%Chose engines for FADEC Lite pack of software - For each engine on this list,
+%the code pack necessary for real FADEC Lite %will be generated and stored in 
+%the folder CodePack. 
+EngFADECLitePack = {'TJ200'};
+%Creates FADEC type list according to the numbers below
+%1 - State-space representatoion requires dimX = 1 and dimU = 1
+%2 - State-space representatoion requires dimX > 1 or dimU > 1
+FADECLiteTypeList = 1;
+
 %S-FUNCTION NAME FOR HIL
 HILSFuncName = 'SSModelLoop.c';

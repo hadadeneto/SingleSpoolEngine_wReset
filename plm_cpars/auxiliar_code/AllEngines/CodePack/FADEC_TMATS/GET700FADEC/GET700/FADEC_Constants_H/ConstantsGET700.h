@@ -15,24 +15,24 @@
 /*------------------*/
 
 /* Steady Operating Points Elements Numbers */
-#define GET700_ALT_ELEM                                   1              
-#define GET700_MN_ELEM                                    1              
-#define GET700_FN_ELEM                                    1              
-#define GET700_TOTAL_ELEM                                 1              
-#define GET700_AS_ELEM                                    6              
+#define GET700_ALT_ELEM				       1
+#define GET700_MN_ELEM 				       1
+#define GET700_FN_ELEM				       1
+#define GET700_TOTAL_ELEM			       1
+#define GET700_AS_ELEM				       6
 
 /* Components Maps Element Numbers */
-#define GET700_FAN_NC                                     8              
-#define GET700_FAN_PR                                     19             
-#define GET700_HPT_NC                                     7              
-#define GET700_HPT_PR                                     21             
+#define GET700_FAN_NC                      8
+#define GET700_FAN_PR                      19
+#define GET700_HPT_NC				       7
+#define GET700_HPT_PR				       21
 
 /* Engine Design Point Constants */
-#define GET700_NDES                                       44300          
-#define GET700_Ath_NOZZLE                                 0.049553       
+#define GET700_NDES                        44300
+#define GET700_Ath_NOZZLE                  0.049553
 
 /* Engine Starting Model Parameters */
-#define GET700_VALVE_FUEL                                 7.76e-3        
+#define GET700_VALVE_FUEL                                 7.76e-3
 #define GET700_FUEL_BOUT                                  0.01           //kg/s
 #define GET700_IGN_TIME                                   10             //s
 #define GET700_IGN_DELTAT                                 900            //K
@@ -43,9 +43,9 @@
 /* ENGINE STARTING ALGORITHM CONSTANTS */
 /*-------------------------------------*/
 
-#define GET700_MANUAL                                     1              
-#define GET700_CLOOP                                      1              
-#define GET700_ENGUNITS                                   1              
+#define GET700_MANUAL                                     1
+#define GET700_CLOOP                                      1
+#define GET700_ENGUNITS                                   1
 
 /* Time Parameters */
 #define GET700_FUEL_IMPULSE_TIME                          1              //Second
@@ -97,8 +97,8 @@
 #define GET700_FUEL_RAMP_DEC_FAST                         -0.0024        /* kg/s^2 - Faster decreasing fuel ramp constant used during open-loop start logic, FuelIncrease function */
 #define GET700_FUEL_RAMP_DEC_LOWLIM                       0.0033333      /* kg/s - Low fuel limit during use of decreasing fuel ramp */
 
-#define GET700_ON                                         1              
-#define GET700_OFF                                        0              
+#define GET700_ON                                         1
+#define GET700_OFF                                        0
 
 /*----------------------------------------*/
 /* ENGINE PI MIN-MAX CONTROLLER CONSTANTS */
@@ -109,9 +109,9 @@
 #define GET700_NMAXREF                                    25000          //16540
 #define GET700_TT4MAX                                     1500           //1250
 #define GET700_TT4MAXREF                                  1500           //1250
-#define GET700_TT5MAX                                     1005           
-#define GET700_TT5MAXREF                                  1005           
-#define GET700_SMMIN                                      15             
+#define GET700_TT5MAX                                     1005
+#define GET700_TT5MAXREF                                  1005
+#define GET700_SMMIN                                      15
 #define GET700_RUMIN                                      0              //2.8e-7
 
 /* Maximum Pump Fuel Flow */
@@ -120,9 +120,9 @@
 /* Controller Constant Gains */
 #define GET700_KPTT4                                      0.000234524000654794//0
 #define GET700_KITT4                                      0.000340956721410899//0.0039328
-#define GET700_KBN                                        20000          
+#define GET700_KBN                                        20000
 #define GET700_KBT                                        5000           //1000//10000
-#define GET700_REFRAMP                                    500            
+#define GET700_REFRAMP                                    500
 
 /*----------------------------------*/
 /* ENGINE PERIPHEALS TIME CONSTANTS */
@@ -137,19 +137,19 @@
 /*-----------------------*/
 
 /* Station 2 */
-#define GET700_TS2SENS                                    2              
+#define GET700_TS2SENS                                    2
 /*  Station 3 */
-#define GET700_PS3SENS                                    1              
+#define GET700_PS3SENS                                    1
 /* Station 4 */
-#define GET700_TT4SENS                                    3              
+#define GET700_TT4SENS                                    3
 /* Shaft */
-#define GET700_RPMSENS                                    2              
+#define GET700_RPMSENS                                    2
 /* Structure */
-#define GET700_VIBRATIONSENS                              1              
+#define GET700_VIBRATIONSENS                              1
 /* Lubrication */
-#define GET700_POILSENS                                   1              
+#define GET700_POILSENS                                   1
 /* Fuel System */
-#define GET700_PFUELSENS                                  1              
+#define GET700_PFUELSENS                                  1
 
 /*----------------------------------------*/
 /* ENGINE MINIMUM TRUSTED SENSORS NUMBERS */
@@ -161,13 +161,13 @@ calculated model values are used to replace
 untrusted sensors */
 
 /* Station 2 */
-#define GET700_TS2SENSTRUST                               2              
+#define GET700_TS2SENSTRUST                               2
 /*  Station 3 */
-#define GET700_PS3SENSTRUST                               1              
+#define GET700_PS3SENSTRUST                               1
 /* Station 4 */
-#define GET700_TT4SENSTRUST                               3              
+#define GET700_TT4SENSTRUST                               3
 /* Shaft */
-#define GET700_RPMSENSTRUST                               2              
+#define GET700_RPMSENSTRUST                               2
 
 /*--------------------------------------------------*/
 /* ENGINE MODEL PARAMETERS OF POIL, PFUEL VIBRATION */
@@ -206,9 +206,9 @@ untrusted sensors */
 /* ENGINE THERMOCOUPLE FAULT VALUES */
 /*----------------------------------*/
 
-#define GET700_TCSCV                                      5000           
-#define GET700_TCSCG                                      5000           
-#define GET700_TCOPEN                                     5000           
+#define GET700_TCSCV                                      5000
+#define GET700_TCSCG                                      5000
+#define GET700_TCOPEN                                     5000
 
 /*-------------------------------------*/
 /* ENGINE PRESSURE SENSOR FAULT VALUES */
@@ -217,9 +217,9 @@ untrusted sensors */
 #define GET700_PSSHORT                                    200*100000     //Pascal
 #define GET700_PFUELSHORT                                 200*100000     //Pascal
 #define GET700_POILSHORT                                  200*100000     //Pascal
-#define GET700_PSSOPEN                                    0              
-#define GET700_PFUELOPEN                                  0              
-#define GET700_POILOPEN                                   0              
+#define GET700_PSSOPEN                                    0
+#define GET700_PFUELOPEN                                  0
+#define GET700_POILOPEN                                   0
 
 /*-------------------------------------*/
 /* ENGINE PRESSURE SENSOR FAULT VALUES */
@@ -298,21 +298,21 @@ untrusted sensors */
 /* NUMBER OF INTEGRATION STEPS FOR MODEL ESTIMATION */
 /*--------------------------------------------------*/
 
-#define GET700_NUMSTEPS                                   10             
+#define GET700_NUMSTEPS                                   10
 
 /*------------------------------------------------------------*/
 /* MAXIMUM NUMBER OF INTERACTIONS BEFORE FAULT IDENDIFICATION */
 /*------------------------------------------------------------*/
 
-#define GET700_MAXINTERFAULT                              3              
+#define GET700_MAXINTERFAULT                              3
 
 /*------------------------------*/
 /* NOMINAL SHUT DOWN PARAMETERS */
 /*------------------------------*/
 
-#define GET700_SD_ERRORFRAC                               0.02           
-#define GET700_SD_RMPMIN                                  12000          
-#define GET700_SD_FUELRAMP                                0.000875       
+#define GET700_SD_ERRORFRAC                               0.02
+#define GET700_SD_RMPMIN                                  12000
+#define GET700_SD_FUELRAMP                                0.000875
 #define GET700_SD_TIME_TORAMP                             5              /* s - Time before ramp status becomes active */
 #define GET700_SD_TIME_TOEMERG                            10             /* S - Time before emergency shut off is activated */
 // #define XXX_TS2FAULTS                3
@@ -341,9 +341,9 @@ untrusted sensors */
 /* EXTERNAL START/SHUT DOWN/EMERGENCY COMMANDS */
 /*---------------------------------------------*/
 
-#define GET700_COMMAND_START                              0xAA           
-#define GET700_COMMAND_SHUTDOWN                           0x00           
-#define GET700_COMMAND_EMERGENCY                          0xCC           
+#define GET700_COMMAND_START                              0xAA
+#define GET700_COMMAND_SHUTDOWN                           0x00
+#define GET700_COMMAND_EMERGENCY                          0xCC
 
 /*---------------*/
 /* BEARINGS DATA */
@@ -387,7 +387,13 @@ untrusted sensors */
 
 /* 0 - Measures Ts2 (local day temperature) */
 /* 1 - Measures Tt2 (total temperature) */
-#define GET700_T2TYPE                                     0              
+#define GET700_T2TYPE                                     0
+
+/*----------------*/
+/* ENGINE COOLING */
+/*----------------*/
+
+#define GET700_ENGCOOLING                                 0              /* <Control> - Flag that activates engine cooling when set to 1 */
 
 /*-------------------------------------------------------------------------------------*/
 /* ADDITIONAL PARAMETERS PRESENT IN OLDER VERSION - USE DURING SOFTWARE MIGRATION ONLY */
