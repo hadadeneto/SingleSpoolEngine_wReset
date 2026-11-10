@@ -1,22 +1,39 @@
+/*
+ * sfuntmpl_basic.c: Basic 'C' template for a level 2 S-function.
+ *
+ * Copyright 1990-2013 The MathWorks, Inc.
+ */
 
 
-/* INCLUDES REFERENT TO THE FADEC */
-// extern "C"
-// {
+ /*
+  * You must specify the S_FUNCTION_NAME as the name of your S-function
+  * (i.e. replace sfuntmpl_basic with the name of your S-function).
+  */
 
-/* Change for FADEC Lite */
+  // #ifdef __cplusplus
+  // extern "C" { // use the C fcn-call standard for all functions
+  // #endif       // defined within this scope
+
+#define S_FUNCTION_NAME  FADEC_GET700
+#define S_FUNCTION_LEVEL 2
+
+//#define pi 3.14
+
+/*
+ * Need to include simstruc.h for the definition of the SimStruct and
+ * its associated macro definitions.
+ */
+#include "simstruc.h"
+
+
+/*--------------------------*/
+/* PREVIOUSLY MADE INCLUDES */
+/*--------------------------*/
+
 #include <math.h>
 #include <stdio.h>
 
-
-/*--------------------*/
-/* ADDITIONAL STRUCTS */
-/*--------------------*/
-
-#include "FADECLiteExpStr.h"
-
-/******** COPYFROM START: FADEC_INCLUDES *********/
-
+/******** SAVETO START: FADEC_INCLUDES *********/
 /*-------------------*/
 /* STANDARD INCLUDES */
 /*-------------------*/
@@ -41,7 +58,7 @@
 #include "FADEC_Defines_H/FaultSim_Types.h"         /* Fault analysis */
 #include "FADEC_Defines_H/FloatPoint_Precision.h"			/* Defines the size of used floating point */
 #include "FADEC_Functions_H/functions_TMATS.h"        /* Adapted from T-MATS */
-//#include "getXXX.h"              /* File containing all get functions for XXX */
+//#include "getGET700.h"              /* File containing all get functions for GET700 */
 #include "FADEC_Defines_H/Interpolation_Types.h"    /* General Calculations*/
 #include "FADEC_Defines_H/IO_Types.h"               /* Controller calculations */
 //#include "FADEC_Functions_H/LinMtxFunctions.h"        /* General Calculations*/
@@ -59,20 +76,212 @@
 /*-----------------*/
 
 /* Engine .h files */
-#include "XXX/FADEC_Constants_H/ConstantsXXX.h"
-#include "XXX/FADEC_get_H/getXXXFADECContConst.h"
-#include "XXX/FADEC_get_H/getXXXFADECMtx.h"       /* XXX Engine Constants */
-#include "XXX/FADEC_get_H/getXXXFADECSizeConst.h"
+#include "GET700/FADEC_Constants_H/ConstantsGET700.h" 
+#include "GET700/FADEC_get_H/getGET700FADECContConst.h"
+#include "GET700/FADEC_get_H/getGET700FADECMtx.h"       /* GET700 Engine Constants */
+#include "GET700/FADEC_get_H/getGET700FADECSizeConst.h"
 
-/******** COPYFROM END: FADEC_INCLUDES *********/
+/******** SAVETO END: FADEC_INCLUDES *********/
 
-//}
+/* Error handling
+ * --------------
+ *
+ * You should use the following technique to report errors encountered within
+ * an S-function:
+ *
+ *       ssSetErrorStatus(S,"Error encountered due to ...");
+ *       return;
+ *
+ * Note that the 2nd argument to ssSetErrorStatus must be persistent memory.
+ * It cannot be a local variable. For example the following will cause
+ * unpredictable errors:
+ *
+ *      mdlOutputs()
+ *      {
+ *         char msg[256];         {ILLEGAL: to fix use "static char msg[256];"}
+ *         sprintf(msg,"Error due to %s", string);
+ *         ssSetErrorStatus(S,msg);
+ *         return;
+ *      }
+ *
+ */
 
-    // The variable below must be declared in this space since in the other FADEC version the same is done. This 
-    //should be changded in the future version and the commented declaration must be used
-    floating dT = 0;
+ /*====================*
+  * S-function methods *
+  *====================*/
 
-/******** COPYFROM START: FADEC_VARS *********/
+  /* Function: mdlInitializeSizes ===============================================
+   * Abstract:
+   *    The sizes information is used by Simulink to determine the S-function
+   *    block's characteristics (number of inputs, outputs, states, etc.).
+   */
+static void mdlInitializeSizes(SimStruct *S)
+{
+	ssSetNumSFcnParams(S, 0);  /* Number of expected parameters */
+	if (ssGetNumSFcnParams(S) != ssGetSFcnParamsCount(S)) {
+		/* Return if number of expected != number of actual parameters */
+		return;
+	}
+
+	ssSetNumContStates(S, 0);
+	ssSetNumDiscStates(S, 0);
+
+	if (!ssSetNumInputPorts(S, 5)) return;
+
+	ssSetInputPortWidth(S, 0, 25);
+	ssSetInputPortRequiredContiguous(S, 0, true); /*direct input signal access*/
+
+    ssSetInputPortWidth(S, 1, 1);
+	ssSetInputPortRequiredContiguous(S, 1, true); /*direct input signal access*/
+    
+    ssSetInputPortWidth(S, 2, 14);
+	ssSetInputPortRequiredContiguous(S, 2, true); /*direct input signal access*/
+    
+    ssSetInputPortWidth(S, 3, 1);
+	ssSetInputPortRequiredContiguous(S, 3, true); /*direct input signal access*/
+
+    ssSetInputPortWidth(S, 4, 1);
+	ssSetInputPortRequiredContiguous(S, 4, true); /*direct input signal access*/
+
+// 
+
+	/*
+	 * Set direct feedthrough flag (1=yes, 0=no).
+	 * A port has direct feedthrough if the input is used in either
+	 * the mdlOutputs or mdlGetTimeOfNextVarHit functions.
+	 */
+	ssSetInputPortDirectFeedThrough(S, 0, 1);
+    ssSetInputPortDirectFeedThrough(S, 1, 1);
+    ssSetInputPortDirectFeedThrough(S, 2, 1);
+    ssSetInputPortDirectFeedThrough(S, 3, 1);
+    ssSetInputPortDirectFeedThrough(S, 4, 1);
+        
+
+	if (!ssSetNumOutputPorts(S, 4)) return;
+	ssSetOutputPortWidth(S, 0, 7);
+    ssSetOutputPortWidth(S, 1, 4);
+    ssSetOutputPortWidth(S, 2, 4);
+    ssSetOutputPortWidth(S, 3, 4);
+
+
+	ssSetNumSampleTimes(S, 1);
+	ssSetNumRWork(S, 0);
+	ssSetNumIWork(S, 0);
+	ssSetNumPWork(S, 0);
+	ssSetNumModes(S, 0);
+	ssSetNumNonsampledZCs(S, 0);
+
+	/* Specify the sim state compliance to be same as a built-in block */
+	ssSetSimStateCompliance(S, USE_DEFAULT_SIM_STATE);
+
+	ssSetOptions(S, 0);
+}
+
+
+
+/* Function: mdlInitializeSampleTimes =========================================
+ * Abstract:
+ *    This function is used to specify the sample time(s) for your
+ *    S-function. You must register the same number of sample times as
+ *    specified in ssSetNumSampleTimes.
+ */
+static void mdlInitializeSampleTimes(SimStruct *S)
+{
+	ssSetSampleTime(S, 0, CONTINUOUS_SAMPLE_TIME);
+	ssSetOffsetTime(S, 0, 0.0);
+
+}
+
+
+
+#define MDL_INITIALIZE_CONDITIONS   /* Change to #undef to remove function */
+#if defined(MDL_INITIALIZE_CONDITIONS)
+/* Function: mdlInitializeConditions ========================================
+ * Abstract:
+ *    In this function, you should initialize the continuous and discrete
+ *    states for your S-function block.  The initial states are placed
+ *    in the state vector, ssGetContStates(S) or ssGetRealDiscStates(S).
+ *    You can also perform any other initialization activities that your
+ *    S-function may require. Note, this routine will be called at the
+ *    start of simulation and if it is present in an enabled subsystem
+ *    configured to reset states, it will be call when the enabled subsystem
+ *    restarts execution to reset the states.
+ */
+static void mdlInitializeConditions(SimStruct *S)
+{
+}
+#endif /* MDL_INITIALIZE_CONDITIONS */
+
+
+
+#define MDL_START  /* Change to #undef to remove function */
+#if defined(MDL_START)
+/* Function: mdlStart =======================================================
+ * Abstract:
+ *    This function is called once at start of model execution. If you
+ *    have states that should be initialized once, this is the place
+ *    to do it.
+ */
+static void mdlStart(SimStruct *S)
+{
+}
+#endif /*  MDL_START */
+
+
+
+/* Function: mdlOutputs =======================================================
+ * Abstract:
+ *    In this function, you compute the outputs of your S-function
+ *    block.
+ */
+static void mdlOutputs(SimStruct *S, int_T tid)
+{
+
+	/* --------------------------------------------------- */
+	/* DECLARATION OF INPUT VARIABLES - T-MATS & PLM       */
+	/* (To be usedi in MATLAB and T-MATS simulations only) */
+	/* --------------------------------------------------- */
+
+	const real_T *InputVars = (const real_T*)ssGetInputPortSignal(S, 0);
+	const real_T *InputTMATS = (const real_T*)ssGetInputPortSignal(S, 1);
+    const real_T *InputSensors = (const real_T*)ssGetInputPortSignal(S, 2);
+    const real_T *InputFaults = (const real_T*)ssGetInputPortSignal(S, 3);
+    const real_T *InputCANFaults = (const real_T*)ssGetInputPortSignal(S, 4);
+    real_T       *Iout = ssGetOutputPortSignal(S, 0);
+    real_T       *IoutModel = ssGetOutputPortSignal(S, 1);
+    real_T       *IoutBlowOut = ssGetOutputPortSignal(S, 2);
+    real_T       *IoutModelCL = ssGetOutputPortSignal(S, 3);
+    
+    /* --------------------------------------------------- */
+
+    /* -------------------------------------------------- */
+	/* AUXILIARY VARIABLE - T-MATS                        */
+	/* (To be usedi in MATLAB and TMATS simulations only) */
+	/* -------------------------------------------------- */
+    
+    /* int TYPE */
+
+    int TMATS_StartComplete = 0;
+ 
+    /* static int TYPE */
+
+    static int Out2;                            //igniter
+    static int SkipStartIn[2] = {0,0};          /* Simulates a single read of skip start */
+    static int tick = 0;                        /* Clock variable */
+    static int tack = 1;                        /* Clock variable */
+
+    /* static floating TYPE */
+
+    static floating Out0;                         //Wf//fvalue
+    static floating Out1;                         //active
+    static floating Out3;                         //rpmref
+    static floating Out4;                         //filterRef
+    static floating Out5;                         //engine operating status
+    static floating Out6;                         //Oil Pump RPM reference
+    
+    /* -------------------------------------------------- */
+
+/******** SAVETO START: FADEC_VARS *********/
 
 	/* --------------------------*/
 	/* FADEC AND MODEL VARIABLES */
@@ -80,15 +289,15 @@
 
     /* STRUCTURES */
 
-    static AllResiduals PFuelRes;                       /* Struct - Residuals calcultaions and treatment */
-    static AllResiduals POilRes;                        /* Struct - Residuals calcultaions and treatment */
-    static AllResiduals Pt3Res;                         /* Struct - Residuals calcultaions and treatment */
-    static AllResiduals RPMRes;                         /* Struct - Residuals calcultaions and treatment */
-    static AllResiduals TBearRes;                       /* Struct - Residuals calcultaions and treatment */
-    static AllResiduals Ts2Res;                         /* Struct - Residuals calcultaions and treatment */
-    static AllResiduals Tt4Res;                         /* Struct - Residuals calcultaions and treatment */
-    static AllResiduals VibrationRes;                   /* Struct - Residuals calcultaions and treatment */
-    static AllResiduals DefaultRes = {1000000};         /* Struct - Residuals calcultaions and treatment */
+    static AllResiduals PFuelRes;                       /* Struct - Residuals calcultaions and treatment */ 
+    static AllResiduals POilRes;                        /* Struct - Residuals calcultaions and treatment */ 
+    static AllResiduals Pt3Res;                         /* Struct - Residuals calcultaions and treatment */ 
+    static AllResiduals RPMRes;                         /* Struct - Residuals calcultaions and treatment */ 
+    static AllResiduals TBearRes;                       /* Struct - Residuals calcultaions and treatment */ 
+    static AllResiduals Ts2Res;                         /* Struct - Residuals calcultaions and treatment */      
+    static AllResiduals Tt4Res;                         /* Struct - Residuals calcultaions and treatment */ 
+    static AllResiduals VibrationRes;                   /* Struct - Residuals calcultaions and treatment */ 
+    static AllResiduals DefaultRes = {1000000};         /* Struct - Residuals calcultaions and treatment */ 
 
     static AmbientPars Ambient;                         /* Struct - Ambient calculations */
     static AmbientPars AmbientEmpty = { 0 };            /* Struct - Ambient calculations */
@@ -100,8 +309,8 @@
     static ControllerGeneral ContGenOilCL;              /* Struct - Bearings temperature control */
     static ControllerGeneral ContGenEmpty = {0};        /* Struct - Bearings temperature control */
 
-	static ControllerInput ContInput;                   /* Struct - Controller Inputs */
-    static ControllerInput ContInModCL;                 /* Struct - Controller Inputs */
+	static ControllerInput ContInput;                   /* Struct - Controller Inputs */	
+    static ControllerInput ContInModCL;                 /* Struct - Controller Inputs */	
     static ControllerInput ContInputEmpty = {0};        /* Struct - Controller Inputs */
 
 	static ControllerOutput ContOutput;                 /* Struct - Controller outputs */
@@ -114,9 +323,9 @@
 
 	static EngineOnOff EngOnOff;                        /* Struct - On/Off logic */
 	static EngineOnOff EngOnOffEmpty = {0};             /* Struct - On/Off logic */
-
-    static EstimatedPars BlowOutPars;                   /* Struct - Engine model parameters */
-    static EstimatedPars ModelPars;                     /* Struct - Engine model parameters */
+    
+    static EstimatedPars BlowOutPars;                   /* Struct - Engine model parameters */           
+    static EstimatedPars ModelPars;                     /* Struct - Engine model parameters */       
     static EstimatedPars ModelParsChosen;               /* Struct - Engine model parameters */
     static EstimatedPars ModelParsCL;                   /* Struct - Engine model parameters */
     static EstimatedPars EstParsEmpty = {0};            /* Struct - Engine model parameters */
@@ -130,13 +339,13 @@
     /* UNIONS */
 
 	static digital_t digital;                           /* Union - Digital outputs */
-    static digital_t digModCL;                          /* Union - Digital outputs */
+    static digital_t digModCL;                          /* Union - Digital outputs */	
 	static digital_t digitalEmpty = { 0 };              /* Union - Digital outputs */
-
+	
     static EngineFaults FaultStatus;                    /* Union - Fault Status */
     static EngineFaults FaultWarning;                   /* Union - Fault Warining */
     static EngineFaults FaultEmpty = {0};               /* Union - Fault Status and warning */
-
+     
     static EngineStatus EngStatus;                      /* Union - Contains engine status */
     static EngineStatus EngStatusEmpty = {0};           /* Union - Contains engine status */
 
@@ -153,7 +362,7 @@
     static FaultDetect TrustSens;                       /* Union - General information about sensors faults*/
     static FaultDetect FaultDetectEmpty = {0};          /* Union - General information about sensors faults*/
 
-    static keys_t keys;                                 /* Union - Input keys */
+    static keys_t keys;                                 /* Union - Input keys */	
     static keys_t keysEmpty = {0};                      /* Union - Input keys */
 
     static ModelParsFault ModPFault;                    /* Union - Fault analysis */
@@ -163,43 +372,43 @@
     static SensorFaults FaultWSens;                     /* Union - Fault analysis */
     static SensorFaults SoftSimFaults;                  /* Union - Thermocouple full scale simulation */
     static SensorFaults FaultSensEmpty = {0};           /* Union - Fault analysis */
-
+    
     static SystemFaults FaultSSys;                      /* Union - Fault analysis */
     static SystemFaults FaultSysAuthorize;              /* Union - Fault analysis */
     static SystemFaults FaultWSys;                      /* Union - Fault analysis */
     static SystemFaults FaultSysEmpty = {0};            /* Union - Fault analysis */
-
-    static TCFaults Ts2_0;                              /* Union - Contains thermocouple faults*/
-    static TCFaults Ts2_1;                              /* Union - Contains thermocouple faults*/
-    static TCFaults Tt4_0;                              /* Union - Contains thermocouple faults*/
-    static TCFaults Tt4_1;                              /* Union - Contains thermocouple faults*/
-    static TCFaults Tt4_2;                              /* Union - Contains thermocouple faults*/
-    static TCFaults TB_0;                               /* Union - Contains thermocouple faults*/
-    static TCFaults TB_1;                               /* Union - Contains thermocouple faults*/
-    static TCFaults TB_2;                               /* Union - Contains thermocouple faults*/
+   
+    static TCFaults Ts2_0;                              /* Union - Contains thermocouple faults*/ 
+    static TCFaults Ts2_1;                              /* Union - Contains thermocouple faults*/ 
+    static TCFaults Tt4_0;                              /* Union - Contains thermocouple faults*/  
+    static TCFaults Tt4_1;                              /* Union - Contains thermocouple faults*/  
+    static TCFaults Tt4_2;                              /* Union - Contains thermocouple faults*/ 
+    static TCFaults TB_0;                               /* Union - Contains thermocouple faults*/ 
+    static TCFaults TB_1;                               /* Union - Contains thermocouple faults*/  
+    static TCFaults TB_2;                               /* Union - Contains thermocouple faults*/ 
 
 /******** COMMENT START *********/
-//
-//    /* REQUIRED INITIALIZATIONS */
-//
-//    SoftSimFaults = FaultSensEmpty;                     /* Union - Thermocouple full scale simulation */
-//
-//    /* Each union is initiated with null values */
-//    Ts2_0.TCFaultBits = 0;
-//    Ts2_1.TCFaultBits = 0;
-//    Tt4_0.TCFaultBits = 0;
-//    Tt4_1.TCFaultBits = 0;
-//    Tt4_2.TCFaultBits = 0;
-//    TB_0.TCFaultBits = 0;
-//    TB_1.TCFaultBits = 0;
-//    TB_2.TCFaultBits = 0;
-//
+
+    /* REQUIRED INITIALIZATIONS */
+
+    SoftSimFaults = FaultSensEmpty;                     /* Union - Thermocouple full scale simulation */
+
+    /* Each union is initiated with null values */
+    Ts2_0.TCFaultBits = 0;                              
+    Ts2_1.TCFaultBits = 0;
+    Tt4_0.TCFaultBits = 0;
+    Tt4_1.TCFaultBits = 0;
+    Tt4_2.TCFaultBits = 0;
+    TB_0.TCFaultBits = 0;
+    TB_1.TCFaultBits = 0;
+    TB_2.TCFaultBits = 0;
+
 /******** COMMENT END *********/
 
 	/* VARIABLES */
-
+    
     /* int TYPE */
-
+                                                        
     int EngUnits = 1;                                   /* Engineering units for thrust reference*/
     int Ignition = 0;                                   /* Ignition Signal */
     int LeverMode = 1;                                  /* Lever Mode */
@@ -211,18 +420,18 @@
 	static int BoosterRStatus = 0xFF;					/* Indicates if left booster is connected (0x55 -> boster connected; 0xAA -> boster released) */
     static int ControlPhase = 0;                        /* Controller phase */
     static int CriticalFailure = 0;                     /* Flag indicating critical failure */
-    static int Current_key_start = 0;                   /* Start key current value */
-    static int EmergencyCommand = 0;                    /* External command for emergency shut-off */
+    static int Current_key_start = 0;                   /* Start key current value */   
+    static int EmergencyCommand = 0;                    /* External command for emergency shut-off */    
     static int EmergShutDwn = 0;                        /* Flag (internal) indicating emergency shut-off */
     static int IgnitionFail = 0;                        /* Flag indicating ignition failure */
     static int ModelParsStart = 0;                      /* Flag indicating if model parameters initiation is needed */
     static int Old_key_start = 0;                       /* Start key old value */
     static int OnOffCom = 0xFF;                         /* Command for on/off */
     static int Reset = 0;                               /* Reset flag and pulse detection variable */
-    static int ResetButton[2] = {0, 0};                 /* String containing reset button states */
+    static int ResetButton[2] = {0, 0};                 /* String containing reset button states */ 
     static int ShutDownCommand = 0;                     /* Command for standard shut-Off */
     static int SingleStop = 0;                          /* Flag for single execution of piece of code */
-    static int SkipStart = 0;                           /* Flag indicating if starting algorithm is needed */
+    static int SkipStart = 0;                           /* Flag indicating if starting algorithm is needed */   
     static int StartCommand = 0;                        /* Command for engine start */
     static int StartComplete = 0;                       /* Flag indicating that engine start is complete */
     static int StartFaultAnalysis = 0;                  /* Flag indicating that fault analysis must be accomplished */
@@ -230,22 +439,22 @@
     /* unsigned int TYPE */
 
     unsigned int digitalWord = 0;                      /* Word containing digital outputs states */
-	unsigned int GPIOIn = 0;                           /* Contains key states in a single number */
-	unsigned int KeyBit0 = 1;                          // Igniter   - Input Keys for software in the loop simulation
-	unsigned int KeyBit1 = 1;                          // Shut_Off  - Input Keys for software in the loop simulation
-	unsigned int KeyBit2 = 0;                          // Scaveng   - Input Keys for software in the loop simulation
-	unsigned int KeyBit3 = 1;                          // Oil Pump  - Input Keys for software in the loop simulation
-	unsigned int KeyBit4 = 0;                          // AC_Drive  - Input Keys for software in the loop simulation
-	unsigned int KeyBit5 = 1;                          // Emergency - Input Keys for software in the loop simulation
+	unsigned int GPIOIn = 0;                           /* Contains key states in a single number */	
+	unsigned int KeyBit0 = 1;                          // Igniter   - Input Keys for software in the loop simulation		
+	unsigned int KeyBit1 = 1;                          // Shut_Off  - Input Keys for software in the loop simulation	 
+	unsigned int KeyBit2 = 0;                          // Scaveng   - Input Keys for software in the loop simulation		
+	unsigned int KeyBit3 = 1;                          // Oil Pump  - Input Keys for software in the loop simulation	
+	unsigned int KeyBit4 = 0;                          // AC_Drive  - Input Keys for software in the loop simulation	
+	unsigned int KeyBit5 = 1;                          // Emergency - Input Keys for software in the loop simulation	
 	unsigned int KeyBit6 = 0;                          // Mode	    - Input Keys for software in the loop simulation
-    unsigned int keysWord = 0;                         /* Word containing external key states */
+    unsigned int keysWord = 0;                         /* Word containing external key states */   
 
 	/* floating TYPE */
 
     floating Altitude = 567;                              /* Altitude value */
     floating Delta = 1;                                       /* Delta = Pt2/PSTD - correction parameter */
 /******** COMMENT START *********/
-//    floating dT = 0;                                      /* Day temperature variation */
+    floating dT = 0;                                      /* Day temperature variation */
 /******** COMMENT END *********/
     floating FNcMax = 0;                                  /* Maximum allowed corrected net thrust */
     floating FNpc = 0;                                    /* Corrected net thrust */
@@ -254,13 +463,13 @@
 	floating OPRPMManual = 0;								/* Manual reference for oil pump rotation speed */
     floating POil = 0;                                    /* Oil pressure */
     floating Pt2 = 101325;                                /* Compressor inlet total pressure */
-    floating Pt3 = 101325;                                /* Compressor exhaust total pressure */
+    floating Pt3 = 101325;                                /* Compressor exhaust total pressure */ 
     floating Pt3MedVal = 101325;                          /* Pt3 medium value */
-    floating RefCAN = 0;                                  /* Reference from CAN */
+    floating RefCAN = 0;                                  /* Reference from CAN */    
 /******** COMMENT START *********/
-////    floating reference = 0.35;                            /* Reference value used initially */
+//    floating reference = 0.35;                            /* Reference value used initially */    
 /******** COMMENT END *********/
-    floating RPM = 0;                                     /* Engine mechanical rotation speed */
+    floating RPM = 0;                                     /* Engine mechanical rotation speed */  
     floating RPMMedVal = 0;                               /* RPM medium value */
     floating TBear[5] = {0,0,0,0,0};                      /* String containing bearings temperatures */
     floating Ts2 = 288.15;                              	/* Compressor inlet static temperature */
@@ -278,9 +487,9 @@
     static floating Wf = 0;                               /* Fuel flow */
 
     // /* VARIABLES */
-
+    
     // /* int TYPE */
-
+                                                        
     // int EngUnits = 0;                                   /* Engineering units for thrust reference*/
     // int Ignition = 0;                                   /* Ignition Signal */
     // int LeverMode = 1;                                  /* Lever Mode */
@@ -290,18 +499,18 @@
 
     // static int ControlPhase = 0;                        /* Controller phase */
     // static int CriticalFailure = 0;                     /* Flag indicating critical failure */
-    // static int Current_key_start;                       /* Start key current value */
-    // static int EmergencyCommand = 0;                    /* External command for emergency shut-off */
+    // static int Current_key_start;                       /* Start key current value */   
+    // static int EmergencyCommand = 0;                    /* External command for emergency shut-off */    
     // static int EmergShutDwn = 0;                        /* Flag (internal) indicating emergency shut-off */
     // static int IgnitionFail = 0;                        /* Flag indicating ignition failure */
     // static int ModelParsStart = 0;                      /* Flag indicating if model parameters initiation is needed */
     // static int Old_key_start;                           /* Start key old value */
     // static int OnOffCom = 0xFF;                         /* Command for on/off */
     // static int Reset = 0;                               /* Reset flag and pulse detection variable */
-    // static int ResetButton[2] = {0, 0};                 /* String containing reset button states */
+    // static int ResetButton[2] = {0, 0};                 /* String containing reset button states */ 
     // static int ShutDownCommand = 0;                     /* Command for standard shut-Off */
     // static int SingleStop = 0;                          /* Flag for single execution of piece of code */
-    // static int SkipStart = 0;                           /* Flag indicating if starting algorithm is needed */
+    // static int SkipStart = 0;                           /* Flag indicating if starting algorithm is needed */   
     // static int StartCommand = 0;                        /* Command for engine start */
     // static int StartComplete = 0;                       /* Flag indicating that engine start is complete */
     // static int StartFaultAnalysis = 0;                  /* Flag indicating that fault analysis must be accomplished */
@@ -309,15 +518,15 @@
     // /* unsigned int TYPE */
 
     // unsigned int digitalWord;                          /* Word containing digital outputs states */
-	// unsigned int GPIOIn = 0;                           /* Contains key states in a single number */
-	// unsigned int KeyBit0 = 1;                          // Igniter   - Input Keys for software in the loop simulation
-	// unsigned int KeyBit1 = 1;                          // Shut_Off  - Input Keys for software in the loop simulation
-	// unsigned int KeyBit2 = 0;                          // Scaveng   - Input Keys for software in the loop simulation
-	// unsigned int KeyBit3 = 1;                          // Oil Pump  - Input Keys for software in the loop simulation
-	// unsigned int KeyBit4 = 0;                          // AC_Drive  - Input Keys for software in the loop simulation
-	// unsigned int KeyBit5 = 1;                          // Emergency - Input Keys for software in the loop simulation
+	// unsigned int GPIOIn = 0;                           /* Contains key states in a single number */	
+	// unsigned int KeyBit0 = 1;                          // Igniter   - Input Keys for software in the loop simulation		
+	// unsigned int KeyBit1 = 1;                          // Shut_Off  - Input Keys for software in the loop simulation	 
+	// unsigned int KeyBit2 = 0;                          // Scaveng   - Input Keys for software in the loop simulation		
+	// unsigned int KeyBit3 = 1;                          // Oil Pump  - Input Keys for software in the loop simulation	
+	// unsigned int KeyBit4 = 0;                          // AC_Drive  - Input Keys for software in the loop simulation	
+	// unsigned int KeyBit5 = 1;                          // Emergency - Input Keys for software in the loop simulation	
 	// unsigned int KeyBit6 = 0;                          // Mode	    - Input Keys for software in the loop simulation
-    // unsigned int keysWord;                             /* Word containing external key states */
+    // unsigned int keysWord;                             /* Word containing external key states */   
 
 	// /* floating TYPE */
 
@@ -330,11 +539,11 @@
 	// floating OPRPMManual = 0;								/* Manual reference for oil pump rotation speed */
     // floating POil = 0;                                    /* Oil pressure */
     // floating Pt2 = 101325;                                /* Compressor inlet total pressure */
-    // floating Pt3;                                         /* Compressor exhaust total pressure */
+    // floating Pt3;                                         /* Compressor exhaust total pressure */ 
     // floating Pt3MedVal = 0;                               /* Pt3 medium value */
-    // floating RefCAN = 0;                                  /* Reference from CAN */
-    // floating reference = 0.35;                            /* Reference value used initially */
-    // floating RPM;                                         /* Engine mechanical rotation speed */
+    // floating RefCAN = 0;                                  /* Reference from CAN */    
+    // floating reference = 0.35;                            /* Reference value used initially */    
+    // floating RPM;                                         /* Engine mechanical rotation speed */  
     // floating RPMMedVal = 0;                               /* RPM medium value */
     // floating TBear[5];                                    /* String containing bearings temperatures */
     // floating Ts2 = 288.15;                                /* Compressor inlet static temperature */
@@ -358,8 +567,8 @@
     /* int TYPE */
 
     int Authorize = 0;                                     /* Flag indicating that controller is authorized to perform */
-    int Fn_Elem = XXX_FN_ELEM;                      /* Number of net thrust breakpoint elements */
-    int MN_Elem = XXX_MN_ELEM;                      /* Number of Mach number breakpoint elements */
+    int Fn_Elem = GET700_FN_ELEM;                      /* Number of net thrust breakpoint elements */
+    int MN_Elem = GET700_MN_ELEM;                      /* Number of Mach number breakpoint elements */
 
     int Alt_Elem;
     int AS_Elem;
@@ -375,49 +584,49 @@
     floating Ts = 0.001 * TICK;                           /* Sampling Time */
 
     /* floating TYPE STRINGS */
-
-    // floating AltLinVec[XXX_ALT_ELEM];                      /* Altitude breakpoints */
-    // floating AMtx[XXX_MN_ELEM * XXX_FN_ELEM];           /* Model - A matrix */
-    // floating ASVec[XXX_AS_ELEM];                           /* Controller - Asceleration schedule (ASVec) break points */
-    // floating BMtx[XXX_MN_ELEM * XXX_FN_ELEM];           /* Model - B matrix */
-    // floating DeltaMtx[XXX_ALT_ELEM * XXX_MN_ELEM];      /* Controller - Delta matrix */
-    // floating DeltaMtx1D[XXX_MN_ELEM];                      /* Auxiliar matrix - Delta */
-    // floating DeltaMtx1DH[XXX_MN_ELEM];                     /* Auxiliar matrix - Delta */
-    // floating DeltaMtx2D[XXX_ALT_ELEM * XXX_MN_ELEM];    /* Auxiliar matrix - Delta */
-    // floating DeltaMtx2DH[XXX_ALT_ELEM * XXX_MN_ELEM];   /* Auxiliar matrix - Delta */
-    // floating DSVec[XXX_AS_ELEM];                           /* Controller - Deceleration schedule (DSVec) break points */
-    // floating FNcMaxContMtx[XXX_MN_ELEM];                   /* Controller - Maximum corrected net thrust values */
-    // floating FNperContMtx[XXX_TOTAL_ELEM];                 /* Controller - net thrust percentual values matrix */
-    // floating MapHPC1D[XXX_FAN_PR];                         /* Auxiliar matrix - HPC map */
-    // floating MapHPC1DH[XXX_FAN_PR];                        /* Auxiliar matrix - HPC map */
-    // floating MapHPC2D[XXX_FAN_NC * XXX_FAN_PR];         /* Auxiliar matrix - HPC map */
-    // floating MapHPC2DH[XXX_FAN_NC * XXX_FAN_PR];        /* Auxiliar matrix - HPC map */
-    // floating MNLinVec[XXX_MN_ELEM];                        /* Mach number breakpoints */
-    // floating Mtx1D[XXX_FN_ELEM];                           /* Auxiliar matrix */
-    // floating Mtx1DH[XXX_FN_ELEM];                          /* Auxiliar matrix */
-    // floating Mtx2D[XXX_MN_ELEM * XXX_FN_ELEM];          /* Auxiliar matrix */
-    // floating Mtx2DH[XXX_MN_ELEM * XXX_FN_ELEM];         /* Auxiliar matrix */
-    // floating N_KiMtx[XXX_TOTAL_ELEM];                      /* Controller - Ki matrix of N control law */
-    // floating N_KpMtx[XXX_TOTAL_ELEM];                      /* Controller - Kp matrix of N control law */
-    // floating NcFANContMtx[XXX_TOTAL_ELEM];                 /* Controller - Fan Nc breakpoints */
-    // floating NcHPCMapMtx[XXX_FAN_NC];                      /* Model - Nc break points matrix - HPC map */
-    // floating NcVec[XXX_AS_ELEM];                           /* Controller - Nc schedule (for ASVec and DSVec) break points */
-    // floating PRHPCMapMtx[XXX_FAN_NC * XXX_FAN_PR];      /* Model - PR break points matrix - HPC map */
-    // floating Pt3DMtx[XXX_MN_ELEM * XXX_FN_ELEM];        /* Model - Pt3D matrix */
-    // floating Pt3Mtx[XXX_MN_ELEM * XXX_FN_ELEM];         /* Model - Pt3 matrix */
-    // floating Pt5DMtx[XXX_MN_ELEM * XXX_FN_ELEM];        /* Model - Pt5D matrix */
-    // floating Pt5Mtx[XXX_MN_ELEM * XXX_FN_ELEM];         /* Model - Pt5 matrix */
-    // floating Ts0Mtx[XXX_ALT_ELEM];                         /* Controller and Model - Ts0 break points  */
-    // floating Ts0Mtx1D[XXX_ALT_ELEM];                       /* Auxiliar matrix - Ts0 */
-    // floating Ts0Mtx1DH[XXX_ALT_ELEM];                      /* Auxiliar matrix - Ts0 */
-    // floating Ts0Mtx2D[XXX_FN_ELEM];                        /* Auxiliar matrix - Ts0 */
-    // floating Ts0Mtx2DH[XXX_FN_ELEM];                       /* Auxiliar matrix - Ts0 */
-    // floating Tt4DMtx[XXX_MN_ELEM * XXX_FN_ELEM];        /* Model - Tt4D matrix */
-    // floating Tt4Mtx[XXX_MN_ELEM * XXX_FN_ELEM];         /* Model - Tt4 matrix */
-    // floating Tt5DMtx[XXX_MN_ELEM * XXX_FN_ELEM];        /* Model - Tt5D matrix */
-    // floating Tt5Mtx[XXX_MN_ELEM * XXX_FN_ELEM];         /* Model - Tt5 matrix */
-    // floating WcHPCMapMtx[XXX_FAN_NC * XXX_FAN_PR];      /* Model - Wc break points matrix - HPC map */
-    // floating WfMtx[XXX_MN_ELEM * XXX_FN_ELEM];          /* Model - Wf matrix */
+  
+    // floating AltLinVec[GET700_ALT_ELEM];                      /* Altitude breakpoints */
+    // floating AMtx[GET700_MN_ELEM * GET700_FN_ELEM];           /* Model - A matrix */
+    // floating ASVec[GET700_AS_ELEM];                           /* Controller - Asceleration schedule (ASVec) break points */
+    // floating BMtx[GET700_MN_ELEM * GET700_FN_ELEM];           /* Model - B matrix */
+    // floating DeltaMtx[GET700_ALT_ELEM * GET700_MN_ELEM];      /* Controller - Delta matrix */
+    // floating DeltaMtx1D[GET700_MN_ELEM];                      /* Auxiliar matrix - Delta */
+    // floating DeltaMtx1DH[GET700_MN_ELEM];                     /* Auxiliar matrix - Delta */
+    // floating DeltaMtx2D[GET700_ALT_ELEM * GET700_MN_ELEM];    /* Auxiliar matrix - Delta */
+    // floating DeltaMtx2DH[GET700_ALT_ELEM * GET700_MN_ELEM];   /* Auxiliar matrix - Delta */
+    // floating DSVec[GET700_AS_ELEM];                           /* Controller - Deceleration schedule (DSVec) break points */
+    // floating FNcMaxContMtx[GET700_MN_ELEM];                   /* Controller - Maximum corrected net thrust values */
+    // floating FNperContMtx[GET700_TOTAL_ELEM];                 /* Controller - net thrust percentual values matrix */
+    // floating MapHPC1D[GET700_FAN_PR];                         /* Auxiliar matrix - HPC map */
+    // floating MapHPC1DH[GET700_FAN_PR];                        /* Auxiliar matrix - HPC map */
+    // floating MapHPC2D[GET700_FAN_NC * GET700_FAN_PR];         /* Auxiliar matrix - HPC map */
+    // floating MapHPC2DH[GET700_FAN_NC * GET700_FAN_PR];        /* Auxiliar matrix - HPC map */
+    // floating MNLinVec[GET700_MN_ELEM];                        /* Mach number breakpoints */
+    // floating Mtx1D[GET700_FN_ELEM];                           /* Auxiliar matrix */
+    // floating Mtx1DH[GET700_FN_ELEM];                          /* Auxiliar matrix */
+    // floating Mtx2D[GET700_MN_ELEM * GET700_FN_ELEM];          /* Auxiliar matrix */
+    // floating Mtx2DH[GET700_MN_ELEM * GET700_FN_ELEM];         /* Auxiliar matrix */
+    // floating N_KiMtx[GET700_TOTAL_ELEM];                      /* Controller - Ki matrix of N control law */
+    // floating N_KpMtx[GET700_TOTAL_ELEM];                      /* Controller - Kp matrix of N control law */
+    // floating NcFANContMtx[GET700_TOTAL_ELEM];                 /* Controller - Fan Nc breakpoints */
+    // floating NcHPCMapMtx[GET700_FAN_NC];                      /* Model - Nc break points matrix - HPC map */
+    // floating NcVec[GET700_AS_ELEM];                           /* Controller - Nc schedule (for ASVec and DSVec) break points */
+    // floating PRHPCMapMtx[GET700_FAN_NC * GET700_FAN_PR];      /* Model - PR break points matrix - HPC map */
+    // floating Pt3DMtx[GET700_MN_ELEM * GET700_FN_ELEM];        /* Model - Pt3D matrix */
+    // floating Pt3Mtx[GET700_MN_ELEM * GET700_FN_ELEM];         /* Model - Pt3 matrix */
+    // floating Pt5DMtx[GET700_MN_ELEM * GET700_FN_ELEM];        /* Model - Pt5D matrix */
+    // floating Pt5Mtx[GET700_MN_ELEM * GET700_FN_ELEM];         /* Model - Pt5 matrix */
+    // floating Ts0Mtx[GET700_ALT_ELEM];                         /* Controller and Model - Ts0 break points  */
+    // floating Ts0Mtx1D[GET700_ALT_ELEM];                       /* Auxiliar matrix - Ts0 */
+    // floating Ts0Mtx1DH[GET700_ALT_ELEM];                      /* Auxiliar matrix - Ts0 */
+    // floating Ts0Mtx2D[GET700_FN_ELEM];                        /* Auxiliar matrix - Ts0 */
+    // floating Ts0Mtx2DH[GET700_FN_ELEM];                       /* Auxiliar matrix - Ts0 */
+    // floating Tt4DMtx[GET700_MN_ELEM * GET700_FN_ELEM];        /* Model - Tt4D matrix */
+    // floating Tt4Mtx[GET700_MN_ELEM * GET700_FN_ELEM];         /* Model - Tt4 matrix */
+    // floating Tt5DMtx[GET700_MN_ELEM * GET700_FN_ELEM];        /* Model - Tt5D matrix */
+    // floating Tt5Mtx[GET700_MN_ELEM * GET700_FN_ELEM];         /* Model - Tt5 matrix */
+    // floating WcHPCMapMtx[GET700_FAN_NC * GET700_FAN_PR];      /* Model - Wc break points matrix - HPC map */
+    // floating WfMtx[GET700_MN_ELEM * GET700_FN_ELEM];          /* Model - Wf matrix */
 
     // /* floating TYPE POINTERS */
 
@@ -445,7 +654,7 @@
     floating *Mtx2D;                                      /* Auxiliar matrix */
     floating *Mtx2DH;                                     /* Auxiliar matrix */
 	floating *N_KiMtx;                                    /* Controller - pointer for Ki matrix of N control law */
-	floating *N_KishMtx;                                    /* Controller - pointer for Ki matrix of N control law - sub-idle */
+	floating *N_KishMtx;                                    /* Controller - pointer for Ki matrix of N control law - sub-idle */ 
     floating *N_KpMtx;                                    /* Controller - pointer for Kp matrix of N control law */
     floating *N_KpshMtx;                                    /* Controller - pointer for Kp matrix of N control law - sub-idle */
     floating *NcFANContMtx;                               /* Controller - pointer for fan Nc breakpoint values */
@@ -469,40 +678,21 @@
     floating *WcHPCMapMtx;                                /* Model - pointer for Wc values matrix - HPC map */
     floating *WfMtx;
 
-/******** COPYFROM END: FADEC_VARS *********/
+/******** SAVETO END: FADEC_VARS *********/
 
-
-/*******************************************************************************
- *
- *	FUNCTION:		FADECReset()
- *
- *	PURPOSE:		The function below initites engine specifica variables and 
- *                  matrices
- *
- *	CALLED FROM:	tbd
- *
- *	PARAMETERS:		void
- *
- *	RETURNS:		void
- *
- *	COMMENTS:
- *
- *******************************************************************************/
-
- // The function below initites engine specifica variables and matrices
-void FADECInitVars(void)
-{
-
-/******** COPYFROM START: FADEC_LOADPARS *********/
+/******** SAVETO START: FADEC_LOADPARS *********/
 
     /* Loads the constants of chosen engine used by FADEC */
-    getXXXFADECSizeConst(&Alt_Elem, &MN_Elem, &Fn_Elem, &AS_Elem, &SteadyOp_Elem,
+    getGET700FADECSizeConst(&Alt_Elem, &MN_Elem, &Fn_Elem, &AS_Elem, &SteadyOp_Elem,
                             &PowerMan_Elem, &NcHPCMap_Elem, &WcHPCMap_Elem, &Wc_per_Nc_HPC);
 
+    int DimX = 2;
+    int DimU = 1;
+
     AltLinVec      = FADECMalloc(Alt_Elem, &MemSize);
-    AMtx           = FADECMalloc(SteadyOp_Elem, &MemSize);
+    AMtx           = FADECMalloc(SteadyOp_Elem * DimX * DimX, &MemSize);
     ASVec          = FADECMalloc(AS_Elem, &MemSize);
-    BMtx           = FADECMalloc(SteadyOp_Elem, &MemSize);
+    BMtx           = FADECMalloc(SteadyOp_Elem * DimX * DimU, &MemSize);
     DeltaMtx       = FADECMalloc(Alt_Elem * MN_Elem, &MemSize);
     DeltaMtx1D     = FADECMalloc(MN_Elem, &MemSize);
     DeltaMtx1DH    = FADECMalloc(MN_Elem, &MemSize);
@@ -529,22 +719,22 @@ void FADECInitVars(void)
     NcHPCMapMtx    = FADECMalloc(NcHPCMap_Elem, &MemSize);
     NcVec          = FADECMalloc(AS_Elem, &MemSize);
     PRHPCMapMtx    = FADECMalloc(WcHPCMap_Elem, &MemSize);
-    Pt3DMtx        = FADECMalloc(SteadyOp_Elem, &MemSize);
-    Pt3Mtx         = FADECMalloc(SteadyOp_Elem , &MemSize);
-    Pt5DMtx        = FADECMalloc(SteadyOp_Elem, &MemSize);
+    Pt3DMtx        = FADECMalloc(SteadyOp_Elem * DimU, &MemSize);
+    Pt3Mtx         = FADECMalloc(SteadyOp_Elem, &MemSize);
+    Pt5DMtx        = FADECMalloc(SteadyOp_Elem * DimU, &MemSize);
     Pt5Mtx         = FADECMalloc(SteadyOp_Elem, &MemSize);
     Ts0Mtx         = FADECMalloc(Alt_Elem * MN_Elem, &MemSize);
     Ts0Mtx1D       = FADECMalloc(Alt_Elem, &MemSize);
     Ts0Mtx1DH      = FADECMalloc(Alt_Elem , &MemSize);
     Ts0Mtx2D       = FADECMalloc(Fn_Elem, &MemSize);
     Ts0Mtx2DH      = FADECMalloc(Fn_Elem, &MemSize);
-    Tt4DMtx        = FADECMalloc(SteadyOp_Elem, &MemSize);
+    Tt4DMtx        = FADECMalloc(SteadyOp_Elem * DimU, &MemSize);
     Tt4Mtx         = FADECMalloc(SteadyOp_Elem , &MemSize);
-    Tt5DMtx        = FADECMalloc(SteadyOp_Elem, &MemSize);
+    Tt5DMtx        = FADECMalloc(SteadyOp_Elem * DimU, &MemSize);
     Tt5Mtx         = FADECMalloc(SteadyOp_Elem, &MemSize);
     WcHPCMapMtx    = FADECMalloc(WcHPCMap_Elem, &MemSize);
-    WfMtx          = FADECMalloc(SteadyOp_Elem, &MemSize);
-
+    WfMtx          = FADECMalloc(SteadyOp_Elem, &MemSize);    
+    
     // AltLinVec = (floating *)malloc(Alt_Elem * sizeof(floating));
     // AMtx = (floating *)malloc(SteadyOp_Elem * sizeof(floating));
     // ASVec = (floating *)malloc(AS_Elem * sizeof(floating));
@@ -593,18 +783,18 @@ void FADECInitVars(void)
     /*=======================================================*/
 	/* PIECE OF CODE TO BE EXECUTED WITHIN THE MAIN FUNCTION */
 	/*=======================================================*/
-
+        
     /* ----------- */
-	/* SINGLE STOP */
+	/* SINGLE STOP */ 
 	/* ----------- */
-
+    
     if(SingleStop == 0)
     {
 
         /*-----------------*/
         /* FADEC AND MODEL */
         /*-----------------*/
-
+        
         /* STRUCTS INITIALIZATION */
 
         Ambient = AmbientEmpty;
@@ -672,16 +862,16 @@ void FADECInitVars(void)
 
         SingleStop = 1;
 
-    }
-
+    } 
+    
     /* -------------------------------------------------- */
-
+    
 
     /* LOADING OF CONTROLLER CONSTANTS */
-    getXXXFADECContConst(&ContConst);
+    getGET700FADECContConst(&ContConst);
 
     /* Loads FADEC matrices */
-    getXXXFADECMtx(AMtx, ASVec, AltLinVec, BMtx, DSVec,
+    getGET700FADECMtx(AMtx, ASVec, AltLinVec, BMtx, DSVec,
                      DeltaMtx, FNcMaxContMtx, FNperContMtx, MNLinVec, N_KiMtx,
                      N_KpMtx, NcFANContMtx, NcHPCMapMtx, NcVec, PRHPCMapMtx,
                      Pt3DMtx, Pt3Mtx, Pt5DMtx, Pt5Mtx, Ts0Mtx,
@@ -691,80 +881,198 @@ void FADECInitVars(void)
     // /* LOADING OF CONTROLLER MATRIX */
 
     // /* Linearization Vectors */
-    // getXXXAltLinVec(&AltLinVec);
-    // getXXXMNLinVec(&MNLinVec);
-    // getXXXTs0Mtx(&Ts0Mtx);
-    // getXXXDeltaMtx(&DeltaMtx);
+    // getGET700AltLinVec(&AltLinVec);
+    // getGET700MNLinVec(&MNLinVec);
+    // getGET700Ts0Mtx(&Ts0Mtx);
+    // getGET700DeltaMtx(&DeltaMtx);
 
     // /* Controller Gains */
-	// getXXXN_KpMtx(&N_KpMtx);
-	// getXXXN_KiMtx(&N_KiMtx);
-	// getXXXNcFANContMtx(&NcFANContMtx);
-    // getXXXFNcMaxContMtx(&FNcMaxContMtx);
-	// getXXXFNperContMtx(&FNperContMtx);
+	// getGET700N_KpMtx(&N_KpMtx);
+	// getGET700N_KiMtx(&N_KiMtx);
+	// getGET700NcFANContMtx(&NcFANContMtx);
+    // getGET700FNcMaxContMtx(&FNcMaxContMtx);
+	// getGET700FNperContMtx(&FNperContMtx);
 
     // /* Reference Filter */
-    // getXXXASVec(&ASVec);
-    // getXXXDSVec(&DSVec);
-    // getXXXNcVec(&NcVec);
-
+    // getGET700ASVec(&ASVec);
+    // getGET700DSVec(&DSVec);
+    // getGET700NcVec(&NcVec);
+    
     // /* LOADING OF MODEL MATRICES */
+        
+    // getGET700AMtx(&AMtx);
+    // getGET700BMtx(&BMtx);
+    // getGET700Pt3DMtx(&Pt3DMtx);
+    // getGET700Pt5DMtx(&Pt5DMtx);
+    // getGET700Tt4DMtx(&Tt4DMtx);
+    // getGET700Tt5DMtx(&Tt5DMtx);
+    // getGET700Pt3Mtx(&Pt3Mtx);
+    // getGET700Pt5Mtx(&Pt5Mtx);    
+    // getGET700Tt4Mtx(&Tt4Mtx);
+    // getGET700Tt5Mtx(&Tt5Mtx);
+    // getGET700WfMtx(&WfMtx);
+    // getGET700PRHPCMapMtx(&PRHPCMapMtx);
+    // getGET700WcHPCMapMtx(&WcHPCMapMtx);
+    // getGET700NcHPCMapMtx(&NcHPCMapMtx);
 
-    // getXXXAMtx(&AMtx);
-    // getXXXBMtx(&BMtx);
-    // getXXXPt3DMtx(&Pt3DMtx);
-    // getXXXPt5DMtx(&Pt5DMtx);
-    // getXXXTt4DMtx(&Tt4DMtx);
-    // getXXXTt5DMtx(&Tt5DMtx);
-    // getXXXPt3Mtx(&Pt3Mtx);
-    // getXXXPt5Mtx(&Pt5Mtx);
-    // getXXXTt4Mtx(&Tt4Mtx);
-    // getXXXTt5Mtx(&Tt5Mtx);
-    // getXXXWfMtx(&WfMtx);
-    // getXXXPRHPCMapMtx(&PRHPCMapMtx);
-    // getXXXWcHPCMapMtx(&WcHPCMapMtx);
-    // getXXXNcHPCMapMtx(&NcHPCMapMtx);
-
-    // getXXXFADECMtx(&AMtx[0], &ASVec[0], &AltLinVec[0], &BMtx[0], &DSVec[0],
+    // getGET700FADECMtx(&AMtx[0], &ASVec[0], &AltLinVec[0], &BMtx[0], &DSVec[0],
     //                   &DeltaMtx[0], &FNcMaxContMtx[0], &FNperContMtx[0], &MNLinVec[0], &N_KiMtx[0],
     //                   &N_KpMtx[0], &NcFANContMtx[0], &NcHPCMapMtx[0], &NcVec[0], &PRHPCMapMtx[0],
     //                   &Pt3DMtx[0], &Pt3Mtx[0], &Pt5DMtx[0], &Pt5Mtx[0], &Ts0Mtx[0],
     //                   &Tt4DMtx[0], &Tt4Mtx[0], &Tt5DMtx[0], &Tt5Mtx[0], &WcHPCMapMtx[0],
     //                   &WfMtx[0]);
 
-/******** COPYFROM END: FADEC_LOADPARS *********/
+/******** SAVETO END: FADEC_LOADPARS *********/
 
-}  
+    /* LOADING OF CONTROLLER STARRING PARAMETERS */
+	//getGET700StartPars(&ContStart);
 
+    /*---------------------------------------------*/
+	/* INITIATES REFERENCE COMMAND WITH IDLE VALUE */
+	/*---------------------------------------------*/
 
-/*******************************************************************************
- *
- *	FUNCTION:		FADECReset()
- *
- *	PURPOSE:		The function executes a software reset in the FADEC
- *
- *	CALLED FROM:	tbd
- *
- *	PARAMETERS:		void
- *
- *	RETURNS:		void
- *
- *	COMMENTS:
- *
- *******************************************************************************/
+	//RefCAN = ContConst.FNIdle;
 
-// The function executes a software reset in the FADEC
-int FADECReset(void)
-{
-
-    /* Flag indicating reset has been accomplished */
-    int ResetOK = 0;
-
-    /* Verifies if reset has been requested */
-    if (Reset == 1)
+	/* ================================================================================= */
+	/* THE FOLLOWIN CODE MUST BE EXECUTED BY A TIMER ROUTINE OF THE HARDWARE IN THE LOOP */
+	/* ================================================================================= */
+    
+    /* -------------------------------------------------- */
+	/* AUXILIARY VARIABLE - TMATS                         */
+	/* (To be usedi in MATLAB and TMATS simulations only) */
+	/* -------------------------------------------------- */
+    
+    TMATS_StartComplete = InputTMATS[0];
+            
+    /* In the case of TMATS simulation, the static variables are preserved even between two 
+    consecutive simulations. Therefore, the extra flag TMATS_StartComplete is used with inverted
+    logic to guarantee that the logical condition SkipStart == 1 && StartComplete == 0 is met. This 
+    is done with the use of a memory block having 1 as initial value and having 0 as its input, where
+    its output is conected to InputTMATS[0]. When using the PWLM, this input must be kept zero at all
+    instants (eliminating the memory block and seting InputTMATS[0] to 0 is sufficient)
+    */
+    if (TMATS_StartComplete == 1)
     {
+        StartComplete = 0;
+    }
+    
+    /* -------------------------------------------------- */
+	
+    /* ---------------------------------------- */
+	/* INPUT READINS - T-MATS & PWML            */
+	/* (To be usedi in MATLAB simulations only) */
+	/* ---------------------------------------- */
 
-        /******** COPYFROM START: FADEC_RESET *********/
+	Altitude = InputVars[0];
+	MN = InputVars[1];
+	// reference = InputVars[6];
+    RefCAN = InputVars[6];
+	POil = InputVars[7];
+	//SkipStart = InputVars[8];
+    SkipStartIn[1] = SkipStartIn[0];
+    SkipStartIn[0] = InputVars[8];
+	Authorize = InputVars[9];
+	Wf0 = InputVars[10];
+	ResetButton[0] = InputVars[11];
+
+	/* Reads mode key */
+	Mode = InputVars[12];
+	LeverMode = InputVars[13];
+    
+    /* Reads Pt2 - Needed for Delta calculations */
+	Pt2 = InputVars[14];
+
+	/* Reads tick value - FOR USE WITH T-MATS ONLY. COMMENT IF HARDWARE*/
+	tack = tick;
+	tick = InputVars[15];
+    
+    /* Reads flag indicating that engine units are used for thrust reference */
+    EngUnits = InputVars[16];
+
+    /* Reads digital keys */
+    GPIOIn = (int)InputVars[17];
+
+    /* Reads Start/Shut Down/Emergency external command */
+    OnOffCom = InputVars[18];
+
+    /* Reads bearings temperatures */
+    TBear[0] = InputVars[19];
+    TBear[1] = InputVars[20];
+    TBear[2] = InputVars[21];
+
+	/* External manual oil pump rotation speed reference */
+	OPRPMManual = InputVars[22];
+
+    /* Booster state */
+    BoosterLStatus = InputVars[23];
+    BoosterRStatus = InputVars[24];
+ 
+    /* ---------------------------------------- */
+    
+    /* -------------------------------------------------- */
+	/* SENSOR READING - TMATS & PWLM                      */
+	/* (To be usedi in MATLAB and TMATS simulations only) */
+	/* -------------------------------------------------- */
+    
+    Sensors.Ts2[0] = InputSensors[0];
+    Sensors.Ts2[1] = InputSensors[1];
+    Sensors.Pt3[0] = InputSensors[2];
+    Sensors.Tt4[0] = InputSensors[3];
+    Sensors.Tt4[1] = InputSensors[4];
+    Sensors.Tt4[2] = InputSensors[5];
+    Sensors.RPM[0] = InputSensors[6];
+    Sensors.RPM[1] = InputSensors[7];
+    Sensors.POil[0] = InputSensors[8];
+    Sensors.PFuel[0] = InputSensors[9];
+    Sensors.Vibration[0] = InputSensors[10];
+    Sensors.TBear[0] = InputVars[19];
+    Sensors.TBear[1] = InputVars[20];
+    Sensors.TBear[2] = InputVars[21];
+    
+    /* Reads word containing faults simulated by siftware */
+    SoftSimFaults.FaultBits = (uint64_t)InputFaults[0];
+
+    /* Reads word containing CAN faults */
+    CANFault.FaultBits = (uint64_t)InputCANFaults[0];
+        
+    /* -------------------------------------------------- */
+
+    // /*--------------------------------------------*/
+	// /* THERMOCOUPLE FAULT SIMULATION VIA SOFTWARE */
+	// /*--------------------------------------------*/
+    
+    // /* Thermocouple fault simulation */
+    // TCFault(&Sensors, &SoftSimFaults, &FaultSensAuthorize, &Ts2_0, &Ts2_1, &Tt4_0, &Tt4_1, &Tt4_2, &TB_0, &TB_1, &TB_2, ContConst.TCOpen);
+
+	/* -------------------------------------------------- */
+    /* VERIFICATION IF reference > 0 after reading        */
+    /* (To be usedi in MATLAB (PWLM) simulations only)    */
+    /* -------------------------------------------------- */
+
+	/* This condition simulates the reading of thrust
+	reference external command, authorizing the engine
+	state to be changed to REGIME if a non-zero command
+	has been setn  */
+	// if(reference > 0)
+	// {
+	// 	ContInput.ThrustCommandOn = 1;
+	// }
+
+    /* -------------------------------------------------- */
+
+	/*-------------------------*/
+	/* RESET REQUEST TREATMENT */
+	/*-------------------------*/
+
+	/* Reads reset signal */
+	Reset = Edge(ResetButton);
+	ResetButton[1] = ResetButton[0];
+
+	/* Verifies if reset has been requested */
+	if (Reset == 1) 
+	{
+
+/******** SAVETO START: FADEC_RESET *********/
 
         /*-----------------*/
         /* FADEC AND MODEL */
@@ -799,8 +1107,8 @@ int FADECReset(void)
         VibrationRes = DefaultRes;
 
         /* RESETS UNIONS */
-
-        CANFault = FaultDetectEmpty;
+        
+		CANFault = FaultDetectEmpty;
         digital = digitalEmpty;
         digModCL = digitalEmpty;
         EngStatus = EngStatusEmpty;
@@ -835,12 +1143,12 @@ int FADECReset(void)
         Tt4_2.TCFaultBits = 0;
 
         /* RESETS static int TYPE */
-
+              
         CriticalFailure = 0;
         Current_key_start = 0;
         EmergencyCommand = 0;
         Old_key_start = 0;
-        Reset = 0;
+        Reset = 0;     
         ShutDownCommand = 0;
         StartCommand = 0;
         StartComplete = 0;
@@ -848,7 +1156,7 @@ int FADECReset(void)
 
         /* RESETS floating TYPE */
 
-        OPRPMManual = 0;
+		OPRPMManual = 0;
 
         /* RESETS static floating TYPE */
 
@@ -860,153 +1168,42 @@ int FADECReset(void)
 
         /* RESETS int TYPE */
 
-        Authorize = 0;
+		Authorize = 0;
 
-        /******** COMMENT START *********/
-        //
-        //        /* -------------------------------------------------- */
-        //        /* T-MATS AND PWLM           */
-        //        /* (To be usedi in MATLAB and TMATS simulations only) */
-        //        /* -------------------------------------------------- */
-        //
-        //        SkipStartIn[0] = 0;
-        //        SkipStartIn[1] = 0;
-        //
-        //        /* -------------------------------------------------- */
-        //
-        /******** COMMENT END *********/
+/******** COMMENT START *********/
 
-        /******** COPYFROM END: FADEC_RESET *********/
+        /* -------------------------------------------------- */
+        /* T-MATS AND PWLM           */
+        /* (To be usedi in MATLAB and TMATS simulations only) */
+        /* -------------------------------------------------- */
 
-        /******** REPLACE START: getTJ1200ContConst BY getTJ1200FADECContConst *********/
-        /* LOADING OF CONTROLLER CONSTANTS */
-        getXXXFADECContConst(&ContConst); // QUAL O MOTIVO DE CHAMAR AQUI DE NOVO?? -> TALVEZ POR CAUSA DO RESET, QUE ZEROU A CONTCONST!
-        /******** REPLACE END: getTJ1200ContConst BY getTJ1200FADECContConst *********/
-    
-        ResetOK = 1;
-    
+        SkipStartIn[0] = 0;
+        SkipStartIn[1] = 0;
+
+        /* -------------------------------------------------- */
+
+/******** COMMENT END *********/
+
+/******** SAVETO END: FADEC_RESET *********/
+
     }
 
-    return ResetOK;
-
-}
-
-/*******************************************************************************
- *
- *	FUNCTION:		ControlUpdate()
- *
- *	PURPOSE:		Updates the controller status based on read inputs
- *
- *	CALLED FROM:	tbd
- *
- *	PARAMETERS:		void
- *
- *	RETURNS:		void
- *
- *	COMMENTS:
- *
- *******************************************************************************/
 
 
-// Updates the controller status based on read inputs
-void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut) 
-{
+    /* -------------------------------------------------- */
+	/* SIMULATION OF A SINGLE READ OF SkipStart           */
+	/* (To be usedi in MATLAB and TMATS simulations only) */
+	/* -------------------------------------------------- */
 
-    // i10 a i13 - são sensores analógicos
-    //t10 a t17 - são os termpoares
-    //na struct de warning e failure, vai ser passado:
-    // colocar como argumento: structs com Sensors, ContInputs e ContOutputs
-
-    //Reads FADEC input variables as listed below:
-
-    // 00 - Altitude                    (altitude value in meters) - Function argument
-    // 01 - MN                          (flight Mach number) - Function argument
-    // 02 - RefCAN                      (thrust reference) - Function argument
-    // 03 - Ts2 sensor 0                (Ts2 value measured by sensor 0) - Sensror struct is a function argument
-    // 03 - Ts2 sensor 1                (Ts2 value measured by sensor 1) - Sensror struct is a function argument
-    // 03 - RPM sensor 0                (RPM value measured by sensor 0) - Sensror struct is a function argument
-    // 03 - RPM sensor 1                (RPM value measured by sensor 1) - Sensror struct is a function argument
-    // 03 - Ps3 sensor 0                (Ps3 value measured by senror 0) - Sensror struct is a function argument
-    // 03 - Tt4 sensor 0                (Tt4 value measured by sensor 0) - Sensror struct is a function argument
-    // 03 - Tt4 sensor 1                (Tt4 value measured by sensor 1) - Sensror struct is a function argument
-    // 03 - Tt4 sensor 2                (Tt4 value measured by sensor 2) - Sensror struct is a function argument
-    // 04 - OnOffCom                    (Command for engine start, shut off or emergency shut off) - Function argument
-    // 05 - simMod                      (Variable for changing Authorize variable value) - Function argument
-    // 06 - Reset                       (Variable for reseting the FADEC by software) - Function argument
-    // 07 - SkipStart                   (Variable for skipping start routine) - Function argument
-    // 08 - Authorize                   (Variable for authorizing control loop) - Function argument
-    // 09 - Wf0                         (Fuel flow initial value) - Function argument
-    // 10 - valorMantete                (Value from 0 to 1) - Function argument
-    // 11 - keys.bits.igniter_key       (igniter) - key struct as a function argument
-    // 11 - keys.bits.shut_off_key      (shut off) - key struct as a function argument
-    // 11 - keys.bits.scaveng_key       (scavenge) - key struct as a function argument
-    // 11 - keys.bits.oil_pump_key      (oil pump eneable) - key struct as a function argument
-    // 11 - keys.bits.ac_drive_key      (ac driver eneable) - key struct as a function argument
-    // 11 - keys.bits.ac_drive_key      (AC Drive button always in 0 (pressed)) - key struct as a function argument
-    // 11 - keys.bits.emergency_key     (Emergency button always in 1 (not pressed). No physical button!) - key struct as a function argument
-    // 11 - keys.bits.ignSOV_key        (added for TJ-200) - key struct as a function argument
-    // 12 - LeverMode                   (Variable defining automatic or manual control after idle is reached) - Function argument
-    // 13 - Mode                        (Variable for defining automatic start or complete manual operation) - Function argument
-    // 14 - OPRPMManual                 (Manual oil pump rpm value) - Function argument
-    // 15 - BoosterLStatus              (Left booster status) - Function argument
-    // 16 - BoosterRStatus              (Right booster status) - Funtion argument 
-    // 17 - SoftSimFaults               (Struct for thermocouple fault simulation - must be in FADEC) - Struct as function argument
-    // 18 - StrRPMAct                   (To be written to ContStart.StrRPMAct)
-
-    /* STRUCTS */
-
-    Sensors                        = ExpIn->Sensors;//*SensorsExp;
-    keys                           = ExpIn->keys;//*keysExp;
-    SoftSimFaults                  = ExpIn->SoftSimFaults;//*SoftSimFaultsExp;
-    FaultStatus.Faults.CAN_1_Fault = ExpIn->CAN_1_Fault;
-
-    /* VARIABLES */
-
-    Altitude                = ExpIn->Altitude;
-    MN                      = ExpIn->MN;
-    RefCAN                  = ExpIn->RefCAN;
-    OnOffCom                = ExpIn->OnOffCom;
-    Reset                   = ExpIn->Reset;
-    SkipStart               = ExpIn->SkipStart;
-    Authorize               = ExpIn->Authorize; 
-    Wf0                     = ExpIn->Wf0;
-    LeverMode               = ExpIn->LeverMode;
-    Mode                    = ExpIn->Mode; 
-    OPRPMManual             = ExpIn->OPRPMManual;
-    BoosterLStatus          = ExpIn->BoosterLStatus;
-    BoosterRStatus          = ExpIn->BoosterRStatus; 
-
-    // ContStart.StrtRPMAct receives external value only if engine start is to be done manually
-    if (Mode == 1)
+    if (Edge(SkipStartIn) == 1)
     {
-        ContStart.StrtRPMAct    = ExpIn->StrtRPMAct;
+        /* Updates SkipStart */
+        SkipStart = 1;
     }
 
-    // EngUnits must be set to 0 if manual engine control (post idle) is done manually
-    if (LeverMode != 1)
-    {
-        EngUnits = 0;
-    }
-    else
-    {
-        EngUnits = 1;
-    }
-    
-    
-    
-    // The variables below are not declared outside and must be declared here
-    //floating valorManete         = ExpIn->valorManete;
-    int simMod                   = ExpIn->simMod;
+	/* --------------------------------------------------------------- */
 
-    // /*-------------*/
-    // /* FADEC RESET */
-    // /*-------------*/
-    
-    // // Resets the FADEC if requested
-    // int ResetOK = FADECReset();
-
-
-/******** COPYFROM START: FADEC_SKIPSTART *********/
+/******** SAVETO START: FADEC_SKIPSTART *********/
 
     /*-----------------------------------------------------------*/
     /* VARIABLES INITIALIZATIONS IN CASE ENGINE START IS SKIPPED */
@@ -1015,7 +1212,7 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
     /* engine thrust is non-zero is considered					 */
     /*-----------------------------------------------------------*/
 
-    if (SkipStart == 1 && StartComplete == 0)
+    if (SkipStart == 1 && StartComplete == 0) 
 	{
 
 		/* Sets initial conditions for fuel values and rotation speed references */
@@ -1111,7 +1308,7 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
 	/* -------------------------------------------------- */
 
 	//FNpc = RefCAN;
-
+    
     /* Stores CAN fault bit value */
 	// FaultSSys.SysFaults.CAN_0_Fault = CANFault.SysFaults.CAN_0_Fault;
 	// FaultSSys.SysFaults.CAN_1_Fault = CANFault.SysFaults.CAN_1_Fault;
@@ -1119,143 +1316,118 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
     /* Updates FNpc and allows transition from IDLE to REGIME depending no reference value */
 	IdleToRegime(&EngStatus, &ContInput, RefCAN, 0, ContConst.FNIdle, &FNpc, LeverMode);
 
-/******** COPYFROM END: FADEC_SKIPSTART *********/
+/******** SAVETO END: FADEC_SKIPSTART *********/
 
+	/*---------------*/
+	/* CONTROL LOGIC */
+	/*---------------*/
+   
+    /* -------------------------------------------------- */
+	/* EXTERNAL SAMPLING TIME - TMATS & PWLM              */
+	/* (To be usedi in MATLAB and TMATS simulations only) */
+	/* -------------------------------------------------- */
+    
+    /* TMATS */
 
-// /* Reads the potentiomenter value if LeverMode == 2 */
-// 	if(LeverMode == 2){
-//         //FNpc = pot_percent;
-//         FNpc = valorManete;// / 100.0;   //converts the range from 0%-100% to 0-1
+    // Authorize = 0;
+    // if (tick != tack) {
+    //     Authorize = 1;
+    // }
 
-// 		if(!keys.bits.ac_drive_key == 0)
-// 			FNpc = 0;
-// //printf("FNpc on if(LeverMode==2) = %f\n", FNpc);
+    /* PWLM */
 
-// 	}
-
-//     Sensors.Ts2[0] = t10;
-//     Sensors.Ts2[1] = t11;
-
-//     Sensors.Pt3[0] = (i10 - 1) * 250e+03 + ModelPars.Ps2;   //[PA]        //scaling: Sensor is 4~20mA and 0~10bar (0~1000000Pa). The current is converted to 1~5V and transmitted via CAN.
-//                                                                             //Converting 1~5V to 0~1000000Pa: POil = (Voltage - 1) * MaxRange/(4 Volts) = (Voltage - 1) * 1000000/4 = (Voltage - 1) * 250000
-// //printf("Sensors.Pt3[0]	 = (i10	 - 1) * 250e+03	 + ModelPars.Ps2\n");
-// //printf("%f	 = (%f	 - 1) * 250e+03	 + %f\n", Sensors.Pt3[0], i10, ModelPars.Ps2);
-
-//     Sensors.Vibration[0] = (i11 - 1) * 12.5; //[mm/s]   //scaling: Sensor is 4~20mA and 0~50mm/s. The current is converted to 1~5V and transmitted via CAN.
-//                                                         //Converting 1~5V to 0~50mm/s: Vib = (Voltage - 1) * MaxRange/(4 Volts) = (Voltage - 1) * 50/4 = (Voltage - 1) * 12.5
-
-//     Sensors.PFuel[0] = (i12 - 1) * 4e+06; //[PA]        //scaling: Sensor is 4~20mA and 0~160bar (0~16000000Pa). The current is converted to 1~5V and transmitted via CAN.
-//                                                         //Converting 1~5V to 0~16000000Pa: PFuel = (Voltage - 1) * MaxRange/(4 Volts) = (Voltage - 1) * 16000000/4 = (Voltage - 1) * 4000000
-
-//     Sensors.POil[0] = (i13 - 1) * 250e+03; //[PA]       //scaling: Sensor is 4~20mA and 0~10bar (0~1000000Pa). The current is converted to 1~5V and transmitted via CAN.
-//                                                         //Converting 1~5V to 0~1000000Pa: POil = (Voltage - 1) * MaxRange/(4 Volts) = (Voltage - 1) * 1000000/4 = (Voltage - 1) * 250000
-
-//     //Test bench and HIL sensors
-//     /*Sensors.Tt4[0] = t12;
-//     Sensors.Tt4[1] = t13;
-//     Sensors.Tt4[2] = t14;*/
-
-//     //POC sensors
-//     Sensors.Tt4[0] = t12;
-//     Sensors.Tt4[1] = t13;
-//     Sensors.Tt4[2] = t14;
-
-//     //Bearings sensors
-//     Sensors.TBear[0] = t15;
-//     Sensors.TBear[1] = t16;
-//     Sensors.TBear[2] = t17;
-
-
-//     Sensors.RPM[0] = r11;
-// //Sensors.RPM[1] = r11;       //for now, on testbench there is only one rpm sensor, so the same value will be used on both channels
-//     Sensors.RPM[1] = r12;
-
-
-    /*------------------*/
-    /* REAL ENGINE MODE */
-    /*------------------*/
-
-    /* If Simulation Mode is "Test Bench", then there is no need to wait for authorize from Model */
-    if (simMod == 3)
-    {
-        Authorize = 1;
+    if (tick == tack) {
+        Authorize = 0;
     }
-
+    
+    /*----------------------------------------------------*/
+    
     /* Checks for authorization of controller calculations */
     if(Authorize == 1)
     {
 
-/******** COPYFROM START: FADEC_AUTHORIZE1 *********/
+        /* -------------------------------------------------- */
+	    /* SIMULATION OF GPIO PINES - TMATS & PWLM            */
+	    /* (To be usedi in MATLAB and TMATS simulations only) */
+	    /* -------------------------------------------------- */
+        
+        /* Simulates reading from each GPIO pin */
+        keys.in = GPIOIn & 0x7FF;
+
+/******** SAVETO START: FADEC_AUTHORIZE1 *********/
 
         /* Reads start key - pulse detection */
         Old_key_start = Current_key_start;
         Current_key_start = 0;// !keys.bits.ac_drive_key || Authorize;
 
         /* CAN 1 Misscommunication treatment */
-        CAN1MissComm(&FaultStatus, &EngStatus, &OnOffCom, ContConst.EmergencyCom, ContConst.ShutDownCom);
+		CAN1MissComm(&FaultStatus, &EngStatus, &OnOffCom, ContConst.EmergencyCom, ContConst.ShutDownCom);
 
         /* LOADS EngOnOff PARAMETERS */
 
-        EngOnOff.CurrentKey = Current_key_start;
-        EngOnOff.EmergencyKey = !keys.bits.emergency_key;
-        EngOnOff.EmergencyWait = ContConst.EmergencyWait;
-        EngOnOff.OldKey = Old_key_start;
-        EngOnOff.OnOffCom = OnOffCom;
-        EngOnOff.ShutDownKey = keys.bits.ac_drive_key;
-        EngOnOff.ShutDownWait = ContConst.ShutDownWait;
-        EngOnOff.StartKey = 0;
-        EngOnOff.StartWait = ContConst.StartWait;
-        EngOnOff.Emergency = EmergencyCommand;
-        EngOnOff.Start = StartCommand;
-        EngOnOff.ShutDown = ShutDownCommand;
-        EngOnOff.StartCom = ContConst.StartCom;
-        EngOnOff.ShutDownCom = ContConst.ShutDownCom;
-        EngOnOff.EmergencyCom = ContConst.EmergencyCom;
+		EngOnOff.CurrentKey = Current_key_start;
+		EngOnOff.EmergencyKey = !keys.bits.emergency_key;
+		EngOnOff.EmergencyWait = ContConst.EmergencyWait;
+		EngOnOff.OldKey = Old_key_start;
+		EngOnOff.OnOffCom = OnOffCom;
+		EngOnOff.ShutDownKey = keys.bits.ac_drive_key;
+		EngOnOff.ShutDownWait = ContConst.ShutDownWait;
+		EngOnOff.StartKey = 0;//!keys.bits.ac_drive_key;
+		EngOnOff.StartWait = ContConst.StartWait;	
+		EngOnOff.Emergency = EmergencyCommand;
+		EngOnOff.Start = StartCommand;
+		EngOnOff.ShutDown = ShutDownCommand;
+		EngOnOff.StartCom = ContConst.StartCom;
+		EngOnOff.ShutDownCom = ContConst.ShutDownCom;
+		EngOnOff.EmergencyCom = ContConst.EmergencyCom;
 
-        OnOffLogicSR(&EngOnOff, Ts);
+		OnOffLogicSR(&EngOnOff, Ts);
 
-        /* Updates starting keys */
-        Old_key_start = EngOnOff.OldKey;
-        Current_key_start = EngOnOff.CurrentKey;
+		/* Updates starting keys */
+		Old_key_start = EngOnOff.OldKey;
+		Current_key_start = EngOnOff.CurrentKey;
+	
+    	/* Updates commands */
+		StartCommand = EngOnOff.Start;
+		EmergencyCommand = EngOnOff.Emergency;
+		ShutDownCommand = EngOnOff.ShutDown;
 
-        /* Updates commands */
-        StartCommand = EngOnOff.Start;
-        EmergencyCommand = EngOnOff.Emergency;
-        ShutDownCommand = EngOnOff.ShutDown;
+/******** COMMENT START *********/
 
-        //        /* -------------------------------------------------- */
-        //        /* AUXILIARY VARIABLE - TMATS                         */
-        //        /* (To be usedi in MATLAB and TMATS simulations only) */
-        //        /* -------------------------------------------------- */
+        /* -------------------------------------------------- */
+        /* AUXILIARY VARIABLE - TMATS                         */
+        /* (To be usedi in MATLAB and TMATS simulations only) */
+        /* -------------------------------------------------- */
+   
+        ContInput.TMATS_StartComplete = TMATS_StartComplete;
+        
+        /* -------------------------------------------------- */
 
-        //        ContInput.TMATS_StartComplete = TMATS_StartComplete;
+/******** COMMENT END *********/
 
-        //        /* -------------------------------------------------- */
-
-//<FADECControl>
-        /*=====================================================================*/
-        /*   START OF SSModelLoop.c AND PIMMRF_TJ1200.c IDENTICAL CODE PIECE   */
-        /*																       */
-        /*   NOTE: The following procedures must be accomplished for the       */
-        /*         current versions of FADEC and HIL					       */
-        /*			- The matrices in the FADEC are stored in strings, being   */
-        /*        directly declared as so, i.e., floating Matrix(Size);    	   */
-        /*			- The matrices in the HIL are stored with "alloc" command  */
-        /*        and each matrix variable is a poiter for floating, i.e.,       */
-        /*        floating *Matrix; 											   */
-        /*			- The sample time in the FADEC is defined as Ts, while the */
-        /*		  sample time in the HIL is defined as Ts				   */
-        /*		  															   */
-        /*	Taking into account the above considerations, the following steps  */
-        /*	must be accomplished:											   */
-        /*   - Whenever a matrix pointer is passed as a function argument in   */
-        /*     the FADEC, it should be called as function(..., &Matrix, ...)   */
-        /*   - Whenever a matrix pointer is passed as a function argument in   */
-        /*     the HIL, it should be called as function(..., Matrix, ...)      */
-        /*   - The sample time is passed as function(..., Ts, ...) in the 	   */
-        /*     FADEC and as function (..., Ts, ...) in the HIL	           */
-        /*     			  													   */
-        /*=====================================================================*/
+		/*=====================================================================*/
+		/*   START OF SSModelLoop.c AND PIMMRF_GET700.c IDENTICAL CODE PIECE   */
+		/*																       */
+		/*   NOTE: The following procedures must be accomplished for the       */
+		/*         current versions of FADEC and HIL					       */
+		/*			- The matrices in the FADEC are stored in strings, being   */
+		/*        directly declared as so, i.e., floating Matrix(Size);    	   */
+		/*			- The matrices in the HIL are stored with "alloc" command  */
+		/*        and each matrix variable is a poiter for floating, i.e.,       */
+		/*        floating *Matrix; 											   */
+		/*			- The sample time in the FADEC is defined as Ts, while the */
+		/*		  sample time in the HIL is defined as Tsample				   */
+		/*		  															   */
+		/*	Taking into account the above considerations, the following steps  */
+		/*	must be accomplished:											   */
+		/*   - Whenever a matrix pointer is passed as a function argument in   */
+		/*     the FADEC, it should be called as function(..., &Matrix, ...)   */
+		/*   - Whenever a matrix pointer is passed as a function argument in   */
+		/*     the HIL, it should be called as function(..., Matrix, ...)      */
+		/*   - The sample time is passed as function(..., Ts, ...) in the 	   */
+		/*     FADEC and as function (..., Tsample, ...) in the HIL	           */
+		/*     			  													   */
+		/*=====================================================================*/
 
 		/*----------------------------------------------------*/
 		/* CONVERTS Tt2 INTO Ts2 IF Tt2 WAS DIRECTLY MEASURED */
@@ -1271,15 +1443,6 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
         /* Thermocouple fault simulation */
         TCFault(&Sensors, &SoftSimFaults, &FaultSensAuthorize, &Ts2_0, &Ts2_1, &Tt4_0, &Tt4_1, &Tt4_2, &TB_0, &TB_1, &TB_2, ContConst.TCOpen);
 
-        /*-----------------------------------------*/
-        /* CONDITION FOR OIL PUMP TO BECOME ACTIVE */
-        /*-----------------------------------------*/
-
-//        if(RPM < 1000 & LeverMode == 1)
-//        {
-//            ContGenOil = ContGenEmpty;
-//        }
-
         /*----------------*/
         /* FAULT ANALYSIS */
         /*----------------*/
@@ -1289,25 +1452,17 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
                   &Ts2Res, &Tt4Res, &TBearRes);
 
         /* Estimation of indexes using current Altitude, MN and FNpc values */
-        /* In this case, the structure ModelPars must be used - Open-Loop model */
-        EstIndex(&ModelPars, AltLinVec, MNLinVec,
-                       Mtx2D, Mtx2DH, Mtx1D, Mtx1DH,
-                       FNperContMtx, &ContConst, &Index3D);
-
-//printf("\nSensors: Alt = %f, MN = %f, dT = %f\n", Altitude,MN,dT);
-//printf("Model  : Alt = %f, MN = %f, dT = %f\n", ModelPars.Altitude,ModelPars.MN,ModelPars.dT);
-//printf("\nSensors: Ts2 = %f, Pt3 = %f, Tt4 = %f, RPM = %f, Wf = %f", Sensors.Ts2[0],Sensors.Pt3[0],Sensors.Tt4[0],Sensors.RPM[0], Wf);
-//printf("Model  : Ts2 = %f, Pt3 = %f, Tt4 = %f, RPM = %f, Wf = %f\n", ModelPars.Ts2,ModelPars.Pt3,ModelPars.Tt4,ModelPars.RPM, ModelPars.Wf);
-//printf("MedVals: Ts2 = %f, Pt3 = %f, Tt4 = %f, RPM = %f\n",Ts2MedVal,  Pt3MedVal, Tt4MedVal, RPMMedVal);
-//printf("ActiveController: %d\n", ContOutput.Active);
-
+        /* In this case, the structure ModelPars must be used - Open-Loop model */      
+		EstIndex(&ModelPars, AltLinVec, MNLinVec,
+				 Mtx2D, Mtx2DH, Mtx1D, Mtx1DH,
+				 FNperContMtx, &ContConst, &Index3D);
         /* CALCULATION OF ENGINE MODEL Ts2 */
 
         /* Calculation of model ambient temperature */
         /* In this case, the structure ModelPars must be used - Open-Loop model */
-        Ts2ModelCalc(Ts0Mtx, &ContConst,
-             Ts0Mtx2D, Ts0Mtx2DH, Ts0Mtx1D, Ts0Mtx1DH,
-             &ModelPars, &Index3D);
+		Ts2ModelCalc(Ts0Mtx, &ContConst,
+					 Ts0Mtx2D, Ts0Mtx2DH, Ts0Mtx1D, Ts0Mtx1DH,
+					 &ModelPars, &Index3D);
 
         /* Updates closed loop model ambient parameters from open-loop model */
         ModelParsCL.Ts2StdSL = ModelPars.Ts2StdSL;
@@ -1333,23 +1488,20 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
 
         BiasAnalisysAuthorize(&HardFAuthorize, &ContStart, &ContInput, &EngStatus, StartFaultAnalysis);
 
- /******** COPYFROM END: FADEC_AUTHORIZE1 *********/
+/******** SAVETO END: FADEC_AUTHORIZE1 *********/
 
- //FaultSensAuthorize.FaultBits = 0;
- FaultSysAuthorize.FaultBits = 0;
- FaultSysAuthorize.SysFaults.CAN_0_Fault = 1;
- FaultSysAuthorize.SysFaults.CAN_1_Fault = 1;
- HardFAuthorize.DetFaults.POil_0_Fault = 0;
- HardFAuthorize.DetFaults.PFuel_0_Fault = 0;
- HardFAuthorize.DetFaults.Vib_0_Fault = 0;
- HardFAuthorize.FaultBits = 0;
+// HardFAuthorize.FaultBits = 0;
+// FaultSensAuthorize.FaultBits = 0;
+// FaultSysAuthorize.FaultBits = 0;
+// HardFAuthorize.DetFaults.Ts2_0_Fault = 0;
+// HardFAuthorize.DetFaults.Ts2_1_Fault = 0;
 
-/******** COPYFROM START: FADEC_AUTHORIZE2 *********/
+/******** SAVETO START: FADEC_AUTHORIZE2 *********/
 
         /* RESIDUAL CALCULATION AND PROCESSING */
 
         /* Residuals calculations */
-        /* In this case, two options:
+        /* In this case, two options: 
 		- ModelPars for Open-Loop model
 		- ModelParsCL for Closed-Loop model
 		*/
@@ -1360,7 +1512,7 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
              &VibrationRes, &TBearRes);
 
         /* Sensors residuals processing */
-        /* In this case, two options:
+        /* In this case, two options: 
 		- ModelPars for Open-Loop model
 		- ModelParsCL for Closed-Loop model
 		*/
@@ -1371,7 +1523,7 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
             &FaultSSens, &FaultWSens, &FaultSensAuthorize);
 
         /* Systems residuals processing */
-        /* In this case, two options:
+        /* In this case, two options: 
 		- ModelPars for Open-Loop model
 		- ModelParsCL for Closed-Loop model
 		*/
@@ -1384,14 +1536,14 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
 				   &CANFault, &ContStart);
 
         /* Sensor bias residuals processing */
-        /* In this case, two options:
+        /* In this case, two options: 
 		- ModelPars for Open-Loop model
 		- ModelParsCL for Closed-Loop model
 		*/
         ResProcBias(&ContConst, &ModelParsChosen,
              &Ts2Res, &Pt3Res, &Tt4Res,
              &RPMRes, &POilRes, &PFuelRes,
-             &VibrationRes, &HardFStatus, &HardFWarning, &HardFAuthorize);
+             &VibrationRes, &HardFStatus, &HardFWarning, &HardFAuthorize); 
 
         /* FAULT ANALYSIS */
 
@@ -1423,7 +1575,7 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
 
         /* Sensors thrustworthiness analysis - checks if isolated sensor faults have occurred */
         SensorTrust(&TrustSens, &FaultSSens, &FaultWSens);
-
+        
 
         /* SYSTEM FAULTS ISOLATED AT EACH SENSOR */
 
@@ -1465,15 +1617,15 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
 
         /* Identifies initial or windmilling status */
         EngStatusDeff(&EngStatus, &ModPFault, &ContInput,
-                    &ContStart, &ContConst,
+                    &ContStart, &ContConst, 
                     0, 6,
-                    StartCommand, 1, ContInput.ThrustCommandOn,
+                    StartCommand, 1, ContInput.ThrustCommandOn, 
                     ShutDownCommand, 1, EmergencyCommand, 1,
                     CriticalFailure, 1, Ts);
 
         /* CALCULATION OF MEDIUM VALUES */
 
-        /* In this case, two options:
+        /* In this case, two options: 
 		- ModelPars for Open-Loop model
 		- ModelParsCL for Closed-Loop model
 		*/
@@ -1481,22 +1633,22 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
         /*The variable TrustAll indicates if either any sensor short/open or any sensor bias has occurred*/
         TrustAll.FaultBits = TrustHard.FaultBits & TrustSens.FaultBits;
 
-        /* Below, the ModPFault struct indicates which modeled parameters has any fault at each of its sensors, indicating
+        /* Below, the ModPFault struct indicates which modeled parameters has any fault at each of its sensors, indicating 
         that, for this particular parameter, only the model estimation is being used */
 
-        /* Calculates the medium value of Ts2 - The last indicates the minimum number of trusted sensors before
+        /* Calculates the medium value of Ts2 - The last indicates the minimum number of trusted sensors before 
         untrusted sensors are replaced by model calculated values */
         Ts2MediumValue(&ModPFault, &Ts2MedVal, ContConst.NumTs2Sens, &TrustAll, &Sensors, ModelParsChosen.Ts2,ContConst.NumTs2SensTrust);
-        /* Calculates the medium value of Pt3 - The last indicates the minimum number of trusted sensors before
+        /* Calculates the medium value of Pt3 - The last indicates the minimum number of trusted sensors before 
         untrusted sensors are replaced by model calculated values */
         Pt3MediumValue(&ModPFault, &Pt3MedVal, ContConst.NumPs3Sens, &TrustAll, &Sensors, ModelParsChosen.Pt3,ContConst.NumPs3SensTrust);
-        /* Calculates the medium value of Tt4 - The last indicates the minimum number of trusted sensors before
+        /* Calculates the medium value of Tt4 - The last indicates the minimum number of trusted sensors before 
         untrusted sensors are replaced by model calculated values */
         Tt4MediumValue(&ModPFault, &Tt4MedVal, ContConst.NumTt4Sens, &TrustAll, &Sensors, ModelParsChosen.Tt4,ContConst.NumTt4SensTrust);
-        /* Calculates the medium value of RPM - The last indicates the minimum number of trusted sensors before
+        /* Calculates the medium value of RPM - The last indicates the minimum number of trusted sensors before 
         untrusted sensors are replaced by model calculated values */
         RPMMediumValue(&ModPFault, &RPMMedVal, ContConst.NumRPMSens, &TrustAll, &Sensors, ModelParsChosen.RPM,ContConst.NumRPMSensTrust);
-
+       
         /* Updates variables with calculated medium values */
         Ts2 = Ts2MedVal;
         Pt3 = Pt3MedVal;
@@ -1524,8 +1676,8 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
     	ModelPars.MN = MN;
     	ModelPars.Ts2Std = Ambient.Ts;
 
-        /* Calculation of total temperature */
-        Tt2Calc(Ts2, &ModelPars);
+        /* Calculation of total temperature */        
+        Tt2Calc(Ts2, &ModelPars); 
 
         /* Updates Tt2 and dT values */
         Tt2 = ModelPars.Tt2;
@@ -1541,13 +1693,13 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
         ModelParsCL.dT = ModelPars.dT;
         ModelParsCL.Ts2StdSL = ModelPars.Ts2StdSL;
 
-/******** COPYFROM END: FADEC_AUTHORIZE2 *********/
+/******** SAVETO END: FADEC_AUTHORIZE2 *********/
 
-        // PrintFaults(&FaultWarning,0,1);
-        // PrintFaults(&FaultStatus,1,0);
-        // PrintEngStatus(&EngStatus,1);
+        PrintFaults(&FaultWarning,0,1);
+        PrintFaults(&FaultStatus,1,0);
+        PrintEngStatus(&EngStatus,1);
 
-/******** COPYFROM START: FADEC_AUTHORIZE3 *********/
+/******** SAVETO START: FADEC_AUTHORIZE3 *********/
 
         /*-----------------------------------------------------*/
         /* VERIFIES EMERGENCY SHUT DOWN DUE TO ENGINE FAILURE  */
@@ -1571,7 +1723,7 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
 
 		/* Finds indexes from a dummy percentual value of Fnpc for obtaining the Mach number indexes */
         InterpInd3DRPM(0, MN, 0.95, AltLinVec, MNLinVec, FNperContMtx, Mtx2D, Mtx2DH, Mtx1D, Mtx1DH, 1, MN_Elem, Fn_Elem, &Index3D);
-
+		
         /* Shifts the indexes of Index3D for finding a 1D element */
 		Index3D.kRPM = Index3D.kMN;
 		Index3D.kRPMH = Index3D.kMNH;
@@ -1596,7 +1748,7 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
         /*--------------------*/
         /* ENGINE CONTROL LAW */
         /*--------------------*/
-
+                
         /* Updates Controller Inputs */
         ContInput.Old_key_start = Old_key_start;
         ContInput.Current_key_start = Current_key_start;
@@ -1626,17 +1778,17 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
 
 		/* If booster is connected, measured value of Pt3 must not be considered and blow out protection must be deactivated */
 		BoosterProtect(&ContConst, &ContInput, Delta, BoosterLStatus, BoosterRStatus, Ts);
-//printf("RealCont: BoostL=%d BoostR=%d Time=%f status=%d Delta=%f Pt3=%f\n",BoosterLStatus, BoosterRStatus, ContInput.TimerBoost, ContInput.statusBooster, Delta, ContInput.Pt3);
-        /* CALCULATES THE CONTROL LAW */
-
+//mexPrintf("RealCont: BoostL=%d BoostR=%d Time=%f status=%d Delta=%f Pt3=%f\n",BoosterLStatus, BoosterRStatus, ContInput.TimerBoost, ContInput.statusBooster, Delta, ContInput.Pt3);
+        /* CALCULATES THE CONTROL LAW */            
+                   
         /* Calculates fuel flow from control law */
 		PIMinMaxRF(AltLinVec, MNLinVec, NcVec, ASVec, DSVec,
 				   Mtx2D, Mtx2DH, Mtx1D, Mtx1DH,
 				   DeltaMtx2D, DeltaMtx2DH, DeltaMtx1D, DeltaMtx1DH,
 				   &ContConst, &ContStart, &ContInput, &ContOutput, &digitalWord, &keysWord,
 				   DeltaMtx, NcFANContMtx, FNcMaxContMtx, FNperContMtx,
-				   N_KpMtx, N_KpshMtx, N_KiMtx, N_KishMtx, Ts);
-
+				   N_KpMtx, N_KpshMtx, N_KiMtx, N_KishMtx, Ts);                
+        
         /* Updates digital outputs and fuel flow value */
         digital.out = digitalWord;
 
@@ -1644,22 +1796,22 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
 
         ShutDownRamp(&ContInput, &ContInputEmpty,
                      &ContOutput, &ContOutputEmpty,
-                     &ContStart, &ContStartEmpty,
+                     &ContStart, &ContStartEmpty, 
                      &ContGenOil, &ContGenEmpty,
                      &digital, &ContConst, Ts);
 
         /* EXECUTES EMERGENCY SHUT DOWN ROUTINE IF EMERGENCY HAS OCCURRED */
 
-        /* Engine must execute emergency shut down either through external command of
+        /* Engine must execute emergency shut down either through external command of 
         Emergency or through detection of critical failure */
         EmergShutDwn = EmergencyCommand || CriticalFailure;
 
         EmergencyShutDown(&ContInput, &ContInputEmpty,
 						  &ContOutput, &ContOutputEmpty,
-						  &ContStart, &ContStartEmpty,
+						  &ContStart, &ContStartEmpty, 
                           &ContGenOil, &ContGenEmpty,
                           &digital, EmergShutDwn);
-
+        
         /* Updates fuel flow value */
         Wf = ContOutput.Wf;
 
@@ -1671,7 +1823,7 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
         IgnitionFail = ContOutput.IgnitionFail;
         ControlPhase = ContOutput.ControlPhase;
 
-        /*--------------------*/
+        /*--------------------*/             
         /* MODEL CALCULATIONS */
         /*--------------------*/
 
@@ -1716,12 +1868,12 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
         ModelPars.Ts = 0.001 * TICK;
         ModelPars.NumSteps = ContConst.NumSteps;
         ModelPars.MaxInter = ContConst.MaxInterFault;
-
+        
         /* Updates fuel lack model inputs */
         BlowOutPars = ModelPars;
         /* Sets fuel value to 0 for simulating fuel lack situation */
         BlowOutPars.Wf = 0;
-
+        
         /* Calculates model for normal functioning */
         ModelCalc(&ModelPars, DeltaMtx,
                   AltLinVec, MNLinVec, &ContConst,
@@ -1733,8 +1885,8 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
                   Pt5Mtx, Pt5DMtx, Tt5Mtx, Tt5DMtx,
                   NcHPCMapMtx, WcHPCMapMtx, PRHPCMapMtx,
                   MapHPC1D, MapHPC1DH, MapHPC2D, MapHPC2DH);
-
-        /* Calculates model for fuel lack */
+        
+        /* Calculates model for fuel lack */  
 		ModelCalc(&BlowOutPars, DeltaMtx,
 				  AltLinVec, MNLinVec, &ContConst,
 				  Mtx2D, Mtx2DH, Mtx1D, Mtx1DH,
@@ -1748,11 +1900,11 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
 
         /* CLOSED-LOOP INTERNAL MODEL */
 
-        /* Checks if fault analysis has started. If not, the closed-loop model must match exactly
+        /* Checks if fault analysis has started. If not, the closed-loop model must match exactly 
         the open-loop model and simulation controller must match the real one */
         if (EngStatus.EngineStatus <= 8 | StartFaultAnalysis == 0)
         {
-            /* Sets input  simulation controller  and real controller parameters as equal,
+            /* Sets input  simulation controller  and real controller parameters as equal, 
             and close-loop and opem-loop models as equal */
             ContStModCL = ContStart;
             ContInModCL = ContInput;
@@ -1771,9 +1923,9 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
             ContInModCL.EngUnits = EngUnits;
             ContInModCL.Altitude = Altitude;
             ContInModCL.MN = MN;
-            ContInModCL.FNpc = FNpc;
+            ContInModCL.FNpc = FNpc;   
 
-            /* Parameters calculated by model */
+            /* Parameters calculated by model */         
             ContInModCL.Tt2 = ModelParsCL.Tt2;
             ContInModCL.Pt3 = ModelParsCL.Pt3;
             ContInModCL.Tt4 = ModelParsCL.Tt4;
@@ -1794,7 +1946,7 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
 			/* If booster is connected, measured value of Pt3 must not be considered and blow out protection must be deactivated
 			The same situation is reproduced in the model in order for more accureate reproduction of the real situation */
 			BoosterProtect(&ContConst, &ContInModCL, Delta, BoosterLStatus, BoosterRStatus, Ts);
-//printf("Model: BoostL=%d BoostR=%d Time=%f status=%d Delta=%f Pt3=%f\n",BoosterLStatus, BoosterRStatus, ContInModCL.TimerBoost, ContInModCL.statusBooster, Delta, ContInModCL.Pt3);
+//mexPrintf("Model: BoostL=%d BoostR=%d Time=%f status=%d Delta=%f Pt3=%f\n",BoosterLStatus, BoosterRStatus, ContInModCL.TimerBoost, ContInModCL.statusBooster, Delta, ContInModCL.Pt3);
 			/* CALCULATES THE CONTROL LAW */
 
             /* Calculates fuel flow from control law for closed-loop model */
@@ -1811,7 +1963,7 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
             for more accurate reproduction of the real situation */
             ShutDownRamp(&ContInModCL, &ContInputEmpty,
                          &ContOutModCL, &ContOutputEmpty,
-                         &ContStModCL, &ContStartEmpty,
+                         &ContStModCL, &ContStartEmpty, 
                          &ContGenOilCL, &ContGenEmpty,
                          &digModCL, &ContConst, Ts);
 
@@ -1821,7 +1973,7 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
             for more accurate reproduction of the real situation */
             EmergencyShutDown(&ContInModCL, &ContInputEmpty,
                               &ContOutModCL, &ContOutputEmpty,
-                              &ContStModCL, &ContStartEmpty,
+                              &ContStModCL, &ContStartEmpty, 
                               &ContGenOilCL, &ContGenEmpty,
                               &digModCL, EmergShutDwn);
         }
@@ -1855,37 +2007,124 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
 				  MapHPC1D, MapHPC1DH, MapHPC2D, MapHPC2DH);
 
         /*===============================================================*/
-        /* END OF SSModelLoop.c AND PIMMRF_XXX.c IDENTICAL CODE PIECE */
+        /* END OF SSModelLoop.c AND PIMMRF_GET700.c IDENTICAL CODE PIECE */
         /*                                                               */
         /* NOTE: The codes are to be identical except for the considera- */
         /*       tions mentioned at the note above                       */
         /*===============================================================*/
-//<FADECControl>
-/******** COPYFROM END: FADEC_AUTHORIZE3 *********/
 
-        /*-----------------------------*/
-        /* WRITES OUTPUTS IN STRUCTURE */
-        /*-----------------------------*/
+/******** SAVETO END: FADEC_AUTHORIZE3 *********/
 
-        /* Updates das saídas */
-            // 1 - Wf                           (Fuel flow value - musst normalize)
-            // 2 - ContStart.StrtRPMAct         (Oil pump rpm - must normalize)
-            // 3 - digital.out                  (digital outputs)
-            // 4 - EngStatus.EngineStatus       (Engine status variable)
-
-            /* OUTPUT STRUCTS */
-
-            ExpOut->FaultStatus = FaultStatus;
-            ExpOut->FaultWarning = FaultWarning;
-
-            /* OUTPUT VARIABLES */
-
-            ExpOut->Wf = Wf;
-            ExpOut->digitalout = digital;
-            ExpOut->StrRPMAct = ContStart.StrtRPMAct;
-            ExpOut->EngineStatus = EngStatus.EngineStatus;
-            //ExpOut->ResetOK = ResetOK;
-
+        /* -------------------------------------------------- */
+        /* AUXILIARY VARIABLE - PWLM                          */
+        /* (To be usedi in MATLAB and TMATS simulations only) */
+        /* -------------------------------------------------- */
+        
+        // Out0 = fValue;
+        Out0 = Wf;
+        Out1 = ContOutput.Active;
+        Out2 = digital.bits.igniter;
+        Out3 = ContOutput.RPMRef;
+        Out4 = ContOutput.MinRef;
+        Out5 = (floating)EngStatus.EngineStatus;
+        Out6 = OPRPM;
+        //Out5 = ContStart.status;//EngStatus.EngineStatus;
+                
+        /* -------------------------------------------------- */
+//mexPrintf("StatusSD=%d\n",ContInput.StatusSD);
     }
 
+    /* -------------------------------------------------- */
+    /* UPDATES OUTPUTS - TMATS & PWLM                     */
+    /* (To be usedi in MATLAB and TMATS simulations only) */
+    /* -------------------------------------------------- */
+
+	/* Writes SIMULINK outputs */
+
+    Iout[0] = Out0;
+	Iout[1] = Out1;
+	Iout[2] = Out2;
+	Iout[3] = Out3;
+	Iout[4] = Out4;
+    Iout[5] = Out5;
+    Iout[6] = Out6;
+    
+    IoutModel[0] = ModelPars.RPM;
+    IoutModel[1] = ModelPars.Tt4;
+//mexPrintf("\n ModelPars.Tt4 = %f", ModelPars.Tt4);
+    IoutModel[2] = ModelPars.Pt3;
+    IoutModel[3] = ModelPars.WfOutfp;
+    
+    IoutBlowOut[0] = BlowOutPars.RPM;
+    IoutBlowOut[1] = BlowOutPars.Tt4;
+    IoutBlowOut[2] = BlowOutPars.Pt3;
+    IoutBlowOut[3] = BlowOutPars.Tt2;
+
+    IoutModelCL[0] = ModelParsCL.RPM;
+    IoutModelCL[1] = ModelParsCL.Tt4;
+//mexPrintf("\n ModelPars.Tt4 = %f", ModelPars.Tt4);
+    IoutModelCL[2] = ModelParsCL.Fn;
+    IoutModelCL[3] = ModelParsCL.Tt2;
+    
+    /*---------------------------------------------*/
+// mexPrintf("ModelPOil = %f, CLModelPOil = %f\n",ModelPars.POil, ModelParsCL.POil);
+// mexPrintf("ModelPFuel = %f, CLModelPFuel = %f\n",ModelPars.PFuel, ModelParsCL.PFuel);
+// mexPrintf("ModelVib = %f, CLModelVib = %f\n",ModelPars.Vibration, ModelParsCL.Vibration);
+// mexPrintf("ModelRPM = %f, CLModelRPM = %f\n",ModelPars.RPM, ModelParsCL.RPM);
+// mexPrintf("Real Fuel = %f, CLModel Fuel = %f\n", Wf, ContOutModCL.Wf);
 }
+
+#define MDL_UPDATE  /* Change to #undef to remove function */
+#if defined(MDL_UPDATE)
+/* Function: mdlUpdate ======================================================
+ * Abstract:
+ *    This function is called once for every major integration time step.
+ *    Discrete states are typically updated here, but this function is useful
+ *    for performing any tasks that should only take place once per
+ *    integration step.
+ */
+static void mdlUpdate(SimStruct *S, int_T tid)
+{
+}
+#endif /* MDL_UPDATE */
+
+
+
+#define MDL_DERIVATIVES  /* Change to #undef to remove function */
+#if defined(MDL_DERIVATIVES)
+/* Function: mdlDerivatives =================================================
+ * Abstract:
+ *    In this function, you compute the S-function block's derivatives.
+ *    The derivatives are placed in the derivative vector, ssGetdX(S).
+ */
+static void mdlDerivatives(SimStruct *S)
+{
+}
+#endif /* MDL_DERIVATIVES */
+
+
+
+/* Function: mdlTerminate =====================================================
+ * Abstract:
+ *    In this function, you should perform any actions that are necessary
+ *    at the termination of a simulation.  For example, if memory was
+ *    allocated in mdlStart, this is the place to free it.
+ */
+static void mdlTerminate(SimStruct *S)
+{
+}
+
+
+/*=============================*
+ * Required S-function trailer *
+ *=============================*/
+
+#ifdef  MATLAB_MEX_FILE    /* Is this file being compiled as a MEX-file? */
+#include "simulink.c"      /* MEX-file interface mechanism */
+#else
+#include "cg_sfun.h"       /* Code generation registration function */
+#endif
+
+ // #ifdef __cplusplus
+ // } // end of extern "C" scope
+ // #endif

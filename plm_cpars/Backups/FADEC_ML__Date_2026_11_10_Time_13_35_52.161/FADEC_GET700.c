@@ -14,7 +14,7 @@
   // extern "C" { // use the C fcn-call standard for all functions
   // #endif       // defined within this scope
 
-#define S_FUNCTION_NAME  FADEC_XXX
+#define S_FUNCTION_NAME  FADEC_GET700
 #define S_FUNCTION_LEVEL 2
 
 //#define pi 3.14
@@ -58,7 +58,7 @@
 #include "FADEC_Defines_H/FaultSim_Types.h"         /* Fault analysis */
 #include "FADEC_Defines_H/FloatPoint_Precision.h"			/* Defines the size of used floating point */
 #include "FADEC_Functions_H/functions_TMATS.h"        /* Adapted from T-MATS */
-//#include "getXXX.h"              /* File containing all get functions for XXX */
+//#include "getGET700.h"              /* File containing all get functions for GET700 */
 #include "FADEC_Defines_H/Interpolation_Types.h"    /* General Calculations*/
 #include "FADEC_Defines_H/IO_Types.h"               /* Controller calculations */
 //#include "FADEC_Functions_H/LinMtxFunctions.h"        /* General Calculations*/
@@ -76,10 +76,10 @@
 /*-----------------*/
 
 /* Engine .h files */
-#include "XXX/FADEC_Constants_H/ConstantsXXX.h" 
-#include "XXX/FADEC_get_H/getXXXFADECContConst.h"
-#include "XXX/FADEC_get_H/getXXXFADECMtx.h"       /* XXX Engine Constants */
-#include "XXX/FADEC_get_H/getXXXFADECSizeConst.h"
+#include "GET700/FADEC_Constants_H/ConstantsGET700.h" 
+#include "GET700/FADEC_get_H/getGET700FADECContConst.h"
+#include "GET700/FADEC_get_H/getGET700FADECMtx.h"       /* GET700 Engine Constants */
+#include "GET700/FADEC_get_H/getGET700FADECSizeConst.h"
 
 /******** SAVETO END: FADEC_INCLUDES *********/
 
@@ -567,8 +567,8 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     /* int TYPE */
 
     int Authorize = 0;                                     /* Flag indicating that controller is authorized to perform */
-    int Fn_Elem = XXX_FN_ELEM;                      /* Number of net thrust breakpoint elements */
-    int MN_Elem = XXX_MN_ELEM;                      /* Number of Mach number breakpoint elements */
+    int Fn_Elem = GET700_FN_ELEM;                      /* Number of net thrust breakpoint elements */
+    int MN_Elem = GET700_MN_ELEM;                      /* Number of Mach number breakpoint elements */
 
     int Alt_Elem;
     int AS_Elem;
@@ -585,48 +585,48 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
     /* floating TYPE STRINGS */
   
-    // floating AltLinVec[XXX_ALT_ELEM];                      /* Altitude breakpoints */
-    // floating AMtx[XXX_MN_ELEM * XXX_FN_ELEM];           /* Model - A matrix */
-    // floating ASVec[XXX_AS_ELEM];                           /* Controller - Asceleration schedule (ASVec) break points */
-    // floating BMtx[XXX_MN_ELEM * XXX_FN_ELEM];           /* Model - B matrix */
-    // floating DeltaMtx[XXX_ALT_ELEM * XXX_MN_ELEM];      /* Controller - Delta matrix */
-    // floating DeltaMtx1D[XXX_MN_ELEM];                      /* Auxiliar matrix - Delta */
-    // floating DeltaMtx1DH[XXX_MN_ELEM];                     /* Auxiliar matrix - Delta */
-    // floating DeltaMtx2D[XXX_ALT_ELEM * XXX_MN_ELEM];    /* Auxiliar matrix - Delta */
-    // floating DeltaMtx2DH[XXX_ALT_ELEM * XXX_MN_ELEM];   /* Auxiliar matrix - Delta */
-    // floating DSVec[XXX_AS_ELEM];                           /* Controller - Deceleration schedule (DSVec) break points */
-    // floating FNcMaxContMtx[XXX_MN_ELEM];                   /* Controller - Maximum corrected net thrust values */
-    // floating FNperContMtx[XXX_TOTAL_ELEM];                 /* Controller - net thrust percentual values matrix */
-    // floating MapHPC1D[XXX_FAN_PR];                         /* Auxiliar matrix - HPC map */
-    // floating MapHPC1DH[XXX_FAN_PR];                        /* Auxiliar matrix - HPC map */
-    // floating MapHPC2D[XXX_FAN_NC * XXX_FAN_PR];         /* Auxiliar matrix - HPC map */
-    // floating MapHPC2DH[XXX_FAN_NC * XXX_FAN_PR];        /* Auxiliar matrix - HPC map */
-    // floating MNLinVec[XXX_MN_ELEM];                        /* Mach number breakpoints */
-    // floating Mtx1D[XXX_FN_ELEM];                           /* Auxiliar matrix */
-    // floating Mtx1DH[XXX_FN_ELEM];                          /* Auxiliar matrix */
-    // floating Mtx2D[XXX_MN_ELEM * XXX_FN_ELEM];          /* Auxiliar matrix */
-    // floating Mtx2DH[XXX_MN_ELEM * XXX_FN_ELEM];         /* Auxiliar matrix */
-    // floating N_KiMtx[XXX_TOTAL_ELEM];                      /* Controller - Ki matrix of N control law */
-    // floating N_KpMtx[XXX_TOTAL_ELEM];                      /* Controller - Kp matrix of N control law */
-    // floating NcFANContMtx[XXX_TOTAL_ELEM];                 /* Controller - Fan Nc breakpoints */
-    // floating NcHPCMapMtx[XXX_FAN_NC];                      /* Model - Nc break points matrix - HPC map */
-    // floating NcVec[XXX_AS_ELEM];                           /* Controller - Nc schedule (for ASVec and DSVec) break points */
-    // floating PRHPCMapMtx[XXX_FAN_NC * XXX_FAN_PR];      /* Model - PR break points matrix - HPC map */
-    // floating Pt3DMtx[XXX_MN_ELEM * XXX_FN_ELEM];        /* Model - Pt3D matrix */
-    // floating Pt3Mtx[XXX_MN_ELEM * XXX_FN_ELEM];         /* Model - Pt3 matrix */
-    // floating Pt5DMtx[XXX_MN_ELEM * XXX_FN_ELEM];        /* Model - Pt5D matrix */
-    // floating Pt5Mtx[XXX_MN_ELEM * XXX_FN_ELEM];         /* Model - Pt5 matrix */
-    // floating Ts0Mtx[XXX_ALT_ELEM];                         /* Controller and Model - Ts0 break points  */
-    // floating Ts0Mtx1D[XXX_ALT_ELEM];                       /* Auxiliar matrix - Ts0 */
-    // floating Ts0Mtx1DH[XXX_ALT_ELEM];                      /* Auxiliar matrix - Ts0 */
-    // floating Ts0Mtx2D[XXX_FN_ELEM];                        /* Auxiliar matrix - Ts0 */
-    // floating Ts0Mtx2DH[XXX_FN_ELEM];                       /* Auxiliar matrix - Ts0 */
-    // floating Tt4DMtx[XXX_MN_ELEM * XXX_FN_ELEM];        /* Model - Tt4D matrix */
-    // floating Tt4Mtx[XXX_MN_ELEM * XXX_FN_ELEM];         /* Model - Tt4 matrix */
-    // floating Tt5DMtx[XXX_MN_ELEM * XXX_FN_ELEM];        /* Model - Tt5D matrix */
-    // floating Tt5Mtx[XXX_MN_ELEM * XXX_FN_ELEM];         /* Model - Tt5 matrix */
-    // floating WcHPCMapMtx[XXX_FAN_NC * XXX_FAN_PR];      /* Model - Wc break points matrix - HPC map */
-    // floating WfMtx[XXX_MN_ELEM * XXX_FN_ELEM];          /* Model - Wf matrix */
+    // floating AltLinVec[GET700_ALT_ELEM];                      /* Altitude breakpoints */
+    // floating AMtx[GET700_MN_ELEM * GET700_FN_ELEM];           /* Model - A matrix */
+    // floating ASVec[GET700_AS_ELEM];                           /* Controller - Asceleration schedule (ASVec) break points */
+    // floating BMtx[GET700_MN_ELEM * GET700_FN_ELEM];           /* Model - B matrix */
+    // floating DeltaMtx[GET700_ALT_ELEM * GET700_MN_ELEM];      /* Controller - Delta matrix */
+    // floating DeltaMtx1D[GET700_MN_ELEM];                      /* Auxiliar matrix - Delta */
+    // floating DeltaMtx1DH[GET700_MN_ELEM];                     /* Auxiliar matrix - Delta */
+    // floating DeltaMtx2D[GET700_ALT_ELEM * GET700_MN_ELEM];    /* Auxiliar matrix - Delta */
+    // floating DeltaMtx2DH[GET700_ALT_ELEM * GET700_MN_ELEM];   /* Auxiliar matrix - Delta */
+    // floating DSVec[GET700_AS_ELEM];                           /* Controller - Deceleration schedule (DSVec) break points */
+    // floating FNcMaxContMtx[GET700_MN_ELEM];                   /* Controller - Maximum corrected net thrust values */
+    // floating FNperContMtx[GET700_TOTAL_ELEM];                 /* Controller - net thrust percentual values matrix */
+    // floating MapHPC1D[GET700_FAN_PR];                         /* Auxiliar matrix - HPC map */
+    // floating MapHPC1DH[GET700_FAN_PR];                        /* Auxiliar matrix - HPC map */
+    // floating MapHPC2D[GET700_FAN_NC * GET700_FAN_PR];         /* Auxiliar matrix - HPC map */
+    // floating MapHPC2DH[GET700_FAN_NC * GET700_FAN_PR];        /* Auxiliar matrix - HPC map */
+    // floating MNLinVec[GET700_MN_ELEM];                        /* Mach number breakpoints */
+    // floating Mtx1D[GET700_FN_ELEM];                           /* Auxiliar matrix */
+    // floating Mtx1DH[GET700_FN_ELEM];                          /* Auxiliar matrix */
+    // floating Mtx2D[GET700_MN_ELEM * GET700_FN_ELEM];          /* Auxiliar matrix */
+    // floating Mtx2DH[GET700_MN_ELEM * GET700_FN_ELEM];         /* Auxiliar matrix */
+    // floating N_KiMtx[GET700_TOTAL_ELEM];                      /* Controller - Ki matrix of N control law */
+    // floating N_KpMtx[GET700_TOTAL_ELEM];                      /* Controller - Kp matrix of N control law */
+    // floating NcFANContMtx[GET700_TOTAL_ELEM];                 /* Controller - Fan Nc breakpoints */
+    // floating NcHPCMapMtx[GET700_FAN_NC];                      /* Model - Nc break points matrix - HPC map */
+    // floating NcVec[GET700_AS_ELEM];                           /* Controller - Nc schedule (for ASVec and DSVec) break points */
+    // floating PRHPCMapMtx[GET700_FAN_NC * GET700_FAN_PR];      /* Model - PR break points matrix - HPC map */
+    // floating Pt3DMtx[GET700_MN_ELEM * GET700_FN_ELEM];        /* Model - Pt3D matrix */
+    // floating Pt3Mtx[GET700_MN_ELEM * GET700_FN_ELEM];         /* Model - Pt3 matrix */
+    // floating Pt5DMtx[GET700_MN_ELEM * GET700_FN_ELEM];        /* Model - Pt5D matrix */
+    // floating Pt5Mtx[GET700_MN_ELEM * GET700_FN_ELEM];         /* Model - Pt5 matrix */
+    // floating Ts0Mtx[GET700_ALT_ELEM];                         /* Controller and Model - Ts0 break points  */
+    // floating Ts0Mtx1D[GET700_ALT_ELEM];                       /* Auxiliar matrix - Ts0 */
+    // floating Ts0Mtx1DH[GET700_ALT_ELEM];                      /* Auxiliar matrix - Ts0 */
+    // floating Ts0Mtx2D[GET700_FN_ELEM];                        /* Auxiliar matrix - Ts0 */
+    // floating Ts0Mtx2DH[GET700_FN_ELEM];                       /* Auxiliar matrix - Ts0 */
+    // floating Tt4DMtx[GET700_MN_ELEM * GET700_FN_ELEM];        /* Model - Tt4D matrix */
+    // floating Tt4Mtx[GET700_MN_ELEM * GET700_FN_ELEM];         /* Model - Tt4 matrix */
+    // floating Tt5DMtx[GET700_MN_ELEM * GET700_FN_ELEM];        /* Model - Tt5D matrix */
+    // floating Tt5Mtx[GET700_MN_ELEM * GET700_FN_ELEM];         /* Model - Tt5 matrix */
+    // floating WcHPCMapMtx[GET700_FAN_NC * GET700_FAN_PR];      /* Model - Wc break points matrix - HPC map */
+    // floating WfMtx[GET700_MN_ELEM * GET700_FN_ELEM];          /* Model - Wf matrix */
 
     // /* floating TYPE POINTERS */
 
@@ -683,13 +683,16 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 /******** SAVETO START: FADEC_LOADPARS *********/
 
     /* Loads the constants of chosen engine used by FADEC */
-    getXXXFADECSizeConst(&Alt_Elem, &MN_Elem, &Fn_Elem, &AS_Elem, &SteadyOp_Elem,
+    getGET700FADECSizeConst(&Alt_Elem, &MN_Elem, &Fn_Elem, &AS_Elem, &SteadyOp_Elem,
                             &PowerMan_Elem, &NcHPCMap_Elem, &WcHPCMap_Elem, &Wc_per_Nc_HPC);
 
+    int DimX = 2;
+    int DimU = 1;
+
     AltLinVec      = FADECMalloc(Alt_Elem, &MemSize);
-    AMtx           = FADECMalloc(SteadyOp_Elem, &MemSize);
+    AMtx           = FADECMalloc(SteadyOp_Elem * DimX * DimX, &MemSize);
     ASVec          = FADECMalloc(AS_Elem, &MemSize);
-    BMtx           = FADECMalloc(SteadyOp_Elem, &MemSize);
+    BMtx           = FADECMalloc(SteadyOp_Elem * DimX * DimU, &MemSize);
     DeltaMtx       = FADECMalloc(Alt_Elem * MN_Elem, &MemSize);
     DeltaMtx1D     = FADECMalloc(MN_Elem, &MemSize);
     DeltaMtx1DH    = FADECMalloc(MN_Elem, &MemSize);
@@ -716,18 +719,18 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     NcHPCMapMtx    = FADECMalloc(NcHPCMap_Elem, &MemSize);
     NcVec          = FADECMalloc(AS_Elem, &MemSize);
     PRHPCMapMtx    = FADECMalloc(WcHPCMap_Elem, &MemSize);
-    Pt3DMtx        = FADECMalloc(SteadyOp_Elem, &MemSize);
-    Pt3Mtx         = FADECMalloc(SteadyOp_Elem , &MemSize);
-    Pt5DMtx        = FADECMalloc(SteadyOp_Elem, &MemSize);
+    Pt3DMtx        = FADECMalloc(SteadyOp_Elem * DimU, &MemSize);
+    Pt3Mtx         = FADECMalloc(SteadyOp_Elem, &MemSize);
+    Pt5DMtx        = FADECMalloc(SteadyOp_Elem * DimU, &MemSize);
     Pt5Mtx         = FADECMalloc(SteadyOp_Elem, &MemSize);
     Ts0Mtx         = FADECMalloc(Alt_Elem * MN_Elem, &MemSize);
     Ts0Mtx1D       = FADECMalloc(Alt_Elem, &MemSize);
     Ts0Mtx1DH      = FADECMalloc(Alt_Elem , &MemSize);
     Ts0Mtx2D       = FADECMalloc(Fn_Elem, &MemSize);
     Ts0Mtx2DH      = FADECMalloc(Fn_Elem, &MemSize);
-    Tt4DMtx        = FADECMalloc(SteadyOp_Elem, &MemSize);
+    Tt4DMtx        = FADECMalloc(SteadyOp_Elem * DimU, &MemSize);
     Tt4Mtx         = FADECMalloc(SteadyOp_Elem , &MemSize);
-    Tt5DMtx        = FADECMalloc(SteadyOp_Elem, &MemSize);
+    Tt5DMtx        = FADECMalloc(SteadyOp_Elem * DimU, &MemSize);
     Tt5Mtx         = FADECMalloc(SteadyOp_Elem, &MemSize);
     WcHPCMapMtx    = FADECMalloc(WcHPCMap_Elem, &MemSize);
     WfMtx          = FADECMalloc(SteadyOp_Elem, &MemSize);    
@@ -865,10 +868,10 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     
 
     /* LOADING OF CONTROLLER CONSTANTS */
-    getXXXFADECContConst(&ContConst);
+    getGET700FADECContConst(&ContConst);
 
     /* Loads FADEC matrices */
-    getXXXFADECMtx(AMtx, ASVec, AltLinVec, BMtx, DSVec,
+    getGET700FADECMtx(AMtx, ASVec, AltLinVec, BMtx, DSVec,
                      DeltaMtx, FNcMaxContMtx, FNperContMtx, MNLinVec, N_KiMtx,
                      N_KpMtx, NcFANContMtx, NcHPCMapMtx, NcVec, PRHPCMapMtx,
                      Pt3DMtx, Pt3Mtx, Pt5DMtx, Pt5Mtx, Ts0Mtx,
@@ -878,41 +881,41 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     // /* LOADING OF CONTROLLER MATRIX */
 
     // /* Linearization Vectors */
-    // getXXXAltLinVec(&AltLinVec);
-    // getXXXMNLinVec(&MNLinVec);
-    // getXXXTs0Mtx(&Ts0Mtx);
-    // getXXXDeltaMtx(&DeltaMtx);
+    // getGET700AltLinVec(&AltLinVec);
+    // getGET700MNLinVec(&MNLinVec);
+    // getGET700Ts0Mtx(&Ts0Mtx);
+    // getGET700DeltaMtx(&DeltaMtx);
 
     // /* Controller Gains */
-	// getXXXN_KpMtx(&N_KpMtx);
-	// getXXXN_KiMtx(&N_KiMtx);
-	// getXXXNcFANContMtx(&NcFANContMtx);
-    // getXXXFNcMaxContMtx(&FNcMaxContMtx);
-	// getXXXFNperContMtx(&FNperContMtx);
+	// getGET700N_KpMtx(&N_KpMtx);
+	// getGET700N_KiMtx(&N_KiMtx);
+	// getGET700NcFANContMtx(&NcFANContMtx);
+    // getGET700FNcMaxContMtx(&FNcMaxContMtx);
+	// getGET700FNperContMtx(&FNperContMtx);
 
     // /* Reference Filter */
-    // getXXXASVec(&ASVec);
-    // getXXXDSVec(&DSVec);
-    // getXXXNcVec(&NcVec);
+    // getGET700ASVec(&ASVec);
+    // getGET700DSVec(&DSVec);
+    // getGET700NcVec(&NcVec);
     
     // /* LOADING OF MODEL MATRICES */
         
-    // getXXXAMtx(&AMtx);
-    // getXXXBMtx(&BMtx);
-    // getXXXPt3DMtx(&Pt3DMtx);
-    // getXXXPt5DMtx(&Pt5DMtx);
-    // getXXXTt4DMtx(&Tt4DMtx);
-    // getXXXTt5DMtx(&Tt5DMtx);
-    // getXXXPt3Mtx(&Pt3Mtx);
-    // getXXXPt5Mtx(&Pt5Mtx);    
-    // getXXXTt4Mtx(&Tt4Mtx);
-    // getXXXTt5Mtx(&Tt5Mtx);
-    // getXXXWfMtx(&WfMtx);
-    // getXXXPRHPCMapMtx(&PRHPCMapMtx);
-    // getXXXWcHPCMapMtx(&WcHPCMapMtx);
-    // getXXXNcHPCMapMtx(&NcHPCMapMtx);
+    // getGET700AMtx(&AMtx);
+    // getGET700BMtx(&BMtx);
+    // getGET700Pt3DMtx(&Pt3DMtx);
+    // getGET700Pt5DMtx(&Pt5DMtx);
+    // getGET700Tt4DMtx(&Tt4DMtx);
+    // getGET700Tt5DMtx(&Tt5DMtx);
+    // getGET700Pt3Mtx(&Pt3Mtx);
+    // getGET700Pt5Mtx(&Pt5Mtx);    
+    // getGET700Tt4Mtx(&Tt4Mtx);
+    // getGET700Tt5Mtx(&Tt5Mtx);
+    // getGET700WfMtx(&WfMtx);
+    // getGET700PRHPCMapMtx(&PRHPCMapMtx);
+    // getGET700WcHPCMapMtx(&WcHPCMapMtx);
+    // getGET700NcHPCMapMtx(&NcHPCMapMtx);
 
-    // getXXXFADECMtx(&AMtx[0], &ASVec[0], &AltLinVec[0], &BMtx[0], &DSVec[0],
+    // getGET700FADECMtx(&AMtx[0], &ASVec[0], &AltLinVec[0], &BMtx[0], &DSVec[0],
     //                   &DeltaMtx[0], &FNcMaxContMtx[0], &FNperContMtx[0], &MNLinVec[0], &N_KiMtx[0],
     //                   &N_KpMtx[0], &NcFANContMtx[0], &NcHPCMapMtx[0], &NcVec[0], &PRHPCMapMtx[0],
     //                   &Pt3DMtx[0], &Pt3Mtx[0], &Pt5DMtx[0], &Pt5Mtx[0], &Ts0Mtx[0],
@@ -922,7 +925,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 /******** SAVETO END: FADEC_LOADPARS *********/
 
     /* LOADING OF CONTROLLER STARRING PARAMETERS */
-	//getXXXStartPars(&ContStart);
+	//getGET700StartPars(&ContStart);
 
     /*---------------------------------------------*/
 	/* INITIATES REFERENCE COMMAND WITH IDLE VALUE */
@@ -1401,9 +1404,9 @@ static void mdlOutputs(SimStruct *S, int_T tid)
         /* -------------------------------------------------- */
 
 /******** COMMENT END *********/
-//<FADECCore>
+
 		/*=====================================================================*/
-		/*   START OF SSModelLoop.c AND PIMMRF_XXX.c IDENTICAL CODE PIECE   */
+		/*   START OF SSModelLoop.c AND PIMMRF_GET700.c IDENTICAL CODE PIECE   */
 		/*																       */
 		/*   NOTE: The following procedures must be accomplished for the       */
 		/*         current versions of FADEC and HIL					       */
@@ -2004,12 +2007,12 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 				  MapHPC1D, MapHPC1DH, MapHPC2D, MapHPC2DH);
 
         /*===============================================================*/
-        /* END OF SSModelLoop.c AND PIMMRF_XXX.c IDENTICAL CODE PIECE */
+        /* END OF SSModelLoop.c AND PIMMRF_GET700.c IDENTICAL CODE PIECE */
         /*                                                               */
         /* NOTE: The codes are to be identical except for the considera- */
         /*       tions mentioned at the note above                       */
         /*===============================================================*/
-//<FADECCore>
+
 /******** SAVETO END: FADEC_AUTHORIZE3 *********/
 
         /* -------------------------------------------------- */

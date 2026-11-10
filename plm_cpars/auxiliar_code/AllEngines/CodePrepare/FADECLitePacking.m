@@ -4,7 +4,7 @@ CurPath = pwd;
 
 %Used names in software
 FakeName = 'XXX';
-Command = '//<FADECControl>';
+Command = '//<FADECCore>';
 
 %If the FADECLitePack does not yet exist, scritp defining folders is called
 if ~exist('FADECLitePack','var')
@@ -18,14 +18,16 @@ cd ..
 cd ..
 
 %Sets the path for FADECLite shared files
-FADECLiteSharedPath = [pwd filesep HostFolder filesep 'FADECLiteBase' filesep 'SharedFiles'];
+%FADECLiteSharedPath = [pwd filesep HostFolder filesep 'FADECLiteBase' filesep 'SharedFiles'];
+FADECLiteSharedPath = [pwd filesep HostFolder filesep FADECMLBase filesep 'SharedFiles'];
 %Shared content
 SharedContent = dir(FADECLiteSharedPath);
 
 %READS JET CONTENT
 
 %Sets base file path
-FADECLiteBasePath = [pwd filesep HostFolder filesep 'FADECLiteBase' filesep 'ControlFADECLite_Base_Jet.c'];
+%FADECLiteBasePath = [pwd filesep HostFolder filesep 'FADECLiteBase' filesep 'ControlFADECLite_Base_Jet.c'];
+FADECLiteBasePath = [pwd filesep HostFolder filesep FADECMLBase filesep 'ControlFADECLite_Base_Jet.c'];
 %Opens jet file for reading
 fid = fopen(FADECLiteBasePath,'r');
 %Reads base file code lines
@@ -36,7 +38,8 @@ fclose(fid);
 %READS SHAFT CONTENT
 
 %Sets base file path
-FADECLiteBasePath = [pwd filesep HostFolder filesep 'FADECLiteBase' filesep 'ControlFADECLite_Base_Shaft.c'];
+%FADECLiteBasePath = [pwd filesep HostFolder filesep 'FADECLiteBase' filesep 'ControlFADECLite_Base_Shaft.c'];
+FADECLiteBasePath = [pwd filesep HostFolder filesep FADECMLBase filesep 'ControlFADECLite_Base_Shaft.c'];
 %Opens jet file for reading
 fid = fopen(FADECLiteBasePath,'r');
 %Reads base file code lines
