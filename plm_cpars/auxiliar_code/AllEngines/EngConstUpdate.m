@@ -1,4 +1,15 @@
 
+%Maximum number of characters between first code line position and
+%constant's value - for right tabulation
+MAX_CHARS_VAL = 50;
+MAX_CHARS_COMMENT = 15;
+%Flag requesting automatic update of ContConstPars.m
+AUTO_UPDT_CONTCONSTPARS = 1;
+%Selects the variable comments either from the base file or from the
+%existing engine constants file
+COMMENTS_FROM_BASE = 0;
+
+
 %Adds paths
 word = [pwd filesep, 'NewCodeGen'];
 NewCodeGenPath = word;
@@ -26,16 +37,6 @@ fid = fopen('ConstantsBase.h','r');
 fclose(fid);
 %Goes to upper level folder
 cd ..;
-
-%Maximum number of characters between first code line position and
-%constant's value - for right tabulation
-MAX_CHARS_VAL = 50;
-MAX_CHARS_COMMENT = 15;
-%Flag requesting automatic update of ContConstPars.m
-AUTO_UPDT_CONTCONSTPARS = 1;
-%Selects the variable comments either from the base file or from the
-%existing engine constants file
-COMMENTS_FROM_BASE = 0;
 
 %Gets date and time
 DateTimeCell = GetDateTime;

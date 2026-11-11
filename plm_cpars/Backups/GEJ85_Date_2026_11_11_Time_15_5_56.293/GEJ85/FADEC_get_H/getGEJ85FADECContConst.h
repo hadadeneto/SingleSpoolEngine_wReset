@@ -1,0 +1,8 @@
+#ifndef GETGEJ85FADECCONTCONST_H
+#define GETGEJ85FADECCONTCONST_H
+
+/* get FUNCTIONS FOR ENGINE AND CONTROLLER CONSTANTS */
+
+void getGEJ85FADECContConst(struct ControllerConstants *ContConst);
+
+#endif

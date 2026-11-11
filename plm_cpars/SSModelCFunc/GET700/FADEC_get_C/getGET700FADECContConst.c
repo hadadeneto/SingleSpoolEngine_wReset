@@ -14,9 +14,10 @@ void getGET700FADECContConst(struct ControllerConstants *ContConst)
     ContConst->Ath = GET700_Ath_NOZZLE;
     ContConst->BoostTime = GET700_BOOST_TIME;
     ContConst->CLLever = GET700_CLOOP;
+    ContConst->EarlyDriver = GET700_EARLY_DRIVER;
     ContConst->EmergencyCom = GET700_COMMAND_EMERGENCY;
     ContConst->EmergencyWait = GET700_WAIT_EMERGENCY_COMMAND;
-    ContConst->Engcooling = GET700_ENGCOOLING;
+    ContConst->EngCooling = GET700_ENG_COOLING;
     ContConst->ErrorFracSD = GET700_SD_ERRORFRAC;
     ContConst->FNIdle = GET700_FN_IDLE;
     ContConst->Fn_Elem = GET700_FN_ELEM;

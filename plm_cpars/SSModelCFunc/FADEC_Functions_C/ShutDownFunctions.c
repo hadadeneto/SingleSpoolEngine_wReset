@@ -288,6 +288,60 @@ void ShutDownRamp(struct ControllerInput *ContInputP, struct ControllerInput *Co
 
 /*******************************************************************************
  *
+ *	FUNCTION:		ShutDownCooling()
+ *
+ *	PURPOSE:		Performs engine cooling using electrical starting motor
+ *
+ *	CALLED FROM:	tbd
+ *
+ *	PARAMETERS:		a, b
+ *
+ *	RETURNS:		void
+ *
+ *	COMMENTS:
+ *
+ *******************************************************************************/
+
+void ShutDownCooling(struct ControllerInput *ContInputP, struct ControlStart *ContStartP, 
+                     digital_t *digitalP, struct ControllerConstants *ContConstP)
+
+{
+
+    /* Performs engien cooling if requested (EngCooling constant is set to 1) */
+    if (ContConstP->EngCooling == 1)
+    {
+        /* Switches current status */
+        switch (ContInputP->StatusSD)
+        {
+        case 2:
+            /* In the engine TJ200 and similars, bits.oil_pump is bein used for activating the starting motor
+            and it must be activated for cooling the engine */
+            digitalP->bits.oil_pump = 1;
+            /* PWM signal for engien cooling using starting motor */
+            ContStartP->StrtRPMAct = 20;
+            /* Changes status for 3 to wait evaluate engine temperature */
+            ContInputP->StatusSD = 3;
+            break;
+
+        case 3:
+            /* Verifies if temperature is low enough */
+            if (ContInputP->Tt4 <= ContConstP->Tt4AvFlameOn)
+            {
+                /* Deactivates starting motor */
+                ContStartP->StrtRPMAct = 0;
+                digitalP->bits.oil_pump = 0;
+                /* Changes status to unused number */
+                ContInputP->StatusSD = 4;
+            }
+
+        default:
+            break;
+        }
+    }
+};
+
+/*******************************************************************************
+ *
  *	FUNCTION:		EmergencyShutDown()
  *
  *	PURPOSE:		Performs emergency shut down subroutine

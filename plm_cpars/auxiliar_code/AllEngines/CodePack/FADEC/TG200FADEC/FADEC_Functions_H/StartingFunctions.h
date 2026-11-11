@@ -119,6 +119,9 @@ int OpenLoopSR(struct ControlStart *ContStartP, floating WfStart, floating *WfP)
 /* Executes Start/Shut Off/Emergency logic */
 void OnOffLogicSR(struct EngineOnOff *EngOnOffP, floating Ts);
 
+/* Early activation of electric motor driver when requested */
+void EarlyDriverActivation(struct ControllerConstants *ContConstantsP, struct ControllerInput *ContInputP, digital_t *digitalOutP);
+
 /*------------------------------------------------------------------------------*/
 /* FUNCTIONS PRESENT IN THE OLDER VERSION - USE DURING SOFTWARE TRANSITION ONLY */
 /*------------------------------------------------------------------------------*/

@@ -1,0 +1,8 @@
+#ifndef GETGEJ85HILSTARTPARS_H
+#define GETGEJ85HILSTARTPARS_H
+
+/* get FUNCTIONS FOR GETTINGHILSTARTING PARAMETERS */
+
+void getGEJ85HILStartPars(struct ControlStart *ContStartP);
+
+#endif

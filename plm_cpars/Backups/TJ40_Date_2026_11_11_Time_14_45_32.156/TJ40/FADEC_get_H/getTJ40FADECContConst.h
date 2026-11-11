@@ -1,0 +1,8 @@
+#ifndef GETTJ40FADECCONTCONST_H
+#define GETTJ40FADECCONTCONST_H
+
+/* get FUNCTIONS FOR ENGINE AND CONTROLLER CONSTANTS */
+
+void getTJ40FADECContConst(struct ControllerConstants *ContConst);
+
+#endif

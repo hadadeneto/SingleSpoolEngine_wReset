@@ -380,6 +380,7 @@ untrusted sensors */
 #define TF300_STRTRAMPCOEFF                               8              //2       /* Ramp coefficient for electric motor acceleration during start */
 #define TF300_STRTRPMOFF                                  13000          /* Rotation speed where the electric motor is deactivated during engine start */
 #define TF300_STRTWHICH                                   1              //2       /* Defines the statrting logic to be used: 1 - windmill; 2 - electric motor starter */
+#define TF300_EARLY_DRIVER                                0              /* Constant requesting the electric motor driver to become active right after FADEC is powered on */
 
 /*--------------------------------------------------------------*/
 /* TEMEPRATURE MEASUREMENT TYPE AT COMPRESSOR INLET - STATION 2 */
@@ -393,7 +394,7 @@ untrusted sensors */
 /* ENGINE COOLING */
 /*----------------*/
 
-#define TF300_ENGCOOLING                                  0              /* <Control> - Flag that activates engine cooling when set to 1 */
+#define TF300_ENG_COOLING                                 0              /* <Control> - Flag that activates engine cooling when set to 1 */
 
 /*-------------------------------------------------------------------------------------*/
 /* ADDITIONAL PARAMETERS PRESENT IN OLDER VERSION - USE DURING SOFTWARE MIGRATION ONLY */

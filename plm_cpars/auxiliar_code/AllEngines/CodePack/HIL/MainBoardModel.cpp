@@ -4069,6 +4069,13 @@ printf("Wf0=%d, command=%x\n", initialWf.valueInUint16, commands.valueInByte);
 		/*     			  													   */
 		/*=====================================================================*/
 
+		/*----------------------------------------*/
+		/* EARLY ELECTRIC MOTOR DEIVER ACTIVATION */
+		/*----------------------------------------*/
+
+		/* Activates electric motor driver at this point whenever requested */
+		EarlyDriverActivation(&ContConst, &ContInput, &digital);
+
 		/*----------------------------------------------------*/
 		/* CONVERTS Tt2 INTO Ts2 IF Tt2 WAS DIRECTLY MEASURED */
 		/*----------------------------------------------------*/

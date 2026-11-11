@@ -1,0 +1,8 @@
+#ifndef GETTJ300ARHILSTARTPARS_H
+#define GETTJ300ARHILSTARTPARS_H
+
+/* get FUNCTIONS FOR GETTINGHILSTARTING PARAMETERS */
+
+void getTJ300ARHILStartPars(struct ControlStart *ContStartP);
+
+#endif

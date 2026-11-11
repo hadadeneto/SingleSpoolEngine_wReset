@@ -14,9 +14,10 @@ void getTJ40FADECContConst(struct ControllerConstants *ContConst)
     ContConst->Ath = TJ40_Ath_NOZZLE;
     ContConst->BoostTime = TJ40_BOOST_TIME;
     ContConst->CLLever = TJ40_CLOOP;
+    ContConst->EarlyDriver = TJ40_EARLY_DRIVER;
     ContConst->EmergencyCom = TJ40_COMMAND_EMERGENCY;
     ContConst->EmergencyWait = TJ40_WAIT_EMERGENCY_COMMAND;
-    ContConst->Engcooling = TJ40_ENGCOOLING;
+    ContConst->EngCooling = TJ40_ENG_COOLING;
     ContConst->ErrorFracSD = TJ40_SD_ERRORFRAC;
     ContConst->FNIdle = TJ40_FN_IDLE;
     ContConst->Fn_Elem = TJ40_FN_ELEM;

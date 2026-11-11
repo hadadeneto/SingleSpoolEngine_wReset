@@ -14,9 +14,10 @@ void getTF1200FADECContConst(struct ControllerConstants *ContConst)
     ContConst->Ath = TF1200_Ath_NOZZLE;
     ContConst->BoostTime = TF1200_BOOST_TIME;
     ContConst->CLLever = TF1200_CLOOP;
+    ContConst->EarlyDriver = TF1200_EARLY_DRIVER;
     ContConst->EmergencyCom = TF1200_COMMAND_EMERGENCY;
     ContConst->EmergencyWait = TF1200_WAIT_EMERGENCY_COMMAND;
-    ContConst->Engcooling = TF1200_ENGCOOLING;
+    ContConst->EngCooling = TF1200_ENG_COOLING;
     ContConst->ErrorFracSD = TF1200_SD_ERRORFRAC;
     ContConst->FNIdle = TF1200_FN_IDLE;
     ContConst->Fn_Elem = TF1200_FN_ELEM;

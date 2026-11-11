@@ -1,0 +1,8 @@
+#ifndef GETGET700FADECCONTCONST_H
+#define GETGET700FADECCONTCONST_H
+
+/* get FUNCTIONS FOR ENGINE AND CONTROLLER CONSTANTS */
+
+void getGET700FADECContConst(struct ControllerConstants *ContConst);
+
+#endif

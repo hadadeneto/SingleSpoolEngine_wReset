@@ -70,6 +70,9 @@ struct ControllerConstants
     /* Parameters used during start with electric motor */
     floating StrtInit, StrtMax, StrtRampCoeff, StrtRPMOff, StrtWhich;
 
+    /* Parameter for early activation of electric motor driver */
+    int EarlyDriver; 
+
     /* NOMINAL SHUT DOWN CONSTANTS */
 
     /* Nominal shut down parameters */
@@ -149,7 +152,7 @@ struct ControllerConstants
     int T2Type;
     
     /* ENGINE COOLING */
-    int Engcooling;
+    int EngCooling;
 
 };
 typedef struct ControllerConstants ControllerConstants;
@@ -219,7 +222,10 @@ struct ControllerInput
 
     /* Booster parameters */
     int statusBooster;
-    floating TimerBoost;                            
+    floating TimerBoost;
+    
+    /* Flage indicating early driver activation status */
+    int statusED;
     
     /*-----------------------------------------------*/
     /* AUXILIARY STARTCOMPLETE - used in T-MATS only */

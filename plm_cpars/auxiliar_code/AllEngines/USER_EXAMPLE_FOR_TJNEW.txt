@@ -111,6 +111,8 @@ copyfile(SourceFilePath,CurPath,'f');
 
     5 - Finally, run a dynamic simulaton with the FADEC code
 
+ADDITIONAL AUTOMATION
+
 Updating ConstantsTJNEW.h from ConstantsBase.h
 
     1 - Make any required updates in SSModelCFunc\ConstantsHBase\ConstantsBase.h 
@@ -120,11 +122,38 @@ Updating ConstantsTJNEW.h from ConstantsBase.h
     2 - In the file plm_cpars\auxiliar_code\AllEngines\EngConstUpdate.m, 
         set the desired value of COMMENTS_FROM_BASE, either 0, for keeping 
         the comments after each constant from original file, or 1, for 
-        replacing the comments for the ones in ConstantsBase.h
+        replacing the comments for the ones in ConstantsBase.h. if COMMENTS_FROM_BASE
+        is set to 1, the texts <Control> must be present in the constant's comments
+        written besides its value
+    
+    3 - Also in EngConstUpdate.m,set the desired value for AUTO_UPDT_CONTCONSTPARS, 
+        1 for performing automatic update of ContConstPars.m and 0 for not performing
+        it. When automatic update is requested, the following constant name rule is
+        followed:
+        XXX_CONSTANT_NAME -> ConstantName (C name)
+        XXX_CONSTANTNAME  -> Constantname (C name)
 
-    3 - Run EngConstUpdate.m by either opening the file and pressing run 
+    4 - Run EngConstUpdate.m by either opening the file and pressing run 
         inside the opened file or by typing EngConstUpdate in the MATLAB
         command window. All original constants .h files will be backed up
         in the plm_cpars\Backups\ConstantsH_Date... folder.
+
+    5 - If the ContConstPars.m has not been updated automatically, it must be done
+        manually after step 4. 
+
+    6 - In the file Control_Types.h, add the new constant, using the C name, in 
+        the struct ControllerConstants
+
+Updating software automatically:
+  
+ - Update constans in base                                                                                              (in folder auxiliar_code/AllEngines)
+ - Run EngContUpdate                                                                                                    (in folder auxiliar_code/AllEngines) 
+ - Make shure the new constant is added in Control_Types.h with its chosen C name 
+ - Update all C codes using AllCodeUpdt command (necessary only when constants are changed)                             (in folder auxiliar_code/AllEngines)  
+ - Update code in SSModelLoop.c as desired                                                                              (in folder plm_cpars) 
+ - Compile and run for validation with HIL = 0 in RunModel                                                              (in folder plm_cpars)
+ - Update all FADECs, including the lite, with the command FADECMLUpdt                                                  (in folder auxiliar_code/AllEngines)
+ - Compile and run for validation with HIL = 1 in RunModel                                                              (in folder plm_cpars)
+ - Generate code packing using CodePacking command                                                                      (in folder auxiliar_code/AllEngines)
 
 

@@ -14,9 +14,10 @@ void getTG200FADECContConst(struct ControllerConstants *ContConst)
     ContConst->Ath = TG200_Ath_NOZZLE;
     ContConst->BoostTime = TG200_BOOST_TIME;
     ContConst->CLLever = TG200_CLOOP;
+    ContConst->EarlyDriver = TG200_EARLY_DRIVER;
     ContConst->EmergencyCom = TG200_COMMAND_EMERGENCY;
     ContConst->EmergencyWait = TG200_WAIT_EMERGENCY_COMMAND;
-    ContConst->Engcooling = TG200_ENGCOOLING;
+    ContConst->EngCooling = TG200_ENG_COOLING;
     ContConst->ErrorFracSD = TG200_SD_ERRORFRAC;
     ContConst->FNIdle = TG200_FN_IDLE;
     ContConst->Fn_Elem = TG200_FN_ELEM;

@@ -160,7 +160,8 @@ ContConstAll = [...
     {'ContConst->StrtRPMOff'},{'_STRTRPMOFF'};...
     {'ContConst->StrtWhich'},{'_STRTWHICH'}...
     ];
-ContConstAll = [ContConstAll; {'ContConst->Engcooling'},{'_ENGCOOLING'}];
+ContConstAll = [ContConstAll; {'ContConst->EngCooling'},{'_ENG_COOLING'}];
+ContConstAll = [ContConstAll; {'ContConst->EarlyDriver'},{'_EARLY_DRIVER'}];
 
 ContConstPoint = ContConstAll(:,1)';
 % ContConstDef = ContConstAll(:,2)';

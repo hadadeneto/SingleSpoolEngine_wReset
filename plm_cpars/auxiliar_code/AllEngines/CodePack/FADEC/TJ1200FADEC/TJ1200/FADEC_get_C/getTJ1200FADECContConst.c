@@ -14,9 +14,10 @@ void getTJ1200FADECContConst(struct ControllerConstants *ContConst)
     ContConst->Ath = TJ1200_Ath_NOZZLE;
     ContConst->BoostTime = TJ1200_BOOST_TIME;
     ContConst->CLLever = TJ1200_CLOOP;
+    ContConst->EarlyDriver = TJ1200_EARLY_DRIVER;
     ContConst->EmergencyCom = TJ1200_COMMAND_EMERGENCY;
     ContConst->EmergencyWait = TJ1200_WAIT_EMERGENCY_COMMAND;
-    ContConst->Engcooling = TJ1200_ENGCOOLING;
+    ContConst->EngCooling = TJ1200_ENG_COOLING;
     ContConst->ErrorFracSD = TJ1200_SD_ERRORFRAC;
     ContConst->FNIdle = TJ1200_FN_IDLE;
     ContConst->Fn_Elem = TJ1200_FN_ELEM;

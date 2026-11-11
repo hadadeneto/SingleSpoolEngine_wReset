@@ -1758,7 +1758,7 @@ void StartLogicTJ200(struct ControllerConstants *ContConstP,struct ControlStart 
  *
  *******************************************************************************/
 
-void ManualKeysSR(digital_t *digitalP, keys_t *keysP, int EngineShutDown, floating *WfP)
+void ManualKeysSR(digital_t *digitalP, keys_t *keysP, floating *fValueP)
 {
 
 	digitalP->bits.igniter = !keysP->bits.igniter_key;
@@ -1979,7 +1979,42 @@ void OnOffLogicSR(struct EngineOnOff *EngOnOffP, floating Ts)
 
 };
 
+/*******************************************************************************
+ *
+ *	FUNCTION:		EarlyDriverActivation()
+ *
+ *	PURPOSE:		Early activation of electrical motor driver
+ *
+ *	CALLED FROM:	tbd
+ *
+ *	PARAMETERS:		struct ControllerConstants *ContConstantsP, struct ControllerInput *ContInputP
+ *
+ *	RETURNS:		void
+ *
+ *	COMMENTS:
+ *
+ *******************************************************************************/
 
+/* Early activation of electric motor driver when requested */
+void EarlyDriverActivation(struct ControllerConstants *ContConstantsP, struct ControllerInput *ContInputP, digital_t *digitalOutP)
+{
+	/* Verifies if early driver activation is requested  */
+	if (ContConstantsP->EarlyDriver == 1)
+	{
+		switch (ContInputP->statusED)
+		{
+		case 0:
+			/* Activates driver */
+			digitalOutP->bits.oil_pump;
+			/* Updates status */
+			ContInputP->statusED = 1;
+			break;
+
+		default:
+			break;
+		}
+	}
+};
 
 /*------------------------------------------------------------------------------*/
 /* FUNCTIONS PRESENT IN THE OLDER VERSION - USE DURING SOFTWARE TRANSITION ONLY */
@@ -2518,4 +2553,3 @@ void OpenLoop(struct ControlStart *ContStartP, floating StartFuel, floating *fVa
 };
 
 /*-------------------------------------------------------------------------------*/
-

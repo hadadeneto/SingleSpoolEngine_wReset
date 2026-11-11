@@ -22,6 +22,13 @@
 		/*     			  													   */
 		/*=====================================================================*/
 
+		/*----------------------------------------*/
+		/* EARLY ELECTRIC MOTOR DEIVER ACTIVATION */
+		/*----------------------------------------*/
+
+		/* Activates electric motor driver at this point whenever requested */
+		EarlyDriverActivation(&ContConst, &ContInput, &digital);
+
 		/*----------------------------------------------------*/
 		/* CONVERTS Tt2 INTO Ts2 IF Tt2 WAS DIRECTLY MEASURED */
 		/*----------------------------------------------------*/
@@ -392,6 +399,11 @@
                      &ContStart, &ContStartEmpty,
                      &ContGenOil, &ContGenEmpty,
                      &digital, &ContConst, Ts);
+
+		/* EXECUTES ENGINE COOLING */
+
+		ShutDownCooling(&ContInput, &ContStart,
+                        &digital, &ContConst);
 
         /* EXECUTES EMERGENCY SHUT DOWN ROUTINE IF EMERGENCY HAS OCCURRED */
 

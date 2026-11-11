@@ -14,9 +14,10 @@ void getTJ300RFADECContConst(struct ControllerConstants *ContConst)
     ContConst->Ath = TJ300R_Ath_NOZZLE;
     ContConst->BoostTime = TJ300R_BOOST_TIME;
     ContConst->CLLever = TJ300R_CLOOP;
+    ContConst->EarlyDriver = TJ300R_EARLY_DRIVER;
     ContConst->EmergencyCom = TJ300R_COMMAND_EMERGENCY;
     ContConst->EmergencyWait = TJ300R_WAIT_EMERGENCY_COMMAND;
-    ContConst->Engcooling = TJ300R_ENGCOOLING;
+    ContConst->EngCooling = TJ300R_ENG_COOLING;
     ContConst->ErrorFracSD = TJ300R_SD_ERRORFRAC;
     ContConst->FNIdle = TJ300R_FN_IDLE;
     ContConst->Fn_Elem = TJ300R_FN_ELEM;

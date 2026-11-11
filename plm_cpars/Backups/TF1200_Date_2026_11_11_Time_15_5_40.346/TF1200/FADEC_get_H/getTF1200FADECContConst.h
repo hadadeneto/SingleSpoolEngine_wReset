@@ -1,0 +1,8 @@
+#ifndef GETTF1200FADECCONTCONST_H
+#define GETTF1200FADECCONTCONST_H
+
+/* get FUNCTIONS FOR ENGINE AND CONTROLLER CONSTANTS */
+
+void getTF1200FADECContConst(struct ControllerConstants *ContConst);
+
+#endif

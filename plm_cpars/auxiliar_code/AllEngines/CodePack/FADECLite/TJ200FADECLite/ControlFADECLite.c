@@ -1233,29 +1233,36 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
         //        /* -------------------------------------------------- */
 
 
-        /*=====================================================================*/
-        /*   START OF SSModelLoop.c AND PIMMRF_TJ1200.c IDENTICAL CODE PIECE   */
-        /*																       */
-        /*   NOTE: The following procedures must be accomplished for the       */
-        /*         current versions of FADEC and HIL					       */
-        /*			- The matrices in the FADEC are stored in strings, being   */
-        /*        directly declared as so, i.e., floating Matrix(Size);    	   */
-        /*			- The matrices in the HIL are stored with "alloc" command  */
-        /*        and each matrix variable is a poiter for floating, i.e.,       */
-        /*        floating *Matrix; 											   */
-        /*			- The sample time in the FADEC is defined as Ts, while the */
-        /*		  sample time in the HIL is defined as Ts				   */
-        /*		  															   */
-        /*	Taking into account the above considerations, the following steps  */
-        /*	must be accomplished:											   */
-        /*   - Whenever a matrix pointer is passed as a function argument in   */
-        /*     the FADEC, it should be called as function(..., &Matrix, ...)   */
-        /*   - Whenever a matrix pointer is passed as a function argument in   */
-        /*     the HIL, it should be called as function(..., Matrix, ...)      */
-        /*   - The sample time is passed as function(..., Ts, ...) in the 	   */
-        /*     FADEC and as function (..., Ts, ...) in the HIL	           */
-        /*     			  													   */
-        /*=====================================================================*/
+		/*=====================================================================*/
+		/*   START OF SSModelLoop.c AND PIMMRF_TJ200.c IDENTICAL CODE PIECE   */
+		/*																       */
+		/*   NOTE: The following procedures must be accomplished for the       */
+		/*         current versions of FADEC and HIL					       */
+		/*			- The matrices in the FADEC are stored in strings, being   */
+		/*        directly declared as so, i.e., floating Matrix(Size);    	   */
+		/*			- The matrices in the HIL are stored with "alloc" command  */
+		/*        and each matrix variable is a poiter for floating, i.e.,       */
+		/*        floating *Matrix; 											   */
+		/*			- The sample time in the FADEC is defined as Ts, while the */
+		/*		  sample time in the HIL is defined as Tsample				   */
+		/*		  															   */
+		/*	Taking into account the above considerations, the following steps  */
+		/*	must be accomplished:											   */
+		/*   - Whenever a matrix pointer is passed as a function argument in   */
+		/*     the FADEC, it should be called as function(..., &Matrix, ...)   */
+		/*   - Whenever a matrix pointer is passed as a function argument in   */
+		/*     the HIL, it should be called as function(..., Matrix, ...)      */
+		/*   - The sample time is passed as function(..., Ts, ...) in the 	   */
+		/*     FADEC and as function (..., Tsample, ...) in the HIL	           */
+		/*     			  													   */
+		/*=====================================================================*/
+
+		/*----------------------------------------*/
+		/* EARLY ELECTRIC MOTOR DEIVER ACTIVATION */
+		/*----------------------------------------*/
+
+		/* Activates electric motor driver at this point whenever requested */
+		EarlyDriverActivation(&ContConst, &ContInput, &digital);
 
 		/*----------------------------------------------------*/
 		/* CONVERTS Tt2 INTO Ts2 IF Tt2 WAS DIRECTLY MEASURED */
@@ -1271,15 +1278,6 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
         /* Thermocouple fault simulation */
         TCFault(&Sensors, &SoftSimFaults, &FaultSensAuthorize, &Ts2_0, &Ts2_1, &Tt4_0, &Tt4_1, &Tt4_2, &TB_0, &TB_1, &TB_2, ContConst.TCOpen);
 
-        /*-----------------------------------------*/
-        /* CONDITION FOR OIL PUMP TO BECOME ACTIVE */
-        /*-----------------------------------------*/
-
-//        if(RPM < 1000 & LeverMode == 1)
-//        {
-//            ContGenOil = ContGenEmpty;
-//        }
-
         /*----------------*/
         /* FAULT ANALYSIS */
         /*----------------*/
@@ -1290,24 +1288,16 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
 
         /* Estimation of indexes using current Altitude, MN and FNpc values */
         /* In this case, the structure ModelPars must be used - Open-Loop model */
-        EstIndex(&ModelPars, AltLinVec, MNLinVec,
-                       Mtx2D, Mtx2DH, Mtx1D, Mtx1DH,
-                       FNperContMtx, &ContConst, &Index3D);
-
-//printf("\nSensors: Alt = %f, MN = %f, dT = %f\n", Altitude,MN,dT);
-//printf("Model  : Alt = %f, MN = %f, dT = %f\n", ModelPars.Altitude,ModelPars.MN,ModelPars.dT);
-//printf("\nSensors: Ts2 = %f, Pt3 = %f, Tt4 = %f, RPM = %f, Wf = %f", Sensors.Ts2[0],Sensors.Pt3[0],Sensors.Tt4[0],Sensors.RPM[0], Wf);
-//printf("Model  : Ts2 = %f, Pt3 = %f, Tt4 = %f, RPM = %f, Wf = %f\n", ModelPars.Ts2,ModelPars.Pt3,ModelPars.Tt4,ModelPars.RPM, ModelPars.Wf);
-//printf("MedVals: Ts2 = %f, Pt3 = %f, Tt4 = %f, RPM = %f\n",Ts2MedVal,  Pt3MedVal, Tt4MedVal, RPMMedVal);
-//printf("ActiveController: %d\n", ContOutput.Active);
-
+		EstIndex(&ModelPars, AltLinVec, MNLinVec,
+				 Mtx2D, Mtx2DH, Mtx1D, Mtx1DH,
+				 FNperContMtx, &ContConst, &Index3D);
         /* CALCULATION OF ENGINE MODEL Ts2 */
 
         /* Calculation of model ambient temperature */
         /* In this case, the structure ModelPars must be used - Open-Loop model */
-        Ts2ModelCalc(Ts0Mtx, &ContConst,
-             Ts0Mtx2D, Ts0Mtx2DH, Ts0Mtx1D, Ts0Mtx1DH,
-             &ModelPars, &Index3D);
+		Ts2ModelCalc(Ts0Mtx, &ContConst,
+					 Ts0Mtx2D, Ts0Mtx2DH, Ts0Mtx1D, Ts0Mtx1DH,
+					 &ModelPars, &Index3D);
 
         /* Updates closed loop model ambient parameters from open-loop model */
         ModelParsCL.Ts2StdSL = ModelPars.Ts2StdSL;
@@ -1333,18 +1323,15 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
 
         BiasAnalisysAuthorize(&HardFAuthorize, &ContStart, &ContInput, &EngStatus, StartFaultAnalysis);
 
- /******** COPYFROM END: FADEC_AUTHORIZE1 *********/
+/******** SAVETO END: FADEC_AUTHORIZE1 *********/
 
- //FaultSensAuthorize.FaultBits = 0;
- FaultSysAuthorize.FaultBits = 0;
- FaultSysAuthorize.SysFaults.CAN_0_Fault = 1;
- FaultSysAuthorize.SysFaults.CAN_1_Fault = 1;
- HardFAuthorize.DetFaults.POil_0_Fault = 0;
- HardFAuthorize.DetFaults.PFuel_0_Fault = 0;
- HardFAuthorize.DetFaults.Vib_0_Fault = 0;
- HardFAuthorize.FaultBits = 0;
+// HardFAuthorize.FaultBits = 0;
+// FaultSensAuthorize.FaultBits = 0;
+// FaultSysAuthorize.FaultBits = 0;
+// HardFAuthorize.DetFaults.Ts2_0_Fault = 0;
+// HardFAuthorize.DetFaults.Ts2_1_Fault = 0;
 
-/******** COPYFROM START: FADEC_AUTHORIZE2 *********/
+/******** SAVETO START: FADEC_AUTHORIZE2 *********/
 
         /* RESIDUAL CALCULATION AND PROCESSING */
 
@@ -1541,13 +1528,13 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
         ModelParsCL.dT = ModelPars.dT;
         ModelParsCL.Ts2StdSL = ModelPars.Ts2StdSL;
 
-/******** COPYFROM END: FADEC_AUTHORIZE2 *********/
+/******** SAVETO END: FADEC_AUTHORIZE2 *********/
 
-        // PrintFaults(&FaultWarning,0,1);
-        // PrintFaults(&FaultStatus,1,0);
-        // PrintEngStatus(&EngStatus,1);
+        PrintFaults(&FaultWarning,0,1);
+        PrintFaults(&FaultStatus,1,0);
+        PrintEngStatus(&EngStatus,1);
 
-/******** COPYFROM START: FADEC_AUTHORIZE3 *********/
+/******** SAVETO START: FADEC_AUTHORIZE3 *********/
 
         /*-----------------------------------------------------*/
         /* VERIFIES EMERGENCY SHUT DOWN DUE TO ENGINE FAILURE  */
@@ -1626,7 +1613,7 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
 
 		/* If booster is connected, measured value of Pt3 must not be considered and blow out protection must be deactivated */
 		BoosterProtect(&ContConst, &ContInput, Delta, BoosterLStatus, BoosterRStatus, Ts);
-//printf("RealCont: BoostL=%d BoostR=%d Time=%f status=%d Delta=%f Pt3=%f\n",BoosterLStatus, BoosterRStatus, ContInput.TimerBoost, ContInput.statusBooster, Delta, ContInput.Pt3);
+//mexPrintf("RealCont: BoostL=%d BoostR=%d Time=%f status=%d Delta=%f Pt3=%f\n",BoosterLStatus, BoosterRStatus, ContInput.TimerBoost, ContInput.statusBooster, Delta, ContInput.Pt3);
         /* CALCULATES THE CONTROL LAW */
 
         /* Calculates fuel flow from control law */
@@ -1647,6 +1634,11 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
                      &ContStart, &ContStartEmpty,
                      &ContGenOil, &ContGenEmpty,
                      &digital, &ContConst, Ts);
+
+		/* EXECUTES ENGINE COOLING */
+
+		ShutDownCooling(&ContInput, &ContStart,
+                        &digital, &ContConst);
 
         /* EXECUTES EMERGENCY SHUT DOWN ROUTINE IF EMERGENCY HAS OCCURRED */
 
@@ -1794,7 +1786,7 @@ void ControlUpdate(ExpInputs_t* ExpIn, ExpOutputs_t* ExpOut)
 			/* If booster is connected, measured value of Pt3 must not be considered and blow out protection must be deactivated
 			The same situation is reproduced in the model in order for more accureate reproduction of the real situation */
 			BoosterProtect(&ContConst, &ContInModCL, Delta, BoosterLStatus, BoosterRStatus, Ts);
-//printf("Model: BoostL=%d BoostR=%d Time=%f status=%d Delta=%f Pt3=%f\n",BoosterLStatus, BoosterRStatus, ContInModCL.TimerBoost, ContInModCL.statusBooster, Delta, ContInModCL.Pt3);
+//mexPrintf("Model: BoostL=%d BoostR=%d Time=%f status=%d Delta=%f Pt3=%f\n",BoosterLStatus, BoosterRStatus, ContInModCL.TimerBoost, ContInModCL.statusBooster, Delta, ContInModCL.Pt3);
 			/* CALCULATES THE CONTROL LAW */
 
             /* Calculates fuel flow from control law for closed-loop model */
