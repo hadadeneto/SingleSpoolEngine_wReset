@@ -93,7 +93,7 @@ WhichEngine = 1;
 
 Mode = 0;           %0 - Automatic; 1 - Manual
 LeverMode = 1;      %0 - Manual; 1 - Automatic
-HILMode = 1;        %0 - Software in the Loop  1 - Hardware in the Loop
+HILMode = 0;        %0 - Software in the Loop  1 - Hardware in the Loop
 WindMill = 1;       %0 - Direct flight         1 - Windmill simulation
 ResetEneable = 0;   %0 - No reset simulation   1 - Eneables reset sim
 EngUnits = 1;       %0 - % thrust reference    1 - thurst reference in (N)

@@ -1807,11 +1807,6 @@ static void mdlOutputs(SimStruct *S, int_T tid)
                      &ContGenOil, &ContGenEmpty,
                      &digital, &ContConst, Ts);
 
-		/* EXECUTES ENGINE COOLING */
-
-		ShutDownCooling(&ContInput, &ContStart,
-                        &digital, &ContConst);
-
         /* EXECUTES EMERGENCY SHUT DOWN ROUTINE IF EMERGENCY HAS OCCURRED */
 
         /* Engine must execute emergency shut down either through external command of
@@ -1823,6 +1818,11 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 						  &ContStart, &ContStartEmpty,
                           &ContGenOil, &ContGenEmpty,
                           &digital, EmergShutDwn);
+
+		/* EXECUTES ENGINE COOLING */
+
+		ShutDownCooling(&ContInput, &ContStart,
+                        &digital, &ContConst, EmergShutDwn);
 
         /* Updates fuel flow value */
         Wf = ContOutput.Wf;

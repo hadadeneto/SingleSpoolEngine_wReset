@@ -33,7 +33,7 @@ void ShutDownRamp(struct ControllerInput *ContInputP, struct ControllerInput *Co
                   digital_t *digitalP, struct ControllerConstants *ContConstP, floating Ts);
 
 void ShutDownCooling(struct ControllerInput *ContInputP, struct ControlStart *ContStartP, 
-                     digital_t *digitalP, struct ControllerConstants *ContConstP);
+                     digital_t *digitalP, struct ControllerConstants *ContConstP, int Emergency);
 
 void FailureShutDown(EngineFaults *FaultStatusP, int *Failure);
 

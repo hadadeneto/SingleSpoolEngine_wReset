@@ -2985,11 +2985,6 @@ mexPrintf("Wf0 = %f\n\n",Wf0);
                      &ContGenOil, &ContGenEmpty,
                      &digital, &ContConst, Ts);
 
-		/* EXECUTES ENGINE COOLING */
-
-		ShutDownCooling(&ContInput, &ContStart, 
-                        &digital, &ContConst);
-
         /* EXECUTES EMERGENCY SHUT DOWN ROUTINE IF EMERGENCY HAS OCCURRED */
 
         /* Engine must execute emergency shut down either through external command of 
@@ -3001,6 +2996,11 @@ mexPrintf("Wf0 = %f\n\n",Wf0);
 						  &ContStart, &ContStartEmpty, 
                           &ContGenOil, &ContGenEmpty,
                           &digital, EmergShutDwn);
+
+		/* EXECUTES ENGINE COOLING */
+
+		ShutDownCooling(&ContInput, &ContStart, 
+                        &digital, &ContConst, EmergShutDwn);
         
         /* Updates fuel flow value */
         Wf = ContOutput.Wf;

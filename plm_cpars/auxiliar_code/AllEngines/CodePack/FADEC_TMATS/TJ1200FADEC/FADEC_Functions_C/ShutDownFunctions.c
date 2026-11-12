@@ -303,12 +303,12 @@ void ShutDownRamp(struct ControllerInput *ContInputP, struct ControllerInput *Co
  *******************************************************************************/
 
 void ShutDownCooling(struct ControllerInput *ContInputP, struct ControlStart *ContStartP,
-                     digital_t *digitalP, struct ControllerConstants *ContConstP)
+                     digital_t *digitalP, struct ControllerConstants *ContConstP, int Emergency)
 
 {
 
     /* Performs engien cooling if requested (EngCooling constant is set to 1) */
-    if (ContConstP->EngCooling == 1)
+    if ((ContConstP->EngCooling == 1) && (Emergency == 0))
     {
         /* Switches current status */
         switch (ContInputP->StatusSD)
